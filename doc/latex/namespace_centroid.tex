@@ -1,0 +1,87 @@
+\hypertarget{namespace_centroid}{\section{Centroid Namespace Reference}
+\label{namespace_centroid}\index{Centroid@{Centroid}}
+}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static string \hyperlink{namespace_centroid_a2472e4e4f8b057695c4dc82a1296a750}{Get\+M\+E\+A\+Structure} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma)
+\item 
+static void \hyperlink{namespace_centroid_a1536a120dbc969d6a6702ae758427555}{Get\+Stem\+Prob} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{namespace_rfold_aaf02f2c0c40c1dd572dbdd8bc1bde67d}{Rfold\+::\+Vec} \&stem)
+\item 
+static void \hyperlink{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}{Get\+M\+E\+A\+Bpp} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma, vector$<$ int $>$ \&cbpp)
+\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\hypertarget{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}{\index{Centroid@{Centroid}!Get\+M\+E\+A\+Bpp@{Get\+M\+E\+A\+Bpp}}
+\index{Get\+M\+E\+A\+Bpp@{Get\+M\+E\+A\+Bpp}!Centroid@{Centroid}}
+\subsubsection[{Get\+M\+E\+A\+Bpp}]{\setlength{\rightskip}{0pt plus 5cm}static void Centroid\+::\+Get\+M\+E\+A\+Bpp (
+\begin{DoxyParamCaption}
+\item[{{\bf Rfold\+::\+Mat} \&}]{bppm, }
+\item[{{\bf L\+E\+N}}]{end, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{gamma, }
+\item[{vector$<$ int $>$ \&}]{cbpp}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}
+Gets base pairing probability of M\+E\+A structure. 
+\begin{DoxyParams}{Parameters}
+{\em bppm} & base pairing probability matrix. \\
+\hline
+{\em end} & the last index of of included bases. \\
+\hline
+{\em gamma} & centroid parameter. \\
+\hline
+{\em cbpp} & empty vector for storing base pairing probability of M\+E\+A structure. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 63 of file centroid.\+hh.
+
+\hypertarget{namespace_centroid_a2472e4e4f8b057695c4dc82a1296a750}{\index{Centroid@{Centroid}!Get\+M\+E\+A\+Structure@{Get\+M\+E\+A\+Structure}}
+\index{Get\+M\+E\+A\+Structure@{Get\+M\+E\+A\+Structure}!Centroid@{Centroid}}
+\subsubsection[{Get\+M\+E\+A\+Structure}]{\setlength{\rightskip}{0pt plus 5cm}static string Centroid\+::\+Get\+M\+E\+A\+Structure (
+\begin{DoxyParamCaption}
+\item[{{\bf Rfold\+::\+Mat} \&}]{bppm, }
+\item[{{\bf L\+E\+N}}]{end, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{gamma}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a2472e4e4f8b057695c4dc82a1296a750}
+Gets structure string in bracket style. 
+\begin{DoxyParams}{Parameters}
+{\em bppm} & base pairing probability matrix. \\
+\hline
+{\em end} & the last index of of included bases. \\
+\hline
+{\em gamma} & centroid parameter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+structure string 
+\end{DoxyReturn}
+
+
+Definition at line 21 of file centroid.\+hh.
+
+\hypertarget{namespace_centroid_a1536a120dbc969d6a6702ae758427555}{\index{Centroid@{Centroid}!Get\+Stem\+Prob@{Get\+Stem\+Prob}}
+\index{Get\+Stem\+Prob@{Get\+Stem\+Prob}!Centroid@{Centroid}}
+\subsubsection[{Get\+Stem\+Prob}]{\setlength{\rightskip}{0pt plus 5cm}static void Centroid\+::\+Get\+Stem\+Prob (
+\begin{DoxyParamCaption}
+\item[{{\bf Rfold\+::\+Mat} \&}]{bppm, }
+\item[{{\bf L\+E\+N}}]{end, }
+\item[{{\bf Rfold\+::\+Vec} \&}]{stem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a1536a120dbc969d6a6702ae758427555}
+Produces stem probability vector from base pairing probability matrix. 
+\begin{DoxyParams}{Parameters}
+{\em bppm} & base pairing probability matrix. \\
+\hline
+{\em end} & the last index of of included bases. \\
+\hline
+{\em stem} & empty vector for storing stem probability. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 44 of file centroid.\+hh.
+

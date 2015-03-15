@@ -1,0 +1,201 @@
+\hypertarget{num__operator_8hh}{\section{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/num\+\_\+operator.hh File Reference}
+\label{num__operator_8hh}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/num\+\_\+operator.\+hh@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/num\+\_\+operator.\+hh}}
+}
+{\ttfamily \#include \char`\"{}energy\+\_\+const.\+hh\char`\"{}}\\*
+{\ttfamily \#include $<$cmath$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E}~(10.\+0)
+\item 
+\#define \hyperlink{num__operator_8hh_a0e75be7c3935c7c6d0b1dfba05fe37a6}{S\+M\+O\+O\+T\+H}(X)~((X)/\hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E} $<$ -\/1.\+2283697) ? 0.\+0 \+: (((X)/\hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E} $>$ 0.\+8660254) ? (X) \+: \hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E}$\ast$0.\+38490018$\ast$(sin((X)/\hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0)$\ast$(sin((X)/\hyperlink{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0))
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+static bool \hyperlink{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}{Is\+\_\+\+I\+N\+F} (const \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} value)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a5be5e650134b0579fc1dbadd92e5f5ce}{Logsumexp} (\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} x, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} y)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_ad1af57446b0c2dca5c1ac288055a4dc2}{Logsum} (\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} a, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} b)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a11f35c52d29c7099bc6964b43b17b281}{Logsum} (\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} a, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} b, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} c)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_ab6915c34e4363a0bf706745e1d6c5acd}{Logsum} (\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} a, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} b, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} c, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} d)
+\item 
+static void \hyperlink{num__operator_8hh_ab4a68ddf8c09397ded6e38315289241f}{Change\+Temperature} (const int value)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a590275b84bd71f97ca6c2dc854d90d7f}{Log\+Energy} (const int value)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a7ab48a3f89b2fa34ecd4c109ebc6d5bf}{Log\+Smoothing\+Energy} (const int value)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_ac8c038b1048e530defe0fb3cd897f900}{Exp\+Energy} (const \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} value)
+\item 
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a5aff2cb259eecce13bcf55ef672f9a6c}{Energy} (const \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} value)
+\end{DoxyCompactItemize}
+\subsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_ad41fe83f95add9cc649f41be659389cb}{k\+T}
+\item 
+const int \hyperlink{num__operator_8hh_a9bb68aa6c4819d6d9361d10f2d5829ae}{temperature}
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!S\+C\+A\+L\+E@{S\+C\+A\+L\+E}}
+\index{S\+C\+A\+L\+E@{S\+C\+A\+L\+E}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{S\+C\+A\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+C\+A\+L\+E~(10.\+0)}}\label{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}
+
+
+Definition at line 8 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a0e75be7c3935c7c6d0b1dfba05fe37a6}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!S\+M\+O\+O\+T\+H@{S\+M\+O\+O\+T\+H}}
+\index{S\+M\+O\+O\+T\+H@{S\+M\+O\+O\+T\+H}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{S\+M\+O\+O\+T\+H}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+M\+O\+O\+T\+H(
+\begin{DoxyParamCaption}
+\item[{}]{X}
+\end{DoxyParamCaption}
+)~((X)/{\bf S\+C\+A\+L\+E} $<$ -\/1.\+2283697) ? 0.\+0 \+: (((X)/{\bf S\+C\+A\+L\+E} $>$ 0.\+8660254) ? (X) \+: {\bf S\+C\+A\+L\+E}$\ast$0.\+38490018$\ast$(sin((X)/{\bf S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0)$\ast$(sin((X)/{\bf S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0))}}\label{num__operator_8hh_a0e75be7c3935c7c6d0b1dfba05fe37a6}
+
+
+Definition at line 10 of file num\+\_\+operator.\+hh.
+
+
+
+\subsection{Function Documentation}
+\hypertarget{num__operator_8hh_ab4a68ddf8c09397ded6e38315289241f}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Change\+Temperature@{Change\+Temperature}}
+\index{Change\+Temperature@{Change\+Temperature}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Change\+Temperature}]{\setlength{\rightskip}{0pt plus 5cm}static void Change\+Temperature (
+\begin{DoxyParamCaption}
+\item[{const int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_ab4a68ddf8c09397ded6e38315289241f}
+
+
+Definition at line 38 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a5aff2cb259eecce13bcf55ef672f9a6c}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Energy@{Energy}}
+\index{Energy@{Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Energy}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Energy (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\+O\+U\+B\+L\+E}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a5aff2cb259eecce13bcf55ef672f9a6c}
+
+
+Definition at line 53 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_ac8c038b1048e530defe0fb3cd897f900}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Exp\+Energy@{Exp\+Energy}}
+\index{Exp\+Energy@{Exp\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Exp\+Energy}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Exp\+Energy (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\+O\+U\+B\+L\+E}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_ac8c038b1048e530defe0fb3cd897f900}
+
+
+Definition at line 49 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Is\+\_\+\+I\+N\+F@{Is\+\_\+\+I\+N\+F}}
+\index{Is\+\_\+\+I\+N\+F@{Is\+\_\+\+I\+N\+F}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Is\+\_\+\+I\+N\+F}]{\setlength{\rightskip}{0pt plus 5cm}static bool Is\+\_\+\+I\+N\+F (
+\begin{DoxyParamCaption}
+\item[{const {\bf D\+O\+U\+B\+L\+E}}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}
+
+
+Definition at line 16 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a590275b84bd71f97ca6c2dc854d90d7f}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Log\+Energy@{Log\+Energy}}
+\index{Log\+Energy@{Log\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Log\+Energy}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Log\+Energy (
+\begin{DoxyParamCaption}
+\item[{const int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a590275b84bd71f97ca6c2dc854d90d7f}
+
+
+Definition at line 41 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a7ab48a3f89b2fa34ecd4c109ebc6d5bf}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Log\+Smoothing\+Energy@{Log\+Smoothing\+Energy}}
+\index{Log\+Smoothing\+Energy@{Log\+Smoothing\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Log\+Smoothing\+Energy}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Log\+Smoothing\+Energy (
+\begin{DoxyParamCaption}
+\item[{const int}]{value}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a7ab48a3f89b2fa34ecd4c109ebc6d5bf}
+
+
+Definition at line 45 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_ad1af57446b0c2dca5c1ac288055a4dc2}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
+\index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Logsum}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Logsum (
+\begin{DoxyParamCaption}
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{a, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_ad1af57446b0c2dca5c1ac288055a4dc2}
+
+
+Definition at line 27 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a11f35c52d29c7099bc6964b43b17b281}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
+\index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Logsum}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Logsum (
+\begin{DoxyParamCaption}
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{a, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{b, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a11f35c52d29c7099bc6964b43b17b281}
+
+
+Definition at line 31 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_ab6915c34e4363a0bf706745e1d6c5acd}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
+\index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Logsum}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Logsum (
+\begin{DoxyParamCaption}
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{a, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{b, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{c, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{d}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_ab6915c34e4363a0bf706745e1d6c5acd}
+
+
+Definition at line 34 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a5be5e650134b0579fc1dbadd92e5f5ce}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsumexp@{Logsumexp}}
+\index{Logsumexp@{Logsumexp}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Logsumexp}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Logsumexp (
+\begin{DoxyParamCaption}
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{x, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{y}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a5be5e650134b0579fc1dbadd92e5f5ce}
+
+
+Definition at line 20 of file num\+\_\+operator.\+hh.
+
+
+
+\subsection{Variable Documentation}
+\hypertarget{num__operator_8hh_ad41fe83f95add9cc649f41be659389cb}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!k\+T@{k\+T}}
+\index{k\+T@{k\+T}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{k\+T}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\+O\+U\+B\+L\+E} k\+T}}\label{num__operator_8hh_ad41fe83f95add9cc649f41be659389cb}
+
+
+Definition at line 5 of file num\+\_\+operator.\+cc.
+
+\hypertarget{num__operator_8hh_a9bb68aa6c4819d6d9361d10f2d5829ae}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!temperature@{temperature}}
+\index{temperature@{temperature}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{temperature}]{\setlength{\rightskip}{0pt plus 5cm}const int temperature}}\label{num__operator_8hh_a9bb68aa6c4819d6d9361d10f2d5829ae}
+
+
+Definition at line 4 of file num\+\_\+operator.\+cc.
+

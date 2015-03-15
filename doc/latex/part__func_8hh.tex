@@ -1,0 +1,121 @@
+\hypertarget{part__func_8hh}{\section{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/part\+\_\+func.hh File Reference}
+\label{part__func_8hh}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/part\+\_\+func.\+hh@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/part\+\_\+func.\+hh}}
+}
+{\ttfamily \#include \char`\"{}param.\+hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}matrix.\+hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}plot\+\_\+struct.\+hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}centroid.\+hh\char`\"{}}\\*
+{\ttfamily \#include \char`\"{}douter\+\_\+concat.\+hh\char`\"{}}\\*
+{\ttfamily \#include $<$cstdlib$>$}\\*
+{\ttfamily \#include $<$cstdio$>$}\\*
+{\ttfamily \#include $<$cassert$>$}\\*
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$iterator$>$}\\*
+{\ttfamily \#include $<$iomanip$>$}\\*
+{\ttfamily \#include $<$climits$>$}\\*
+{\ttfamily \#include $<$numeric$>$}\\*
+{\ttfamily \#include $<$unistd.\+h$>$}\\*
+{\ttfamily \#include $<$sys/types.\+h$>$}\\*
+{\ttfamily \#include $<$sys/wait.\+h$>$}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \hyperlink{class_rfold_1_1_arg}{Rfold\+::\+Arg}
+\item 
+class \hyperlink{class_rfold_1_1_paraso_r}{Rfold\+::\+Paraso\+R}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_rfold}{Rfold}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{part__func_8hh_a0c33b494a68ce28497e7ce8e5e95feff}{C\+O\+N\+S\+T}~(4)
+\item 
+\#define \hyperlink{part__func_8hh_a2bda1a81ce3474772a8a1f165e54516e}{P\+R\+E\+C}~(15)
+\item 
+\#define \hyperlink{part__func_8hh_aee551d17fffb6235cc7123499dbf7d65}{J\+U\+M\+P}~(1)
+\item 
+\#define \hyperlink{part__func_8hh_a589ba3dc5e20290a35fb1e626372ef61}{T\+M\+P}~(\hyperlink{param_8hh_abd012aab0d5d08997f31c0eeedebb40d}{H\+O\+M\+E\+D\+I\+R} + string(\char`\"{}outer/\char`\"{}))
+\item 
+\#define \hyperlink{part__func_8hh_a774a8dcd25e059751ce6342c7fdfd41e}{S\+T\+M\+P}~(\hyperlink{param_8hh_abd012aab0d5d08997f31c0eeedebb40d}{H\+O\+M\+E\+D\+I\+R} + string(\char`\"{}prob/\char`\"{}))
+\item 
+\#define \hyperlink{part__func_8hh_a5a392548f2df67370cb15d2a5d75cd7b}{T\+Y\+P\+E}~(6)
+\item 
+\#define \hyperlink{part__func_8hh_aedb7ebfbcaac86170d0dfbbb6df6f7d5}{B\+P\+P\+M}(pos, dist, start)~(bppm\mbox{[}(pos)-\/(start)\mbox{]}\mbox{[}(dist)\mbox{]})
+\item 
+\#define \hyperlink{part__func_8hh_aceacd5e86b9c8a2ad0ab9c8053bf22f7}{P\+R\+O\+M}(pos, type, start)~(prom\mbox{[}((pos)-\/(start))$\ast$\hyperlink{part__func_8hh_a5a392548f2df67370cb15d2a5d75cd7b}{T\+Y\+P\+E}+type\mbox{]})
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{part__func_8hh_aedb7ebfbcaac86170d0dfbbb6df6f7d5}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!B\+P\+P\+M@{B\+P\+P\+M}}
+\index{B\+P\+P\+M@{B\+P\+P\+M}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{B\+P\+P\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+P\+P\+M(
+\begin{DoxyParamCaption}
+\item[{}]{pos, }
+\item[{}]{dist, }
+\item[{}]{start}
+\end{DoxyParamCaption}
+)~(bppm\mbox{[}(pos)-\/(start)\mbox{]}\mbox{[}(dist)\mbox{]})}}\label{part__func_8hh_aedb7ebfbcaac86170d0dfbbb6df6f7d5}
+
+
+Definition at line 28 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_a0c33b494a68ce28497e7ce8e5e95feff}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!C\+O\+N\+S\+T@{C\+O\+N\+S\+T}}
+\index{C\+O\+N\+S\+T@{C\+O\+N\+S\+T}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{C\+O\+N\+S\+T}]{\setlength{\rightskip}{0pt plus 5cm}\#define C\+O\+N\+S\+T~(4)}}\label{part__func_8hh_a0c33b494a68ce28497e7ce8e5e95feff}
+
+
+Definition at line 21 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_aee551d17fffb6235cc7123499dbf7d65}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!J\+U\+M\+P@{J\+U\+M\+P}}
+\index{J\+U\+M\+P@{J\+U\+M\+P}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{J\+U\+M\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define J\+U\+M\+P~(1)}}\label{part__func_8hh_aee551d17fffb6235cc7123499dbf7d65}
+
+
+Definition at line 23 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_a2bda1a81ce3474772a8a1f165e54516e}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!P\+R\+E\+C@{P\+R\+E\+C}}
+\index{P\+R\+E\+C@{P\+R\+E\+C}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{P\+R\+E\+C}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+R\+E\+C~(15)}}\label{part__func_8hh_a2bda1a81ce3474772a8a1f165e54516e}
+
+
+Definition at line 22 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_aceacd5e86b9c8a2ad0ab9c8053bf22f7}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!P\+R\+O\+M@{P\+R\+O\+M}}
+\index{P\+R\+O\+M@{P\+R\+O\+M}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{P\+R\+O\+M}]{\setlength{\rightskip}{0pt plus 5cm}\#define P\+R\+O\+M(
+\begin{DoxyParamCaption}
+\item[{}]{pos, }
+\item[{}]{type, }
+\item[{}]{start}
+\end{DoxyParamCaption}
+)~(prom\mbox{[}((pos)-\/(start))$\ast${\bf T\+Y\+P\+E}+type\mbox{]})}}\label{part__func_8hh_aceacd5e86b9c8a2ad0ab9c8053bf22f7}
+
+
+Definition at line 29 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_a774a8dcd25e059751ce6342c7fdfd41e}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!S\+T\+M\+P@{S\+T\+M\+P}}
+\index{S\+T\+M\+P@{S\+T\+M\+P}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{S\+T\+M\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+T\+M\+P~({\bf H\+O\+M\+E\+D\+I\+R} + string(\char`\"{}prob/\char`\"{}))}}\label{part__func_8hh_a774a8dcd25e059751ce6342c7fdfd41e}
+
+
+Definition at line 25 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_a589ba3dc5e20290a35fb1e626372ef61}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!T\+M\+P@{T\+M\+P}}
+\index{T\+M\+P@{T\+M\+P}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{T\+M\+P}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+M\+P~({\bf H\+O\+M\+E\+D\+I\+R} + string(\char`\"{}outer/\char`\"{}))}}\label{part__func_8hh_a589ba3dc5e20290a35fb1e626372ef61}
+
+
+Definition at line 24 of file part\+\_\+func.\+hh.
+
+\hypertarget{part__func_8hh_a5a392548f2df67370cb15d2a5d75cd7b}{\index{part\+\_\+func.\+hh@{part\+\_\+func.\+hh}!T\+Y\+P\+E@{T\+Y\+P\+E}}
+\index{T\+Y\+P\+E@{T\+Y\+P\+E}!part\+\_\+func.\+hh@{part\+\_\+func.\+hh}}
+\subsubsection[{T\+Y\+P\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define T\+Y\+P\+E~(6)}}\label{part__func_8hh_a5a392548f2df67370cb15d2a5d75cd7b}
+
+
+Definition at line 26 of file part\+\_\+func.\+hh.
+

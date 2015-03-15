@@ -1,0 +1,115 @@
+\hypertarget{class_rfold_1_1_plot}{\section{Rfold\+:\+:Plot Class Reference}
+\label{class_rfold_1_1_plot}\index{Rfold\+::\+Plot@{Rfold\+::\+Plot}}
+}
+
+
+{\ttfamily \#include $<$plot\+\_\+struct.\+hh$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rfold_1_1_plot_ab391d468b25ca1eccd5b909072faa25d}{Plot} ()
+\item 
+virtual \hyperlink{class_rfold_1_1_plot_a3468eb4ffed8283ce4f7893add2bcd45}{$\sim$\+Plot} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static int \hyperlink{class_rfold_1_1_plot_a9847011caf13da09e6f5e8e314a9975e}{R\+N\+A\+Plot} (string seq, string structure, string filename)
+\item 
+static int \hyperlink{class_rfold_1_1_plot_ae3a7528ac8bb72bd7f85012d079d3c3a}{R\+N\+A\+Color\+Plot} (string seq, string structure, string filename, \hyperlink{namespace_rfold_aaf02f2c0c40c1dd572dbdd8bc1bde67d}{Vec} \&stem)
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+A \hyperlink{class_rfold_1_1_plot}{Plot} class. Based on Vienna R\+N\+A package 2.\+0.\+7 and centroid fold 0.\+0.\+10. 
+
+Definition at line 31 of file plot\+\_\+struct.\+hh.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_rfold_1_1_plot_ab391d468b25ca1eccd5b909072faa25d}{\index{Rfold\+::\+Plot@{Rfold\+::\+Plot}!Plot@{Plot}}
+\index{Plot@{Plot}!Rfold\+::\+Plot@{Rfold\+::\+Plot}}
+\subsubsection[{Plot}]{\setlength{\rightskip}{0pt plus 5cm}Rfold\+::\+Plot\+::\+Plot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_plot_ab391d468b25ca1eccd5b909072faa25d}
+
+
+Definition at line 74 of file plot\+\_\+struct.\+hh.
+
+\hypertarget{class_rfold_1_1_plot_a3468eb4ffed8283ce4f7893add2bcd45}{\index{Rfold\+::\+Plot@{Rfold\+::\+Plot}!````~Plot@{$\sim$\+Plot}}
+\index{````~Plot@{$\sim$\+Plot}!Rfold\+::\+Plot@{Rfold\+::\+Plot}}
+\subsubsection[{$\sim$\+Plot}]{\setlength{\rightskip}{0pt plus 5cm}virtual Rfold\+::\+Plot\+::$\sim$\+Plot (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_rfold_1_1_plot_a3468eb4ffed8283ce4f7893add2bcd45}
+
+
+Definition at line 75 of file plot\+\_\+struct.\+hh.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_rfold_1_1_plot_ae3a7528ac8bb72bd7f85012d079d3c3a}{\index{Rfold\+::\+Plot@{Rfold\+::\+Plot}!R\+N\+A\+Color\+Plot@{R\+N\+A\+Color\+Plot}}
+\index{R\+N\+A\+Color\+Plot@{R\+N\+A\+Color\+Plot}!Rfold\+::\+Plot@{Rfold\+::\+Plot}}
+\subsubsection[{R\+N\+A\+Color\+Plot}]{\setlength{\rightskip}{0pt plus 5cm}int Rfold\+::\+Plot\+::\+R\+N\+A\+Color\+Plot (
+\begin{DoxyParamCaption}
+\item[{string}]{seq, }
+\item[{string}]{structure, }
+\item[{string}]{filename, }
+\item[{{\bf Vec} \&}]{stem}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rfold_1_1_plot_ae3a7528ac8bb72bd7f85012d079d3c3a}
+Draws structure image with stem probability or R\+N\+A profiles. 
+\begin{DoxyParams}{Parameters}
+{\em seq} & base string. \\
+\hline
+{\em structure} & structure stirng in blacket style. \\
+\hline
+{\em filename} & filename for image output. \\
+\hline
+{\em stem} & reference of the vector of stem probability or R\+N\+A profile. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if success. 
+\end{DoxyReturn}
+
+
+Definition at line 559 of file plot\+\_\+struct.\+cc.
+
+\hypertarget{class_rfold_1_1_plot_a9847011caf13da09e6f5e8e314a9975e}{\index{Rfold\+::\+Plot@{Rfold\+::\+Plot}!R\+N\+A\+Plot@{R\+N\+A\+Plot}}
+\index{R\+N\+A\+Plot@{R\+N\+A\+Plot}!Rfold\+::\+Plot@{Rfold\+::\+Plot}}
+\subsubsection[{R\+N\+A\+Plot}]{\setlength{\rightskip}{0pt plus 5cm}int Rfold\+::\+Plot\+::\+R\+N\+A\+Plot (
+\begin{DoxyParamCaption}
+\item[{string}]{seq, }
+\item[{string}]{structure, }
+\item[{string}]{filename}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rfold_1_1_plot_a9847011caf13da09e6f5e8e314a9975e}
+Draws naive structure image. 
+\begin{DoxyParams}{Parameters}
+{\em seq} & base string. \\
+\hline
+{\em structure} & structure stirng in blacket style. \\
+\hline
+{\em filename} & filename for image output. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+1 if success. 
+\end{DoxyReturn}
+
+
+Definition at line 542 of file plot\+\_\+struct.\+cc.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/\hyperlink{plot__struct_8hh}{plot\+\_\+struct.\+hh}\item 
+/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/\hyperlink{plot__struct_8cc}{plot\+\_\+struct.\+cc}\end{DoxyCompactItemize}

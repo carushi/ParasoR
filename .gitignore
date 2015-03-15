@@ -26,3 +26,8 @@
 *.exe
 *.out
 *.app
+ParasoR
+ 
+.DS_Store
+*.sublime-workspace
+*.sublime-project

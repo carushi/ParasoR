@@ -1,0 +1,191 @@
+\hypertarget{matrix_8hh}{\section{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/matrix.hh File Reference}
+\label{matrix_8hh}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/matrix.\+hh@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/matrix.\+hh}}
+}
+{\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$sstream$>$}\\*
+{\ttfamily \#include $<$fstream$>$}\\*
+{\ttfamily \#include $<$cstring$>$}\\*
+{\ttfamily \#include $<$string$>$}\\*
+{\ttfamily \#include $<$vector$>$}\\*
+{\ttfamily \#include $<$deque$>$}\\*
+{\ttfamily \#include $<$algorithm$>$}\\*
+{\ttfamily \#include $<$iterator$>$}\\*
+{\ttfamily \#include \char`\"{}energy\+\_\+const.\+hh\char`\"{}}\\*
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{struct_rfold_1_1_base}{Rfold\+::\+Base}
+\item 
+class \hyperlink{class_rfold_1_1_matrix}{Rfold\+::\+Matrix}
+\end{DoxyCompactItemize}
+\subsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \hyperlink{namespace_rfold}{Rfold}
+\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)~((j)\%(mat.\+length+1))
+\item 
+\#define \hyperlink{matrix_8hh_a884bd30af2c24cbc6d050f96032b8908}{Stem}(mat, i, j)~(mat.\+stem\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a05f323860c8ddad3c2f2cbe42ad26a24}{Stemend}(mat, i, j)~(mat.\+stemend\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a2597f0c588e5b1afbb1d9757f3211132}{Multi}(mat, i, j)~(mat.\+multi\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a8d73a18ba89901d60dbe77de01cc39c6}{Multi1}(mat, i, j)~(mat.\+multi1\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a65dbd4eff057e962930243bf7ae5e120}{Multi2}(mat, i, j)~(mat.\+multi2\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a452a5901adf33b09f675c2e3f31e3ba4}{Multibif}(mat, i, j)~(mat.\+multibif\mbox{[}\hyperlink{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a8421428b8784209efa9f6ff99468e7b3}{Get\+Do}(mat, j, h)~((j-\/mat.\+istart $<$ 0) ? (0.\+0) \+: ((j $>$ mat.\+iend) ? (0.\+0) \+: (mat.\+douter\mbox{[}j-\/mat.\+istart\mbox{]}\mbox{[}h\mbox{]})))
+\item 
+\#define \hyperlink{matrix_8hh_ac3f0a682371b9df49cf9b58304cad8ef}{D\+Outer}(mat, j, h)~(mat.\+douter\mbox{[}j-\/mat.\+istart\mbox{]}\mbox{[}h\mbox{]})
+\item 
+\#define \hyperlink{matrix_8hh_a85e39e12ef8133feb2fcb998f82fae31}{Outer}(mat, j)~(mat.\+outer\mbox{[}j-\/mat.\+istart\mbox{]})
+\end{DoxyCompactItemize}
+\subsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef vector$<$ \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} $>$ \hyperlink{namespace_rfold_aaf02f2c0c40c1dd572dbdd8bc1bde67d}{Rfold\+::\+Vec}
+\item 
+typedef vector$<$ Vec $>$ \hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+{\footnotesize template$<$class Data $>$ }\\void \hyperlink{namespace_rfold_a1a1302c55d28a19d8a6b27cee21dc5ac}{Rfold\+::\+Print\+Vec} (const vector$<$ Data $>$ \&elem, bool end=true)
+\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\hypertarget{matrix_8hh_ac3f0a682371b9df49cf9b58304cad8ef}{\index{matrix.\+hh@{matrix.\+hh}!D\+Outer@{D\+Outer}}
+\index{D\+Outer@{D\+Outer}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{D\+Outer}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+Outer(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{j, }
+\item[{}]{h}
+\end{DoxyParamCaption}
+)~(mat.\+douter\mbox{[}j-\/mat.\+istart\mbox{]}\mbox{[}h\mbox{]})}}\label{matrix_8hh_ac3f0a682371b9df49cf9b58304cad8ef}
+
+
+Definition at line 25 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a8421428b8784209efa9f6ff99468e7b3}{\index{matrix.\+hh@{matrix.\+hh}!Get\+Do@{Get\+Do}}
+\index{Get\+Do@{Get\+Do}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Get\+Do}]{\setlength{\rightskip}{0pt plus 5cm}\#define Get\+Do(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{j, }
+\item[{}]{h}
+\end{DoxyParamCaption}
+)~((j-\/mat.\+istart $<$ 0) ? (0.\+0) \+: ((j $>$ mat.\+iend) ? (0.\+0) \+: (mat.\+douter\mbox{[}j-\/mat.\+istart\mbox{]}\mbox{[}h\mbox{]})))}}\label{matrix_8hh_a8421428b8784209efa9f6ff99468e7b3}
+
+
+Definition at line 24 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}{\index{matrix.\+hh@{matrix.\+hh}!Ind@{Ind}}
+\index{Ind@{Ind}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Ind}]{\setlength{\rightskip}{0pt plus 5cm}\#define Ind(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~((j)\%(mat.\+length+1))}}\label{matrix_8hh_a86bb2cd84b8b46bd7709f3e2706128a7}
+
+
+Definition at line 16 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a2597f0c588e5b1afbb1d9757f3211132}{\index{matrix.\+hh@{matrix.\+hh}!Multi@{Multi}}
+\index{Multi@{Multi}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Multi}]{\setlength{\rightskip}{0pt plus 5cm}\#define Multi(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+multi\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a2597f0c588e5b1afbb1d9757f3211132}
+
+
+Definition at line 20 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a8d73a18ba89901d60dbe77de01cc39c6}{\index{matrix.\+hh@{matrix.\+hh}!Multi1@{Multi1}}
+\index{Multi1@{Multi1}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Multi1}]{\setlength{\rightskip}{0pt plus 5cm}\#define Multi1(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+multi1\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a8d73a18ba89901d60dbe77de01cc39c6}
+
+
+Definition at line 21 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a65dbd4eff057e962930243bf7ae5e120}{\index{matrix.\+hh@{matrix.\+hh}!Multi2@{Multi2}}
+\index{Multi2@{Multi2}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Multi2}]{\setlength{\rightskip}{0pt plus 5cm}\#define Multi2(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+multi2\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a65dbd4eff057e962930243bf7ae5e120}
+
+
+Definition at line 22 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a452a5901adf33b09f675c2e3f31e3ba4}{\index{matrix.\+hh@{matrix.\+hh}!Multibif@{Multibif}}
+\index{Multibif@{Multibif}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Multibif}]{\setlength{\rightskip}{0pt plus 5cm}\#define Multibif(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+multibif\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a452a5901adf33b09f675c2e3f31e3ba4}
+
+
+Definition at line 23 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a85e39e12ef8133feb2fcb998f82fae31}{\index{matrix.\+hh@{matrix.\+hh}!Outer@{Outer}}
+\index{Outer@{Outer}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Outer}]{\setlength{\rightskip}{0pt plus 5cm}\#define Outer(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+outer\mbox{[}j-\/mat.\+istart\mbox{]})}}\label{matrix_8hh_a85e39e12ef8133feb2fcb998f82fae31}
+
+
+Definition at line 26 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a884bd30af2c24cbc6d050f96032b8908}{\index{matrix.\+hh@{matrix.\+hh}!Stem@{Stem}}
+\index{Stem@{Stem}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Stem}]{\setlength{\rightskip}{0pt plus 5cm}\#define Stem(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+stem\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a884bd30af2c24cbc6d050f96032b8908}
+
+
+Definition at line 18 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a05f323860c8ddad3c2f2cbe42ad26a24}{\index{matrix.\+hh@{matrix.\+hh}!Stemend@{Stemend}}
+\index{Stemend@{Stemend}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{Stemend}]{\setlength{\rightskip}{0pt plus 5cm}\#define Stemend(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{i, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(mat.\+stemend\mbox{[}{\bf Ind}(mat, j)\mbox{]}\mbox{[}(j)-\/(i)\mbox{]})}}\label{matrix_8hh_a05f323860c8ddad3c2f2cbe42ad26a24}
+
+
+Definition at line 19 of file matrix.\+hh.
+

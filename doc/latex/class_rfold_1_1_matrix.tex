@@ -1,0 +1,360 @@
+\hypertarget{class_rfold_1_1_matrix}{\section{Rfold\+:\+:Matrix Class Reference}
+\label{class_rfold_1_1_matrix}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+}
+
+
+{\ttfamily \#include $<$matrix.\+hh$>$}
+
+\subsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5}{Type} \{ \\*
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a55dd6d467b29fe590028fda5b4000554}{Stem}, 
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5ac5165cda64adc8e1ae5d452ad61a9ebd}{Stemend}, 
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a1695824afcdc7774aa71e6b9c0805ced}{Multi}, 
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a060ab2ad0e50cd330e36c1d57e87ea08}{Multi1}, 
+\\*
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a2402adf92dc78e30e1746e94e14ee1ef}{Multi2}, 
+\hyperlink{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a30a7f8607bae95730eee1afe7d3657c7}{Multibif}
+ \}
+\end{DoxyCompactItemize}
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_rfold_1_1_matrix_a1e26cf0be8d00482470208b452d24ce8}{Matrix} ()
+\item 
+\hyperlink{class_rfold_1_1_matrix_a387cfcbc7b6c382d7df38af69e746933}{Matrix} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_matrix_a4e28e0237e378feced3ce0497b0280d3}{length}, int constraint, bool inside)
+\item 
+virtual \hyperlink{class_rfold_1_1_matrix_acf7cb76f2cb1cdf031520db04505b4e4}{$\sim$\+Matrix} ()
+\item 
+void \hyperlink{class_rfold_1_1_matrix_a4cf13f2398aaf383dc62ecd8b59c575d}{operator=} (const \hyperlink{class_rfold_1_1_matrix}{Matrix} \&right)
+\item 
+void \hyperlink{class_rfold_1_1_matrix_a6b8cd3d50d7349e1ec67927ce06d443f}{Insert} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} x)
+\item 
+void \hyperlink{class_rfold_1_1_matrix_a3a2ac53149bc491c33e695093899cfae}{Delete} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} x)
+\item 
+void \hyperlink{class_rfold_1_1_matrix_aaed1b655000f4a9a2cda435a4df1155d}{Print} (const string \&)
+\item 
+void \hyperlink{class_rfold_1_1_matrix_a5616231e444e7786fd7d73add86c025e}{Set\+Index} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} s, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} e, bool delta=true)
+\item 
+bool \hyperlink{class_rfold_1_1_matrix_a351c76b452fc81c326a97b8607196ac7}{is\+Set} ()
+\end{DoxyCompactItemize}
+\subsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static void \hyperlink{class_rfold_1_1_matrix_a67cabdd52cfcbc1bde59759181f60310}{Print\+Mat} (const \hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \&, const string \&)
+\end{DoxyCompactItemize}
+\subsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+bool \hyperlink{class_rfold_1_1_matrix_a761e7bc7f006c3ea8b09f9c2d8107e6a}{\+\_\+innerset}
+\item 
+bool \hyperlink{class_rfold_1_1_matrix_ab5046ea9c3952f87a52002fa583d1e1b}{\+\_\+inside}
+\item 
+int \hyperlink{class_rfold_1_1_matrix_a8667166785da4cbc4a854fd11d6b062d}{\+\_\+constraint}
+\item 
+\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_matrix_a4e28e0237e378feced3ce0497b0280d3}{length}
+\item 
+\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_matrix_a6c5369e6fe648c02747ce63e40cb32ef}{olength}
+\item 
+\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_matrix_a5880f2f8bd4be305049d3149334370e7}{istart}
+\item 
+\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_matrix_a2b367dc68757e1459981f18afd9c8ab8}{iend}
+\item 
+\hyperlink{namespace_rfold_aaf02f2c0c40c1dd572dbdd8bc1bde67d}{Vec} \hyperlink{class_rfold_1_1_matrix_ae939207a96342deb8ed1268b9dbdc6d1}{outer}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_a95f02edbb0a09ccd75a47f3baf50d1fe}{douter}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_a20247950e209e5d6d72ef7471c31ec7e}{stem}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_a64d321f4b4a5447961cd0acc356b2758}{stemend}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_aae63edf0279f08764bf31766c2015daf}{multi}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_a60276112ff38bf30f411846caa101ad4}{multi1}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_acd86fda1cabf4c1aa04ab33661644b71}{multi2}
+\item 
+\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Mat} \hyperlink{class_rfold_1_1_matrix_ab7337ede6bd124b14bd4ffd706852f56}{multibif}
+\end{DoxyCompactItemize}
+\subsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const bool \hyperlink{class_rfold_1_1_matrix_ad9a9131f0d234138b757dbe76fe62b28}{debug} = false
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+
+
+Definition at line 80 of file matrix.\+hh.
+
+
+
+\subsection{Member Enumeration Documentation}
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Type@{Type}}
+\index{Type@{Type}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Type}]{\setlength{\rightskip}{0pt plus 5cm}enum {\bf Rfold\+::\+Matrix\+::\+Type}}}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5}
+\begin{Desc}
+\item[Enumerator]\par
+\begin{description}
+\index{Stem@{Stem}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Stem@{Stem}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a55dd6d467b29fe590028fda5b4000554}{Stem}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a55dd6d467b29fe590028fda5b4000554}
+}]\index{Stemend@{Stemend}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Stemend@{Stemend}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5ac5165cda64adc8e1ae5d452ad61a9ebd}{Stemend}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5ac5165cda64adc8e1ae5d452ad61a9ebd}
+}]\index{Multi@{Multi}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Multi@{Multi}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a1695824afcdc7774aa71e6b9c0805ced}{Multi}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a1695824afcdc7774aa71e6b9c0805ced}
+}]\index{Multi1@{Multi1}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Multi1@{Multi1}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a060ab2ad0e50cd330e36c1d57e87ea08}{Multi1}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a060ab2ad0e50cd330e36c1d57e87ea08}
+}]\index{Multi2@{Multi2}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Multi2@{Multi2}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a2402adf92dc78e30e1746e94e14ee1ef}{Multi2}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a2402adf92dc78e30e1746e94e14ee1ef}
+}]\index{Multibif@{Multibif}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Multibif@{Multibif}}\item[{\em 
+\hypertarget{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a30a7f8607bae95730eee1afe7d3657c7}{Multibif}\label{class_rfold_1_1_matrix_adb9d1d8ff7962b09506d56139ef4c0a5a30a7f8607bae95730eee1afe7d3657c7}
+}]\end{description}
+\end{Desc}
+
+
+Definition at line 93 of file matrix.\+hh.
+
+
+
+\subsection{Constructor \& Destructor Documentation}
+\hypertarget{class_rfold_1_1_matrix_a1e26cf0be8d00482470208b452d24ce8}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Rfold\+::\+Matrix\+::\+Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a1e26cf0be8d00482470208b452d24ce8}
+
+
+Definition at line 103 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a387cfcbc7b6c382d7df38af69e746933}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Matrix@{Matrix}}
+\index{Matrix@{Matrix}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Matrix}]{\setlength{\rightskip}{0pt plus 5cm}Rfold\+::\+Matrix\+::\+Matrix (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{length, }
+\item[{int}]{constraint, }
+\item[{bool}]{inside}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a387cfcbc7b6c382d7df38af69e746933}
+
+
+Definition at line 106 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_acf7cb76f2cb1cdf031520db04505b4e4}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!````~Matrix@{$\sim$\+Matrix}}
+\index{````~Matrix@{$\sim$\+Matrix}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{$\sim$\+Matrix}]{\setlength{\rightskip}{0pt plus 5cm}virtual Rfold\+::\+Matrix\+::$\sim$\+Matrix (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [virtual]}}}\label{class_rfold_1_1_matrix_acf7cb76f2cb1cdf031520db04505b4e4}
+
+
+Definition at line 110 of file matrix.\+hh.
+
+
+
+\subsection{Member Function Documentation}
+\hypertarget{class_rfold_1_1_matrix_a3a2ac53149bc491c33e695093899cfae}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Delete@{Delete}}
+\index{Delete@{Delete}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Delete}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::\+Delete (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a3a2ac53149bc491c33e695093899cfae}
+
+
+Definition at line 131 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a6b8cd3d50d7349e1ec67927ce06d443f}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Insert@{Insert}}
+\index{Insert@{Insert}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::\+Insert (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a6b8cd3d50d7349e1ec67927ce06d443f}
+
+
+Definition at line 126 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a351c76b452fc81c326a97b8607196ac7}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!is\+Set@{is\+Set}}
+\index{is\+Set@{is\+Set}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{is\+Set}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Matrix\+::is\+Set (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a351c76b452fc81c326a97b8607196ac7}
+
+
+Definition at line 149 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a4cf13f2398aaf383dc62ecd8b59c575d}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!operator=@{operator=}}
+\index{operator=@{operator=}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{operator=}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::operator= (
+\begin{DoxyParamCaption}
+\item[{const {\bf Matrix} \&}]{right}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a4cf13f2398aaf383dc62ecd8b59c575d}
+
+
+Definition at line 111 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_aaed1b655000f4a9a2cda435a4df1155d}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Print@{Print}}
+\index{Print@{Print}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Print}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::\+Print (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{str}
+\end{DoxyParamCaption}
+)}}\label{class_rfold_1_1_matrix_aaed1b655000f4a9a2cda435a4df1155d}
+
+
+Definition at line 29 of file matrix.\+cc.
+
+\hypertarget{class_rfold_1_1_matrix_a67cabdd52cfcbc1bde59759181f60310}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Print\+Mat@{Print\+Mat}}
+\index{Print\+Mat@{Print\+Mat}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Print\+Mat}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::\+Print\+Mat (
+\begin{DoxyParamCaption}
+\item[{const {\bf Mat} \&}]{mat, }
+\item[{const string \&}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rfold_1_1_matrix_a67cabdd52cfcbc1bde59759181f60310}
+
+
+Definition at line 20 of file matrix.\+cc.
+
+\hypertarget{class_rfold_1_1_matrix_a5616231e444e7786fd7d73add86c025e}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!Set\+Index@{Set\+Index}}
+\index{Set\+Index@{Set\+Index}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{Set\+Index}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Matrix\+::\+Set\+Index (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{s, }
+\item[{{\bf L\+E\+N}}]{e, }
+\item[{bool}]{delta = {\ttfamily true}}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_matrix_a5616231e444e7786fd7d73add86c025e}
+
+
+Definition at line 137 of file matrix.\+hh.
+
+
+
+\subsection{Member Data Documentation}
+\hypertarget{class_rfold_1_1_matrix_a8667166785da4cbc4a854fd11d6b062d}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!\+\_\+constraint@{\+\_\+constraint}}
+\index{\+\_\+constraint@{\+\_\+constraint}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{\+\_\+constraint}]{\setlength{\rightskip}{0pt plus 5cm}int Rfold\+::\+Matrix\+::\+\_\+constraint}}\label{class_rfold_1_1_matrix_a8667166785da4cbc4a854fd11d6b062d}
+
+
+Definition at line 87 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a761e7bc7f006c3ea8b09f9c2d8107e6a}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!\+\_\+innerset@{\+\_\+innerset}}
+\index{\+\_\+innerset@{\+\_\+innerset}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{\+\_\+innerset}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Matrix\+::\+\_\+innerset}}\label{class_rfold_1_1_matrix_a761e7bc7f006c3ea8b09f9c2d8107e6a}
+
+
+Definition at line 85 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_ab5046ea9c3952f87a52002fa583d1e1b}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!\+\_\+inside@{\+\_\+inside}}
+\index{\+\_\+inside@{\+\_\+inside}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{\+\_\+inside}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Matrix\+::\+\_\+inside}}\label{class_rfold_1_1_matrix_ab5046ea9c3952f87a52002fa583d1e1b}
+
+
+Definition at line 86 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_ad9a9131f0d234138b757dbe76fe62b28}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!debug@{debug}}
+\index{debug@{debug}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{debug}]{\setlength{\rightskip}{0pt plus 5cm}const bool Rfold\+::\+Matrix\+::debug = false\hspace{0.3cm}{\ttfamily [static]}}}\label{class_rfold_1_1_matrix_ad9a9131f0d234138b757dbe76fe62b28}
+
+
+Definition at line 84 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a95f02edbb0a09ccd75a47f3baf50d1fe}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!douter@{douter}}
+\index{douter@{douter}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{douter}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::douter}}\label{class_rfold_1_1_matrix_a95f02edbb0a09ccd75a47f3baf50d1fe}
+
+
+Definition at line 95 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a2b367dc68757e1459981f18afd9c8ab8}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!iend@{iend}}
+\index{iend@{iend}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{iend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+E\+N} Rfold\+::\+Matrix\+::iend}}\label{class_rfold_1_1_matrix_a2b367dc68757e1459981f18afd9c8ab8}
+
+
+Definition at line 91 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a5880f2f8bd4be305049d3149334370e7}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!istart@{istart}}
+\index{istart@{istart}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{istart}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+E\+N} Rfold\+::\+Matrix\+::istart}}\label{class_rfold_1_1_matrix_a5880f2f8bd4be305049d3149334370e7}
+
+
+Definition at line 90 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a4e28e0237e378feced3ce0497b0280d3}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!length@{length}}
+\index{length@{length}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+E\+N} Rfold\+::\+Matrix\+::length}}\label{class_rfold_1_1_matrix_a4e28e0237e378feced3ce0497b0280d3}
+
+
+Definition at line 88 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_aae63edf0279f08764bf31766c2015daf}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!multi@{multi}}
+\index{multi@{multi}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{multi}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::multi}}\label{class_rfold_1_1_matrix_aae63edf0279f08764bf31766c2015daf}
+
+
+Definition at line 98 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a60276112ff38bf30f411846caa101ad4}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!multi1@{multi1}}
+\index{multi1@{multi1}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{multi1}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::multi1}}\label{class_rfold_1_1_matrix_a60276112ff38bf30f411846caa101ad4}
+
+
+Definition at line 99 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_acd86fda1cabf4c1aa04ab33661644b71}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!multi2@{multi2}}
+\index{multi2@{multi2}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{multi2}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::multi2}}\label{class_rfold_1_1_matrix_acd86fda1cabf4c1aa04ab33661644b71}
+
+
+Definition at line 100 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_ab7337ede6bd124b14bd4ffd706852f56}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!multibif@{multibif}}
+\index{multibif@{multibif}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{multibif}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::multibif}}\label{class_rfold_1_1_matrix_ab7337ede6bd124b14bd4ffd706852f56}
+
+
+Definition at line 101 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a6c5369e6fe648c02747ce63e40cb32ef}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!olength@{olength}}
+\index{olength@{olength}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{olength}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+E\+N} Rfold\+::\+Matrix\+::olength}}\label{class_rfold_1_1_matrix_a6c5369e6fe648c02747ce63e40cb32ef}
+
+
+Definition at line 89 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_ae939207a96342deb8ed1268b9dbdc6d1}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!outer@{outer}}
+\index{outer@{outer}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{outer}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Vec} Rfold\+::\+Matrix\+::outer}}\label{class_rfold_1_1_matrix_ae939207a96342deb8ed1268b9dbdc6d1}
+
+
+Definition at line 94 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a20247950e209e5d6d72ef7471c31ec7e}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!stem@{stem}}
+\index{stem@{stem}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{stem}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::stem}}\label{class_rfold_1_1_matrix_a20247950e209e5d6d72ef7471c31ec7e}
+
+
+Definition at line 96 of file matrix.\+hh.
+
+\hypertarget{class_rfold_1_1_matrix_a64d321f4b4a5447961cd0acc356b2758}{\index{Rfold\+::\+Matrix@{Rfold\+::\+Matrix}!stemend@{stemend}}
+\index{stemend@{stemend}!Rfold\+::\+Matrix@{Rfold\+::\+Matrix}}
+\subsubsection[{stemend}]{\setlength{\rightskip}{0pt plus 5cm}{\bf Mat} Rfold\+::\+Matrix\+::stemend}}\label{class_rfold_1_1_matrix_a64d321f4b4a5447961cd0acc356b2758}
+
+
+Definition at line 97 of file matrix.\+hh.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/\hyperlink{matrix_8hh}{matrix.\+hh}\item 
+/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/\hyperlink{matrix_8cc}{matrix.\+cc}\end{DoxyCompactItemize}

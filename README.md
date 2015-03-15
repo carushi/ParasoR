@@ -47,10 +47,10 @@ Program source folder.
 ## Example
 
 ```
-> make test
-> cat ../doc/pre.txt 
+make test
+cat ../doc/pre.txt 
 # stem probability based on previous algorithm (Rfold model)
-> cat ../doc/stem.txt
+cat ../doc/stem.txt
 # stem probability based on ParasoR algorithm
 ```
 

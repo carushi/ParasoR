@@ -1,12 +1,17 @@
+#ifndef _USE_MATH_DEFINES
+#define _USE_MATH_DEFINES
+#include <cmath>
+#endif
+#ifndef M_PI
+#define M_PI 3.1415926535897932384626433832795028841971693993751058
+#endif
+
 #ifndef _PLOT_STRUCT_HH
 #define _PLOT_STRUCT_HH
-
-#define _USE_MATH_DEFINES
 #include "matrix.hh"
 #include <string>
 #include <vector>
 #include <algorithm>
-#include <cmath>
 #include <sstream>
 #define PROF_NUM (6)
 

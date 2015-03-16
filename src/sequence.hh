@@ -96,6 +96,35 @@ public:
         return str.substr(start-_shift);
     }
     /**
+     * Delete a base at 'x'th position on original sequence.
+     */
+    bool Delete(LEN x) {
+        x = x+1; // slide for $;
+        str = str.substr(0, x-_shift-1)+str.substr(x-_shift+1);
+        sequence.erase(sequence.begin()+x-_shift);
+        return true;
+    }
+    /**
+     * Substitute a base into 'c' at 'x'th position on original sequence.
+     * @return whether a base is changed.
+     */
+    bool Sub(LEN x, char c, char i) {
+        x = x+1; // slide for $;
+        if (str[x-_shift] == c) return false;
+        str[x-_shift] = c;
+        sequence[x-_shift] = i;
+        return true;
+    }
+    /**
+     * Insert 'c' before 'x'th position on original sequence.
+     */
+    bool Insert(LEN x, char c, char i) {
+        x = x+1; // slide for $;
+        str.insert(str.begin()+x-_shift, c);
+        sequence.insert(sequence.begin()+x-_shift, i);
+        return true;
+    }
+    /**
      * Cuts out a sequence from 'start' to 'end'.
      */
     void CutSequence(LEN start, LEN end) {

@@ -14,15 +14,36 @@ ParasoR can compute these features for RNA sequences even if longer than genome-
 
 * c++11
 
-We already tested ParasoR running with Apple LLVM version 6.0.
+We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.5.3. 
 
 ## How to install
+
 ```
 git clone https://github.com/carushi/ParasoR
 cd ParasoR/src
 make
 # cp ParasoR /usr/local/bin (optional)
 ```
+
+Or download from "Download ZIP" button and unzip it.
+
+```
+cd ParasoR-master/src
+make
+# cp ParasoR /usr/local/bin (optional)
+```
+
+As a default, 'std=c++' and 'double' is used.
+
+You can also change an option for c++11 and precision of floating point like
+
+```
+make C++11=c++0x VAR=LONG
+# use c++0x and long double.
+make C++11=c++11 and VAR=SHORT
+# use c++11 and float.
+```
+from a default, where 'std=c++11' option with 'double' precision.
 
 ## Directory
 Here is a directory structure description.
@@ -44,6 +65,7 @@ Program source folder.
 #### README.md (this file)
 #### LICENSE
 
+
 ## Example
 
 ```
@@ -57,4 +79,16 @@ cat ../doc/stem.txt
 For more sample, please type `./ParasoR --help`.
 
 ## Reference
-Under constriction.
+
+Algorithm
+
+* Kiryu H. et al. (2008) Rfold: an exact algorithm for computing local base pairing probabilities. Bioinformatics., 24 (3), 367–373.
+
+Implementation
+
+* Hamada M. et al. (2009) Prediction of RNA secondary structure using generalized centroid estimators. Bioinformatics., 25(4), 465–473.
+* Gruber AR. et al. (2008) The Vienna RNA websuite. Nucleic Acids Res., 36 (Web Server issue), W70–W74.
+
+Energy model
+
+* Turner DH. et al. (2010) NNDB: the nearest neighbour parameter database for predicting stability of nucleic acid secondary structure. Nucleic Acids Res., 38(Database issue), D280–D282.* Andronescu M. et al. (2010) Computational approaches for RNA energyparameter estimation. RNA., 16(12), 2304–2318.

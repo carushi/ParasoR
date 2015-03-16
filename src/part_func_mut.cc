@@ -30,24 +30,36 @@ void ParasoR::SlidingMatrixForMut(LEN x, int mtype)
     }
 }
 
-bool ParasoR::SlidingSequence(LEN x, int c, int mtype)
+void ParasoR::ComeBackChange(LEN x, int mtype, int c)
 {
-    string str = seq.substr(1);
-    char mut = base(c);
-    if (mtype < 0) return false;
+    if (mtype < 0) return;
     else if (mtype == Arg::Mut::Sub) {
-        if (str[x] == mut) return false;
-        str[x] = base(c);
+        seq.Sub(x, base(c), (char)c);
     } else if (mtype == Arg::Mut::Del) {
-        str = str.substr(0,x)+str.substr(x+1);
-        alpha.Delete(x);
-        beta.Delete(x);
-    } else if (mtype == Arg::Mut::Ins) {
-        str = str.substr(0,x)+base(c)+str.substr(x);
+        seq.Insert(x, base(c), (char)c);
         alpha.Insert(x);
         beta.Insert(x);
+    } else if (mtype == Arg::Mut::Ins) {
+        seq.Delete(x);
+        alpha.Delete(x);
+        beta.Delete(x);
     }
-    SetSequence(str);
+}
+
+bool ParasoR::SlidingSequence(LEN x, int c, int mtype)
+{
+    if (mtype < 0) return false;
+    else if (mtype == Arg::Mut::Sub) {
+        return seq.Sub(x, base(c), c);
+    } else if (mtype == Arg::Mut::Del) {
+        alpha.Delete(x);
+        beta.Delete(x);
+        return seq.Delete(x);
+    } else if (mtype == Arg::Mut::Ins) {
+        alpha.Insert(x);
+        beta.Insert(x);
+        return seq.Insert(x, base(c), c);
+    }
     return true;
 }
 
@@ -75,23 +87,6 @@ DOUBLE ParasoR::MaxDiff(const Vec& ori, const Vec& mut)
     return *max_element(diff.begin(), diff.end());
 }
 
-DOUBLE ParasoR::Correlation(const Vec& ori, const Vec& mut)
-{
-    DOUBLE sum_sq_x = 0.0, sum_sq_y = 0.0, sum_coproduct = 0.0, mean_x = 0.0, mean_y = 0.0, n = 1.0;
-    for (Vec::const_iterator it = ori.begin(), it2 = mut.begin(); it != ori.end() && it2 != mut.end(); it++, it2++)
-    {
-        DOUBLE x = *it, y = *it2;
-        DOUBLE delta_x = (x-mean_x), delta_y = (y-mean_y), sweep = (n-1.0)/n;
-        sum_sq_x += delta_x * delta_x * sweep;
-        sum_sq_y += delta_y * delta_y * sweep;
-        sum_coproduct += delta_x * delta_y * sweep;
-        mean_x += delta_x / n;
-        mean_y += delta_y / n++;
-    }
-    if (sum_sq_x == 0.0 || sum_sq_y == 0.0) return numeric_limits<DOUBLE>::quiet_NaN();
-    else return sum_coproduct/sqrt(sum_sq_x*sum_sq_y);
-}
-
 string ParasoR::GetDiffFile(int mtype, bool acc)
 {
     ostringstream os;
@@ -107,10 +102,10 @@ string ParasoR::GetDiffFile(int mtype, bool acc)
     os << id << "_" << chunk << "_" << _constraint;
     return os.str();
 }
-void ParasoR::CutOffVector(int mtype, Vec& sbppv, LEN pos)
-{
-    ;
-}
+
+void ParasoR::CutOffVector(int mtype, Vec& sbppv, LEN pos) {}
+
+
 void ParasoR::EditVector(int mtype, Vec& ori, Vec& mut, LEN pos)
 {
     if (mtype == Arg::Mut::Ins) {
@@ -152,15 +147,17 @@ void ParasoR::ChangeBase(LEN pos, Arg& arg, bool& app)
     Vec mbppv, sbppv;
     CutOffVector(arg.mtype, sbppv, pos);
     for (int j = 0; j < 4; j++) {
+        char temp = (arg.mtype != Arg::Mut::Ins) ? seq.substr(pos, 1)[0] : '0';
         if (!SlidingSequence(pos, j, arg.mtype)) continue;
         Recalculation(pos);
         (arg.acc_flag) ? CalcRangeAcc(mbppv, max(0, arg.window), pos, arg.mtype) : CalcRangeStem(mbppv, pos, arg.mtype);
         if (arg.eSDC_flag) {
-            //WriteeSDC();
+            ;// WriteeSDC();
         } else {
             WriteDiff(arg.mtype, pos, j, bppv, mbppv, arg.acc_flag, app);
             app = true;
         }
+        ComeBackChange(pos, arg.mtype, temp);
     }
 }
 

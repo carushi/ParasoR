@@ -2,8 +2,11 @@
 #define _NUM_OPERATOR_HH
 
 #include "energy_const.hh"
+#include <vector>
 #include <cmath>
 #include <iostream>
+#include <numeric>
+#include <climits>
 
 #define SCALE (10.0)
 
@@ -12,6 +15,23 @@
 
 extern DOUBLE kT;
 extern const int temperature;
+
+inline DOUBLE Correlation(const std::vector<DOUBLE>& ori, const std::vector<DOUBLE>& mut)
+{
+    DOUBLE sum_sq_x = 0.0, sum_sq_y = 0.0, sum_coproduct = 0.0, mean_x = 0.0, mean_y = 0.0, n = 1.0;
+    for (std::vector<DOUBLE>::const_iterator it = ori.begin(), it2 = mut.begin(); it != ori.end() && it2 != mut.end(); it++, it2++)
+    {
+        DOUBLE x = *it, y = *it2;
+        DOUBLE delta_x = (x-mean_x), delta_y = (y-mean_y), sweep = (n-1.0)/n;
+        sum_sq_x += delta_x * delta_x * sweep;
+        sum_sq_y += delta_y * delta_y * sweep;
+        sum_coproduct += delta_x * delta_y * sweep;
+        mean_x += delta_x / n;
+        mean_y += delta_y / n++;
+    }
+    if (sum_sq_x == 0.0 || sum_sq_y == 0.0) return std::numeric_limits<DOUBLE>::quiet_NaN();
+    else return sum_coproduct/sqrt(sum_sq_x*sum_sq_y);
+}
 
 inline static bool Is_INF(const DOUBLE value) {
     return (value <= -INF);

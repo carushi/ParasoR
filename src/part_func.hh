@@ -12,8 +12,8 @@
 #include <iostream>
 #include <iterator>
 #include <iomanip>
-#include <climits>
-#include <numeric>
+
+
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
@@ -295,10 +295,11 @@ private:
     void SetOriginalDouter(Vec&, Vec&);
     void CopyOriginalOuter(Vec&, Vec&);
     void SlidingMatrixForMut(LEN, int);
+    void ComeBackChange(LEN, int, int);
     bool SlidingSequence(LEN, int, int);
     void Recalculation(LEN);
     DOUBLE MaxDiff(const Vec&, const Vec&);
-    DOUBLE Correlation(const Vec&, const Vec&);
+    // DOUBLE Correlation(const Vec&, const Vec&);
     string GetDiffFile(int, bool);
     void CutOffVector(int, Vec&, LEN);
     void EditVector(int, Vec&, Vec&, LEN);

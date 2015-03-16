@@ -1,5 +1,4 @@
 #Makefile
-#CC = g++-mp-4.8
 VAR = MED
 C++11 = c++11
 CC = g++

@@ -6,6 +6,7 @@
 #include <cmath>
 #include <iostream>
 #include <numeric>
+#include <limits>
 #include <climits>
 
 #define SCALE (10.0)

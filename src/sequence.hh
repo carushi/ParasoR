@@ -67,7 +67,7 @@ public:
                 _shift = 0;
              }
     Sequence(const string& str, const vector<char>& sequence, LEN length, LEN shift)
-             : str(str), sequence(sequence), _shift(shift), length(length) {
+             : _shift(shift), str(str), sequence(sequence), length(length) {
         part = true;
     }
     ~Sequence() {}

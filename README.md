@@ -1,9 +1,11 @@
 # ParasoR
-  
-ParasoR is a novel software to calculate local RNA secondary structure based on an energy model.
 
-## Features
+![ParasoR logo](https://sites.google.com/site/cawatchm/software/parasor/logo.png)
+
+
+## Features 
 ParasoR can compute these features for RNA sequences even if longer than genome-sequence.
+
 * Base pairing probability
 * Stem probability
 * Accessibility
@@ -14,7 +16,7 @@ ParasoR can compute these features for RNA sequences even if longer than genome-
 
 * c++11
 
-We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.5.3. 
+We already tested ParasoR running with Apple LLVM version 6.0, GCC 4.5.3, and 4.8.1. 
 
 ## How to install
 

@@ -17,12 +17,12 @@ void Matrix::Initialize() {
     }
 }
 
-void Matrix::PrintMat(const Mat& mat, const string& str) 
+void Matrix::PrintMat(const Mat& mat, const string& str)
 {
     for (LEN i = 0; i < (LEN)str.length(); i++)
         cout << str[i] << " ";
     cout << endl;
-    for (Mat::const_iterator it = mat.begin(); it != mat.end(); it++)  
+    for (Mat::const_iterator it = mat.begin(); it != mat.end(); it++)
         PrintVec(*it, true);
 }
 
@@ -30,16 +30,16 @@ void Matrix::Print(const string& str)
 {
     cout << "---stem" << endl;
     PrintMat(stem, str);
-    cout << "---stemend" << endl; 
-    PrintMat(stemend, str);        
+    cout << "---stemend" << endl;
+    PrintMat(stemend, str);
     cout << "---multi" << endl;
-    PrintMat(multi, str);        
+    PrintMat(multi, str);
     cout << "---multiBif" << endl;
-    PrintMat(multibif, str);        
+    PrintMat(multibif, str);
     cout << "---multi1" << endl;
-    PrintMat(multi1, str);        
+    PrintMat(multi1, str);
     cout << "---multi2" << endl;
-    PrintMat(multi2, str);        
+    PrintMat(multi2, str);
     cout << "---douter" << endl;
     PrintMat(douter, str);
     cout << "---outer" << endl;

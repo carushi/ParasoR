@@ -75,6 +75,8 @@ public:
         compl_flag = false;
         mea_flag = false;
         pre_flag = false;
+        save_memory = false;
+        debug = false;
         text = false;
         image = false;
     }
@@ -108,6 +110,7 @@ public:
     bool compl_flag;  // calculate complementary sequence;
     bool mea_flag;
     bool pre_flag;
+    bool save_memory;
     bool debug;
     bool text;
     bool image;
@@ -117,6 +120,7 @@ public:
 class ParasoR {
 private:
     enum Out {STEM, ACC, PROF, MEA, BPP};
+    enum File {Part, Shrunk, Whole};
     DOUBLE gamma;
 
     /* part_func.cc */
@@ -157,9 +161,15 @@ private:
     void GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool);
     DOUBLE GetDenominator(const Vec& douter, const Vec& sum_douter, bool);
     DOUBLE GetNumerator(const Mat& douter, const Vec& sum_douter, int k, bool inside);
-    void ConnectInDo(Vec&, Mat&, int);
-    void ConnectOutDo(Vec&, Mat&, int);
+    void ConnectInDo(Vec&, Mat&, int, string, bool, bool = true);
+    void ConnectOutDo(Vec&, Mat&, int, string, bool, bool = true);
     void ConnectDo(bool);
+    void ConnectDoSaved(bool);
+    void ReadBinFirstDouter(bool, Vec&, string&);
+    void ReadFirstDouter(bool, Vec&, string&);
+    void ReadFirstDouter(bool);
+    void ConnectDoSaved(bool, Vec&);
+    bool ConnectSavedFiles(bool = false);
 
     void WriteBpp(Mat&);
     void WriteAcc(Mat&);
@@ -171,10 +181,14 @@ private:
     string GetDoFile(bool);
     string GetStemFile(bool, bool = false);
     string GetDividedStemFile(bool, bool = false);
+    string GetIDFileList(string, int tid);
+    string GetShrunkFileList(int, bool, int tid = -1);
     string GetTempFileList(bool, int tid = -1);
     void WriteDouterTemp(ofstream&, Mat&);
     void WriteBinDouterTemp(ofstream&, Mat&);
     void StoreDouterTemp(bool);
+    void LeaveDouterEdgeRegion(bool);
+    void StoreDouterTempShrunk(bool);
     void StoreDouter(string, Vec&, bool, bool);
     void StoreStem(string, Vec&, bool);
     void StoreProf(string, vector<char>&);
@@ -183,7 +197,7 @@ private:
     void Init(bool full = false);
     void InitBpp(bool full = false);
     void SetSequence(const string&, bool = true);
-    void RemoveTemp(bool);
+    void RemoveTemp(bool, int = 0);
     void RemoveStem(bool, bool = false);
     void ConcatDo();
     static void Connect(ParasoR&, bool, bool = false);
@@ -234,6 +248,8 @@ private:
 
     DOUBLE GetOutStem(LEN, LEN, DOUBLE);
     void SetOutsideMat(LEN, LEN, DOUBLE);
+    int ReadPartConnectedDouter(bool, Vec&);
+    int ReadBinPartConnectedDouter(bool, Vec&);
     bool ReadConnectedDouter(bool);
     bool ReadBinConnectedDouter(bool);
     void ReadStem(Vec&, string, LEN, LEN);
@@ -282,6 +298,7 @@ private:
     void CalcRangeStem(Vec&, LEN, int);
     void CalcRangeAcc(Vec&, int, LEN, int);
 
+    void TabToNewLine(string&);
     bool ReadStemToSingleFile(string&, string&, bool, bool);
     bool ReadBinStemToSingleFile(string&, string&, bool);
     void ConcatStemdb(bool, bool = false);
@@ -344,6 +361,7 @@ public:
         InitEnergyParam();
         delta = true;
         binary = true;
+        memory = false;
     }
     ParasoR(string& name) : name(name) {
         id = 0;
@@ -351,6 +369,7 @@ public:
         InitEnergyParam();
         delta = true;
         binary = true;
+        memory = false;
     }
     virtual ~ParasoR() {}
     int id;
@@ -370,6 +389,7 @@ public:
     bool cut;       // cut a needless region of sequence;
     bool delta;     // douter or outer flag;
     bool binary; // binary storage flag;
+    bool memory; // memory saving mode;
     static const bool ene = true; // output an energy of accessibility;
     static const bool linear = true; // linear profile calculation;
     static const bool noout = false;
@@ -395,7 +415,11 @@ public:
     void SetGamma(DOUBLE tgamma) {
         gamma = tgamma;
     }
-    void SetWindow(int window, bool acc = false) {
+    void SetMemory(bool tmemory) {
+        memory = tmemory;
+    }
+    void SetWindow(int window, bool acc = false)
+    {
         if (!noout && acc)
             cout << "# Window : " << window << endl;
         _window = window;
@@ -422,6 +446,7 @@ public:
         SetBasicParam(arg.constraint, arg.str, arg.name, shrink);
         SetText(arg.text);
         SetGamma(arg.gamma);
+        SetMemory(arg.save_memory);
     }
     int RangeChunkId(int pos) {
         int unit = (seq.length/chunk);

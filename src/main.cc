@@ -4,7 +4,7 @@
 #include <cctype>
 #include "part_func.hh"
 
-#define OPTION (15)
+#define OPTION (16)
 using namespace std;
 
 void PrintHelpOption()
@@ -35,12 +35,13 @@ void PrintHelpOption()
          << "--divide\tcalculate divided douters and make temporal douter files (default)\n"
          << "--connect\tconnect douters and make douter_inside & outside file\n"
          << "--stemdb\toutput stem probability database\n"
-         << "--struct (or --struct=gamma)\toutput MEA structure (base pair having bpp (>= 1/(gamma+1)) \n"
-         << "--image\toutput images of MEA (only with struct option)\n"
+         << "--struct (or --struct=gamma)\toutput gamma centroid estimated structure (base pair having bpp (>= 1/(gamma+1)) \n"
+         << "--image\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--energy [.par file]\talso possible to use \"Turner2004\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n"
          << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
          << "--stem\tcalculate stem probability\n"
          << "--text\ttext storage mode\n"
+         << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
          << "--pre\tnot parallel computing\n"
          << "--help\tprint these sentences\n\n\n\n";
     cout << "-------Sample List------\n"
@@ -80,9 +81,10 @@ struct option* option()
     options[11].name = "image";
     options[12].name = "stem";
     options[13].name = "pre";
-    options[14].name = "help";
+    options[14].name = "save_memory";
+    options[15].name = "help";
     for (int i = 0; i < OPTION; i++) {
-        if (i == 4 || i == 5 || i == 6 || i == 9 || i == 11 || i == 12 || i == 13 || i == 14)
+        if (i == 4 || i == 5 || i == 6 || i == 9 || i == 11 || i == 12 || i == 13 || i == 14 || i == 15)
             options[i].has_arg = 0;
         else if (i == 10 || i == 8)
             options[i].has_arg = optional_argument;
@@ -131,6 +133,8 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
     } else if (option_index == 13) {
         arg.pre_flag = true;
     } else if (option_index == 14) {
+        arg.save_memory = true;
+    } else if (option_index == 15) {
         PrintHelpOption();
         return false;
     }

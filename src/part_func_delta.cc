@@ -152,6 +152,41 @@ DOUBLE ParasoR::GetOutStem(LEN i, LEN j, DOUBLE value)
 
 /* ///////////////////////////////////////////// */
 
+int ParasoR::ReadPartConnectedDouter(bool inside, Vec& vec)
+{
+    string str;
+    int tid = (inside) ? ((id == 0) ? id : id-1) : ((id == chunk-1) ? id : id+1);
+    string filename = GetShrunkFileList(File::Part, inside, tid);
+    ifstream ifs(filename.c_str());
+    if (!ifs) return 0;
+    if (!noout) cout << "-Reading " << filename << endl;
+    for ( ; ; ) {
+        if (!getline(ifs, str)) return vec.size();
+        ReadVec(vec, str);
+    }
+    return vec.size();
+}
+
+int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
+{
+    int h = 0;
+    int tid = (inside) ? ((id == 0) ? id : id-1) : ((id == chunk-1) ? id : id+1);
+    string filename = GetShrunkFileList(File::Part, inside, tid);
+    ifstream ifs(filename.c_str(), ios::binary);
+    if (!ifs || (h = GetColumn(ifs)) != 2*_constraint) {
+        cout << h << endl;
+        return 0;
+    }
+    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "column size: " << h << endl;
+    for (LEN i = 0; ; i++) {
+        if (!ReadBinVec(h, vec, ifs)) break;
+    }
+    if (!noout) cout << "--size: " << vec.size() << endl;
+    return vec.size();
+
+}
+
 bool ParasoR::ReadConnectedDouter(bool inside)
 {
     string str;
@@ -179,7 +214,6 @@ bool ParasoR::ReadBinConnectedDouter(bool inside)
     if (!ifs || h != 1) return false;
     DOUBLE value;
     if (!noout) cout << "--column size: " << h << endl;
-    assert(h == 1);
     ifs.seekg(sizeof(int)+sizeof(DOUBLE)*(alpha.istart), std::ios::beg);
     for (LEN i = alpha.istart; i <= alpha.iend; i++) {
         ifs.read((char*)&(value), sizeof(DOUBLE));
@@ -708,12 +742,36 @@ void ParasoR::CalcRangeAcc(Vec& stem, int window, LEN pos, int mtype)
     }
 }
 
+void ParasoR::TabToNewLine(string& filename)
+{
+    string oldfile = filename+"_temp";
+    string str;
+    ifstream ifs(filename.c_str());
+    ofstream ofs(oldfile.c_str());
+    if (!ifs) return;
+    istreambuf_iterator<char> in(ifs), eos;
+    ostream_iterator<char> out(ofs);
+    copy(in, eos, out);
+    ifs.close();
+    ofs.close();
+    ifs.open(oldfile.c_str());
+    ofs.open(filename.c_str());
+    for ( ; getline(ifs, str, '\t'); ) {
+        ofs << str;
+        ofs << "\n";
+    }
+    ifs.close();
+    ofs.close();
+    remove(oldfile.c_str());
+}
+
 bool ParasoR::ReadStemToSingleFile(string& ifile, string& ofile, bool app, bool end)
 {
     string str;
     ifstream ifs(ifile.c_str());
     if (!ifs) {
-        cerr << "No file :" << ifile << endl;
+        if (!memory)
+            cerr << "No file :" << ifile << endl;
         return true;
     }
     ofstream ofs(ofile.c_str(), ((app) ? ios::app : ios::trunc));
@@ -735,7 +793,8 @@ bool ParasoR::ReadBinStemToSingleFile(string& ifile, string& ofile, bool app)
     ifstream ifs(ifile.c_str(), ios::binary);
     ifs.read((char*)&h, sizeof(int));
     if (!ifs) {
-        cerr << "No file :" << ifile << endl;
+        if (!memory)
+            cerr << "No file :" << ifile << endl;
         return true;
     } else if (h < 0) {
         cerr << "File format broken :" << ifile << endl;
@@ -772,12 +831,16 @@ void ParasoR::ConcatStemdb(bool acc, bool prof)
     RemoveStem(acc, prof);
 }
 
-
 void ParasoR::Connect(ParasoR& rfold, bool shrink, bool keep)
 {
-    if (!noout) cout << "--file: " << rfold.GetDoFile(true) << ", " << rfold.GetDoFile(false) << endl;
-    rfold.ConnectDo(keep);
-    rfold.ConcatDo();
+    if (rfold.memory) {
+        if (!rfold.ConnectSavedFiles(keep))
+            rfold.ConnectDoSaved(keep);
+    } else {
+        if (!noout) cout << "--file: " << rfold.GetDoFile(true) << ", " << rfold.GetDoFile(false) << endl;
+        rfold.ConnectDo(keep);
+        rfold.ConcatDo();
+    }
 }
 
 void ParasoR::Connect(Arg& arg, bool shrink)
@@ -791,7 +854,6 @@ void ParasoR::Connect(Arg& arg, bool shrink)
         rfold.SetRange(1, arg.str.length());
         (arg.acc_flag) ? rfold.CalcAcc(true) : rfold.CalcStem(true);
     }
-
 }
 
 void ParasoR::Stemdb(Arg& arg, bool shrink)

@@ -280,9 +280,29 @@ void ParasoR::CalcChunkOutside()
 void ParasoR::CalcDeltaInOut()
 {
     CalcChunkInside();
-    StoreDouterTemp(true);
+    if (memory) {
+        Vec old_douter = Vec();
+        int icount = (binary) ? ReadBinPartConnectedDouter(true, old_douter) : ReadPartConnectedDouter(true, old_douter);
+        if (icount > 0) {
+            ConnectDoSaved(true, old_douter);
+        } else {
+            StoreDouterTempShrunk(true);
+        }
+    } else {
+        StoreDouterTemp(true);
+    }
     CalcChunkOutside();
-    StoreDouterTemp(false);
+    if (memory) {
+        Vec old_douter = Vec();
+        int ocount = (binary) ? ReadBinPartConnectedDouter(false, old_douter) : ReadPartConnectedDouter(false, old_douter);
+        if (ocount > 0) {
+            ConnectDoSaved(false, old_douter);
+        } else {
+            StoreDouterTempShrunk(false);
+        }
+    } else {
+        StoreDouterTemp(false);
+    }
 }
 
 /* ///////////////////////////////////////////// */
@@ -301,8 +321,8 @@ bool ParasoR::ReadBinVec(int h, Vec& tdouter, ifstream& ifs)
 {
     DOUBLE value;
     for (int i = 0; i < h; i++) {
-        if (ifs.eof()) return false;
         ifs.read((char*)&value, sizeof(DOUBLE));
+        if (ifs.eof()) return false;
         tdouter.push_back(value);
     }
     return true;
@@ -313,7 +333,7 @@ bool ParasoR::ReadDouterInside(Mat& douter, string filename, Vec& first_douter)
     string str;
     ifstream ifs(filename.c_str());
     if (!ifs) return false;
-    if (!noout) cout << "Reading " << filename << endl;
+    if (!noout) cout << "-Reading " << filename << endl;
     for (LEN i = 0; getline(ifs, str); i++) {
         if (first_douter.size() > 0 && i == 0) {
             douter.push_back((first_douter));
@@ -329,15 +349,15 @@ bool ParasoR::ReadDouterInside(Mat& douter, string filename, Vec& first_douter)
 bool ParasoR::ReadBinDouterInside(Mat& douter, string filename, Vec& first_douter)
 {
     int h = 0;
-    if (!noout) cout << "Reading " << filename << endl;
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) <= 0) return false;
+    if (!noout) cout << "-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for (LEN i = 0; ; i++) {
         Vec temp = Vec();
         if (ReadBinVec(h, temp, ifs)) {
             if (first_douter.size() > 0 && i == 0) {
-                douter.push_back((first_douter));
+                douter.push_back(first_douter);
             } else douter.push_back(temp);
         } else  break;
     }
@@ -349,14 +369,14 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
 {
     string str;
     ifstream ifs(filename.c_str());
-    if (!noout) cout << "Reading " << filename << endl;
+    if (!noout) cout << "-Reading " << filename << endl;
     if (!ifs) return false;
     for (LEN i = 0; getline(ifs, str); i++) {
         douter.push_back(Vec());
         ReadVec(douter[i], str);
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[douter.size()-1] = first_douter;
+        douter[(LEN)douter.size()-1] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -364,9 +384,9 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
 bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_douter)
 {
     int h = 0;
-    if (!noout) cout << "Reading " << filename << endl;
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) <= 0) return false;
+    if (!noout) cout << "-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for ( ; ; ) {
         Vec temp = Vec();
@@ -375,7 +395,7 @@ bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_dout
         } else  break;
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[douter.size()-1] = first_douter;
+        douter[(LEN)douter.size()-1] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -385,15 +405,17 @@ void ParasoR::GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool insi
 {
     if (inside) {
         DOUBLE acc = 0.0;
-        for (int i = 0; i <= _constraint && i < (int)old_douter.size(); i++) {
+        for (int i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
-            acc = Logsum(acc, old_douter[(LEN)old_douter.size()-1-i]);
+            if (i < _constraint && i < (int)old_douter.size())
+                acc = Logsum(acc, old_douter[(LEN)old_douter.size()-1-i]);
         }
     } else {
         DOUBLE acc = 0.0;
-        for (int i = 0; i <= _constraint && i < (int)old_douter.size(); i++) {
+        for (int i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
-            acc = Logsum(acc, old_douter[i]);
+            if (i < _constraint && i < (int)old_douter.size())
+                acc = Logsum(acc, old_douter[i]);
         }
     }
 }
@@ -438,7 +460,7 @@ DOUBLE ParasoR::GetNumerator(const Mat& douter, const Vec& sum_douter, int k, bo
     }
 }
 
-void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid)
+void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid, string filename, bool app, bool start)
 {
     Vec new_douter = Vec(douter.size(), 0.0);
     Vec sum_douter = Vec(old_douter.size(), 0.0);
@@ -446,18 +468,18 @@ void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid)
         GetSumDouterList(old_douter, sum_douter, true);
     for (int i = 1; i < new_douter.size(); i++) {
         if (ddebug) cout << "--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
-        DOUBLE denominator = (i == 1) ? douter[i-1][0] : //start position;
+        DOUBLE denominator = (i == 1 && start) ? douter[i-1][0] : //start position;
                                       GetDenominator(douter[i-1], sum_douter, true);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, true);
         new_douter[i] = numerator-denominator;
-       if (ddebug)
+        if (ddebug)
             cout << new_douter[i] << " " << numerator << " " << denominator << endl;
     }
-    StoreDouter(GetDoFile(true), new_douter, true, tid > 0);
+    StoreDouter(filename, new_douter, true, app);
     old_douter = new_douter;
 }
 
-void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid)
+void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid, string filename, bool app, bool start)
 {
     Vec new_douter = Vec(douter.size(), 0.0);
     Vec sum_douter = Vec(old_douter.size(), 0.0);
@@ -465,14 +487,14 @@ void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid)
         GetSumDouterList(old_douter, sum_douter, false);
     for (LEN i = douter.size()-2; i >= 0; i--) {
         if (ddebug) cout << "--------" << i << " " << seq.strget(seq.length/chunk*tid+i+1) << endl;
-        DOUBLE denominator = (i == douter.size()-2) ? douter[i+1][0] : // start position;
+        DOUBLE denominator = (i == douter.size()-2 && start) ? douter[i+1][0] : // start position;
                              GetDenominator(douter[i+1], sum_douter, false);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, false);
         new_douter[i] = numerator-denominator;
         if (ddebug)
             cout << new_douter[i] << " " << numerator << " " << denominator << endl;
     }
-    StoreDouter(GetDoFile(false), new_douter, false, tid < chunk-1);
+    StoreDouter(filename, new_douter, false, app);
     old_douter = new_douter;
 }
 
@@ -484,10 +506,11 @@ void ParasoR::ConnectDo(bool keep_flag)
     Vec first_douter;
     for (int i = 0; i < chunk; i++) {
         Mat douter;
-        iflag = (binary) ? ReadBinDouterInside(douter, GetTempFileList(true, i), first_douter)
-                : ReadDouterInside(douter, GetTempFileList(true, i), first_douter);
+        string ifile = GetTempFileList(true, i);
+        iflag = (binary) ? ReadBinDouterInside(douter, ifile, first_douter)
+                : ReadDouterInside(douter, ifile, first_douter);
         if (iflag) {
-            ConnectInDo(old_douter, douter, i);
+            ConnectInDo(old_douter, douter, i, GetDoFile(true), i > 0);
             first_douter = douter[(LEN)douter.size()-1];
         } else break;
     }
@@ -497,15 +520,139 @@ void ParasoR::ConnectDo(bool keep_flag)
     first_douter.clear();
     for (int i = chunk-1; i >= 0; i--) {
         Mat douter;
-        oflag = (binary) ? ReadBinDouterOutside(douter, GetTempFileList(false, i), first_douter)
-                : ReadDouterOutside(douter, GetTempFileList(false, i), first_douter);
+        string ofile = GetTempFileList(false, i);
+        oflag = (binary) ? ReadBinDouterOutside(douter, ofile, first_douter)
+                : ReadDouterOutside(douter, ofile, first_douter);
         if (oflag) {
-            ConnectOutDo(old_douter, douter, i);
+            ConnectOutDo(old_douter, douter, i, GetDoFile(false), i < chunk-1);
             first_douter = douter[0];
         } else break;
     }
     if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
     if (!keep_flag && oflag) RemoveTemp(false);
+}
+
+void ParasoR::ConnectDoSaved(bool keep_flag)
+{
+    bool iflag = true, oflag = true;
+    Init();
+    Vec old_douter = Vec(1, 0);
+    Vec first_douter;
+    for (int i = 0; i < chunk; i++) {
+        Mat douter;
+        string ifile = GetShrunkFileList(File::Shrunk, true, i);
+        iflag = (binary) ? ReadBinDouterInside(douter, ifile, first_douter)
+                : ReadDouterInside(douter, ifile, first_douter);
+        if (iflag) {
+            ConnectInDo(old_douter, douter, i, GetShrunkFileList(File::Part, true, i), false, false);
+            first_douter = douter[(LEN)douter.size()-1];
+        } else break;
+    }
+    old_douter = Vec(1, 0);
+    first_douter.clear();
+    for (int i = chunk-1; i >= 0; i--) {
+        Mat douter;
+        string ofile = GetShrunkFileList(File::Shrunk, false, i);
+        oflag = (binary) ? ReadBinDouterOutside(douter, ofile, first_douter)
+                : ReadDouterOutside(douter, ofile, first_douter);
+        if (oflag) {
+            ConnectOutDo(old_douter, douter, i, GetShrunkFileList(File::Part, false, i), false, false);
+            first_douter = douter[0];
+        } else break;
+    }
+}
+
+void ParasoR::ReadBinFirstDouter(bool inside, Vec& first_douter, string& filename)
+{
+    int h = 0;
+    ifstream ifs(filename.c_str(), ios::binary);
+    if (!ifs || (h = GetColumn(ifs)) <= 0) return;
+    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "column size: " << h << endl;
+    for (LEN i = 0; i <= _constraint; i++) {
+        Vec temp = Vec();
+        if (ReadBinVec(h, temp, ifs)) {
+            if ((inside && i == 2*_constraint) || (!inside && i == 0)) {
+                first_douter = temp;
+                break;
+            }
+        } else  break;
+    }
+}
+
+void ParasoR::ReadFirstDouter(bool inside, Vec& first_douter, string& filename)
+{
+    string str;
+    ifstream ifs(filename.c_str());
+    if (!ifs) return;
+    if (!noout) cout << "-Reading " << filename << endl;
+    for (LEN i = 0; getline(ifs, str); i++) {
+        Vec temp = Vec();
+        ReadVec(temp, str);
+        if ((inside && i == 2*_constraint) || (!inside && i == 0)) {
+            first_douter = temp;
+            break;
+        }
+    }
+}
+
+void ParasoR::ReadFirstDouter(bool inside)
+{
+    Vec first_douter;
+    string filename = (inside) ? GetShrunkFileList(File::Shrunk, inside, id-1)
+                                : GetShrunkFileList(File::Shrunk, inside, id+1);
+    if ((inside && id > 0) || (!inside && id < chunk-1)) {
+        (binary) ? ReadBinFirstDouter(inside, first_douter, filename) : ReadFirstDouter(inside, first_douter, filename);
+        if (inside) alpha.douter[0] = first_douter;
+        else beta.douter[(LEN)beta.douter.size()-1] = first_douter;
+    }
+}
+
+void ParasoR::ConnectDoSaved(bool inside, Vec& old_douter)
+{
+    if (inside) {
+        ReadFirstDouter(true);
+        ConnectInDo(old_douter, alpha.douter, id, GetShrunkFileList(File::Whole, true, id), false);
+    } else {
+        ReadFirstDouter(false);
+        ConnectOutDo(old_douter, beta.douter, id, GetShrunkFileList(File::Whole, false, id), false);
+    }
+    if (!noout) cout << "-Complete " << GetShrunkFileList(File::Whole, inside, id) << endl;
+}
+
+bool ParasoR::ConnectSavedFiles(bool keep_flag)
+{
+    string outfile = GetDoFile(true);
+    for (int i = 0; i < chunk; i++) {
+        string file = GetShrunkFileList(File::Whole, true, i);
+        bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
+                 : ReadStemToSingleFile(file, outfile, i != 0, i == chunk-1);
+        if (error) return false;
+    }
+    if (!binary)
+        TabToNewLine(outfile);
+    if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
+    if (!keep_flag) {
+        RemoveTemp(true, File::Shrunk);
+        RemoveTemp(true, File::Whole);
+        RemoveTemp(true, File::Part);
+    }
+    outfile = GetDoFile(false);
+    for (int i = 0; i < chunk; i++) {
+        string file = GetShrunkFileList(File::Whole, false, i);
+         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
+                 : ReadStemToSingleFile(file, outfile, i != 0, i == chunk-1);
+        if (error) return false;
+    }
+    if (!binary)
+        TabToNewLine(outfile);
+    if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
+    if (!keep_flag) {
+        RemoveTemp(false, File::Shrunk);
+        RemoveTemp(false, File::Whole);
+        RemoveTemp(false, File::Part);
+    }
+    return true;
 }
 
 /* ///////////////////////////////////////////// */
@@ -673,18 +820,38 @@ string ParasoR::GetDividedStemFile(bool acc, bool prof)
     return os.str();
 }
 
+string ParasoR::GetIDFileList(string prefix, int tid)
+{
+    ostringstream os;
+    os << TMP << name << prefix << tid << "_" << chunk << "_" << _constraint;
+    if (!binary) os << ".txt";
+    return os.str();
+}
+
+string ParasoR::GetShrunkFileList(int preID, bool inside, int tid)
+{
+    if (tid < 0) tid = id;
+    string prefix;
+    switch (preID) {
+        case File::Part: prefix = "part"; break;
+        case File::Shrunk: prefix = "shrunk"; break;
+        case File::Whole: prefix = "whole"; break;
+    }
+    if (inside) {
+        return GetIDFileList(prefix+"_inside_douter_", tid);
+    } else {
+        return GetIDFileList(prefix+"_outside_douter_", tid);
+    }
+}
+
 string ParasoR::GetTempFileList(bool inside, int tid)
 {
     if (tid < 0) tid = id;
-    ostringstream os;
     if (inside) {
-        os << TMP << name << "temp_inside_douter_" << tid << "_" << chunk << "_" << _constraint;
-        if (!binary) os << ".txt";
+        return GetIDFileList("temp_inside_douter_", tid);
     } else {
-        os << TMP << name << "temp_outside_douter_" << tid << "_" << chunk << "_" << _constraint;
-        if (!binary) os << ".txt";
+        return GetIDFileList("temp_outside_douter_", tid);
     }
-    return os.str();
 }
 
 void ParasoR::WriteDouterTemp(ofstream& ofs, Mat& mat)
@@ -724,10 +891,43 @@ void ParasoR::StoreDouterTemp(bool inside)
     }
 }
 
+void ParasoR::LeaveDouterEdgeRegion(bool inside)
+{
+    if (inside) {
+        Mat::const_iterator first = alpha.douter.begin()+max(0, (int)alpha.douter.size()-2*_constraint-1);
+        Mat::const_iterator last = alpha.douter.end();
+        Mat temp(first, last);
+        alpha.douter = temp;
+    } else {
+        Mat::const_iterator first = beta.douter.begin();
+        Mat::const_iterator last = beta.douter.begin()+min((int)beta.douter.size(), 2*_constraint+1);
+        Mat temp(first, last);
+        beta.douter = temp;
+    }
+}
+
+void ParasoR::StoreDouterTempShrunk(bool inside)
+{
+    string file = GetShrunkFileList(File::Shrunk, inside);
+    LeaveDouterEdgeRegion(inside);
+    if (binary) {
+        ofstream ofs(file.c_str(), ios::binary);
+        WriteBinDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
+        ofs.close();
+        if (!noout) cout << "-Written (binary) " << file << endl;
+    } else {
+        ofstream ofs(file.c_str());
+        ofs.precision(PREC);
+        WriteDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
+        if (!noout) cout << "-Written " << file << endl;
+        ofs.close();
+    }
+}
+
 void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
 {
     if (douter.size() == 0) {
-        cerr << "Cannot store douter (maybe have a problem in reading temp douter file)" << endl;
+        cerr << "Cannot store douter (may have a problem in reading temp douter file)" << endl;
         abort();
     }
     int start = (inside) ? 1 : 0;
@@ -796,10 +996,10 @@ void ParasoR::PrintMat(bool is_alpha)
 {
     if (is_alpha) {
         cout << "--alpha" << endl;
-        alpha.Print(seq.substr(0));
+        alpha.Print(seq.substr(alpha.istart));
     } else {
         cout << "--beta" << endl;
-        beta.Print(seq.substr(0));
+        beta.Print(seq.substr(alpha.istart));
     }
 }
 
@@ -851,19 +1051,22 @@ void ParasoR::SetSequence(const string& sequence, bool out)
     seq = Sequence(str, num_seq, (LEN)sequence.length());
 }
 
-void ParasoR::RemoveTemp(bool inside)
+void ParasoR::RemoveTemp(bool inside, int prefix)
 {
-    cout << "RemoveTemp" << endl;
+    cout << "Remove Temp files." << endl;
     string file;
     for (int i = 0; i < chunk; i++) {
-        file = GetTempFileList(inside, i);
+        if (memory) {
+            file = GetShrunkFileList(prefix, inside, i);
+        } else
+            file = GetTempFileList(inside, i);
         remove(file.c_str());
     }
 }
 
 void ParasoR::RemoveStem(bool acc, bool prof)
 {
-    cout << "RemoveStem" << endl;
+    cout << "Remove Stem files" << endl;
     for (int i = 0; i < chunk; i++) {
         ostringstream os;
         id = i;
@@ -914,7 +1117,6 @@ void ParasoR::DivideChunk(Arg& arg, bool shrink)
         cerr << "Too many chunk for this sequence len: " << rfold.seq.length << endl;
     }
 }
-
 
 void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
 {

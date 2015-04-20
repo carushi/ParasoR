@@ -23,6 +23,7 @@
 #define Multibif(mat, i, j) (mat.multibif[Ind(mat, j)][(j)-(i)])
 #define GetDo(mat, j, h) ((j-mat.istart < 0) ? (0.0) : ((j > mat.iend) ? (0.0) : (mat.douter[j-mat.istart][h])))
 #define DOuter(mat, j, h) (mat.douter[j-mat.istart][h])
+#define DOuterInd(mat, j) (j-mat.istart)
 #define Outer(mat, j) (mat.outer[j-mat.istart])
 
 

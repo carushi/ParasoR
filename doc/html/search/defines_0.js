@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['_5fuse_5fmath_5fdefines',['_USE_MATH_DEFINES',['../plot__struct_8hh.html#a525335710b53cb064ca56b936120431e',1,'plot_struct.hh']]]
+  ['_5fplot_5fstruct_5fhh',['_PLOT_STRUCT_HH',['../plot__struct_8hh.html#afe4893d33e9cf48f7d08ced2701141a8',1,'plot_struct.hh']]]
 ];

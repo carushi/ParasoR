@@ -16,5 +16,6 @@ var searchData=
   ['connect',['Connect',['../class_rfold_1_1_paraso_r.html#aadd7f8b272d8d4cb1f05dde81abd6c98',1,'Rfold::ParasoR']]],
   ['convert',['Convert',['../class_rfold_1_1_parameter_1_1_convert.html#a52199a92c29fc27444e7bbe97cbaf371',1,'Rfold::Parameter::Convert']]],
   ['convertparamfile',['ConvertParamFile',['../class_rfold_1_1_parameter_1_1_convert.html#ab50e43100375c5e462f81f90433a6fef',1,'Rfold::Parameter::Convert']]],
+  ['correlation',['Correlation',['../num__operator_8hh.html#a439440b295c871dac913f8ac820c6437',1,'num_operator.hh']]],
   ['cutsequence',['CutSequence',['../class_rfold_1_1_parameter_1_1_sequence.html#a0a1a71514788ec342a185f04b9ca90f6',1,'Rfold::Parameter::Sequence']]]
 ];

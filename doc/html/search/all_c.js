@@ -1,7 +1,7 @@
 var searchData=
 [
   ['len',['LEN',['../energy__const_8hh.html#a05b49c662c073f89e86804f7856622a0',1,'energy_const.hh']]],
-  ['length',['length',['../class_rfold_1_1_matrix.html#a4e28e0237e378feced3ce0497b0280d3',1,'Rfold::Matrix::length()'],['../class_rfold_1_1_parameter_1_1_sequence.html#aa9e3bfb9862ce32ecc4ab2260e4dd40c',1,'Rfold::Parameter::Sequence::length()']]],
+  ['length',['length',['../class_rfold_1_1_matrix.html#a4e28e0237e378feced3ce0497b0280d3',1,'Rfold::Matrix::length()'],['../class_rfold_1_1_arg.html#ae5c8053e399657b0c83bd10a904ac354',1,'Rfold::Arg::length()'],['../class_rfold_1_1_parameter_1_1_sequence.html#aa9e3bfb9862ce32ecc4ab2260e4dd40c',1,'Rfold::Parameter::Sequence::length()']]],
   ['linear',['linear',['../class_rfold_1_1_paraso_r.html#a45220d67941bf0c7f97c1eb586511cb8',1,'Rfold::ParasoR']]],
   ['logbulge',['logbulge',['../namespace_rfold_1_1_parameter.html#a20e8624e389beca2f1df6a9aebc9bbe2',1,'Rfold::Parameter::logbulge()'],['../namespace_rfold_1_1_parameter.html#a84c12e24c819863c0a7de43605f07053',1,'Rfold::Parameter::LogBulge(int u, int type, int type2)']]],
   ['logdangle3',['logdangle3',['../namespace_rfold_1_1_parameter.html#a7ebf93e2b64043655dfd704b20027f66',1,'Rfold::Parameter']]],

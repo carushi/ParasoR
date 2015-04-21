@@ -93,8 +93,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &quot;<a class="el" href="energy__const_8hh_source.html">energy_const.hh</a>&quot;</code><br />
+<code>#include &lt;vector&gt;</code><br />
 <code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;iostream&gt;</code><br />
+<code>#include &lt;numeric&gt;</code><br />
+<code>#include &lt;limits&gt;</code><br />
+<code>#include &lt;climits&gt;</code><br />
 </div>
 <p><a href="num__operator_8hh_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
@@ -107,6 +111,8 @@ Macros</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
+<tr class="memitem:a439440b295c871dac913f8ac820c6437"><td class="memItemLeft" align="right" valign="top"><a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="num__operator_8hh.html#a439440b295c871dac913f8ac820c6437">Correlation</a> (const std::vector&lt; <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> &gt; &amp;ori, const std::vector&lt; <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> &gt; &amp;mut)</td></tr>
+<tr class="separator:a439440b295c871dac913f8ac820c6437"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7faa9ddfccb9193995232f218f89ea11"><td class="memItemLeft" align="right" valign="top">static bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="num__operator_8hh.html#a7faa9ddfccb9193995232f218f89ea11">Is_INF</a> (const <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> value)</td></tr>
 <tr class="separator:a7faa9ddfccb9193995232f218f89ea11"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5be5e650134b0579fc1dbadd92e5f5ce"><td class="memItemLeft" align="right" valign="top">static <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="num__operator_8hh.html#a5be5e650134b0579fc1dbadd92e5f5ce">Logsumexp</a> (<a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> x, <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> y)</td></tr>
@@ -146,7 +152,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00008">8</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00012">12</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -164,7 +170,7 @@ Variables</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00010">10</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00014">14</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -191,7 +197,43 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00038">38</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00059">59</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+
+</div>
+</div>
+<a class="anchor" id="a439440b295c871dac913f8ac820c6437"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> Correlation </td>
+          <td>(</td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>ori</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">const std::vector&lt; <a class="el" href="energy__const_8hh.html#a8747af38b86aa2bbcda2f1b1aa0888c2">DOUBLE</a> &gt; &amp;&#160;</td>
+          <td class="paramname"><em>mut</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00020">20</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -217,7 +259,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00053">53</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00074">74</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -243,7 +285,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00049">49</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00070">70</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -269,7 +311,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00016">16</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00037">37</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -295,7 +337,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00041">41</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00062">62</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -321,7 +363,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00045">45</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00066">66</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -357,7 +399,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00027">27</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00048">48</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -399,7 +441,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00031">31</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00052">52</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -447,7 +489,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00034">34</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00055">55</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -483,7 +525,7 @@ Variables</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00020">20</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
+<p>Definition at line <a class="el" href="num__operator_8hh_source.html#l00041">41</a> of file <a class="el" href="num__operator_8hh_source.html">num_operator.hh</a>.</p>
 
 </div>
 </div>
@@ -519,7 +561,7 @@ Variables</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 14 2015 23:43:43 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 21 2015 15:56:27 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

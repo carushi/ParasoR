@@ -10,11 +10,17 @@
 \item 
 \hyperlink{class_rfold_1_1_parameter_1_1_sequence_ab2aad5252c57fc410a8bd122cb5a0f0e}{Sequence} ()
 \item 
+\hyperlink{class_rfold_1_1_parameter_1_1_sequence_a6abde50eed15e5bd3bf1a4888132be1d}{Sequence} (const string \&str)
+\item 
 \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a9b7d40f144e63aeff7834c081661b238}{Sequence} (const string \&str, const vector$<$ char $>$ \&sequence, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_parameter_1_1_sequence_aa9e3bfb9862ce32ecc4ab2260e4dd40c}{length})
 \item 
 \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a7505d8d474a76a8d57da433c38e4fb9d}{Sequence} (const string \&str, const vector$<$ char $>$ \&sequence, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_parameter_1_1_sequence_aa9e3bfb9862ce32ecc4ab2260e4dd40c}{length}, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} shift)
 \item 
+\hyperlink{class_rfold_1_1_parameter_1_1_sequence_aa5160e467553cf7da27ead1c8ef1d950}{Sequence} (const string \&filename, const int seq\+I\+D, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} \hyperlink{class_rfold_1_1_parameter_1_1_sequence_aa9e3bfb9862ce32ecc4ab2260e4dd40c}{length})
+\item 
 \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a4904474a30a4685879ecc795b1f74d61}{$\sim$\+Sequence} ()
+\item 
+void \hyperlink{class_rfold_1_1_parameter_1_1_sequence_ad52082fb6045b92289ba7ff0eeaa405f}{Set\+Str\+To\+Char} ()
 \item 
 char \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a7e3a790783f67e1cbaa03effe703625b}{strget} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} pos) const 
 \item 
@@ -23,6 +29,12 @@ int \hyperlink{class_rfold_1_1_parameter_1_1_sequence_ad26e4745cd7593d335a0c06df
 string \hyperlink{class_rfold_1_1_parameter_1_1_sequence_af90f7c6f47b6e0bf186116d73be8df76}{substr} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} start, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} slen) const 
 \item 
 string \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a161d435f92ce632d19a04b6ecae30300}{substr} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} start) const 
+\item 
+bool \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a0d67df236b8f2467c7d2018a7ca5a7d2}{Delete} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} x)
+\item 
+bool \hyperlink{class_rfold_1_1_parameter_1_1_sequence_aed2589e808c634273e100539574a3a9b}{Sub} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} x, char c, char i)
+\item 
+bool \hyperlink{class_rfold_1_1_parameter_1_1_sequence_ad165a55fc6368674c19beb5c860efdde}{Insert} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} x, char c, char i)
 \item 
 void \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a0a1a71514788ec342a185f04b9ca90f6}{Cut\+Sequence} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} start, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end)
 \item 
@@ -40,7 +52,7 @@ int \hyperlink{class_rfold_1_1_parameter_1_1_sequence_a8e5c8d3ee721dc9964c383bbc
 \subsection{Detailed Description}
 A \hyperlink{class_rfold_1_1_parameter_1_1_sequence}{Sequence} class. Stores (fragmented) base sequence. 
 
-Definition at line 43 of file sequence.\+hh.
+Definition at line 44 of file sequence.\+hh.
 
 
 
@@ -54,7 +66,18 @@ Definition at line 43 of file sequence.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_ab2aad5252c57fc410a8bd122cb5a0f0e}
 
 
-Definition at line 63 of file sequence.\+hh.
+Definition at line 96 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_a6abde50eed15e5bd3bf1a4888132be1d}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Sequence@{Sequence}}
+\index{Sequence@{Sequence}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Sequence}]{\setlength{\rightskip}{0pt plus 5cm}Rfold\+::\+Parameter\+::\+Sequence\+::\+Sequence (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{str}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a6abde50eed15e5bd3bf1a4888132be1d}
+
+
+Definition at line 97 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a9b7d40f144e63aeff7834c081661b238}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Sequence@{Sequence}}
 \index{Sequence@{Sequence}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -67,7 +90,7 @@ Definition at line 63 of file sequence.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a9b7d40f144e63aeff7834c081661b238}
 
 
-Definition at line 64 of file sequence.\+hh.
+Definition at line 104 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a7505d8d474a76a8d57da433c38e4fb9d}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Sequence@{Sequence}}
 \index{Sequence@{Sequence}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -81,7 +104,20 @@ Definition at line 64 of file sequence.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a7505d8d474a76a8d57da433c38e4fb9d}
 
 
-Definition at line 69 of file sequence.\+hh.
+Definition at line 110 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_aa5160e467553cf7da27ead1c8ef1d950}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Sequence@{Sequence}}
+\index{Sequence@{Sequence}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Sequence}]{\setlength{\rightskip}{0pt plus 5cm}Rfold\+::\+Parameter\+::\+Sequence\+::\+Sequence (
+\begin{DoxyParamCaption}
+\item[{const string \&}]{filename, }
+\item[{const int}]{seq\+I\+D, }
+\item[{{\bf L\+E\+N}}]{length}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_aa5160e467553cf7da27ead1c8ef1d950}
+
+
+Definition at line 116 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a4904474a30a4685879ecc795b1f74d61}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!````~Sequence@{$\sim$\+Sequence}}
 \index{````~Sequence@{$\sim$\+Sequence}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -92,7 +128,7 @@ Definition at line 69 of file sequence.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a4904474a30a4685879ecc795b1f74d61}
 
 
-Definition at line 73 of file sequence.\+hh.
+Definition at line 121 of file sequence.\+hh.
 
 
 
@@ -107,7 +143,31 @@ Definition at line 73 of file sequence.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a0a1a71514788ec342a185f04b9ca90f6}
 Cuts out a sequence from 'start' to 'end'. 
 
-Definition at line 101 of file sequence.\+hh.
+Definition at line 185 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_a0d67df236b8f2467c7d2018a7ca5a7d2}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Delete@{Delete}}
+\index{Delete@{Delete}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Delete}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::\+Sequence\+::\+Delete (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{x}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_a0d67df236b8f2467c7d2018a7ca5a7d2}
+Delete a base at 'x'th position on original sequence. 
+
+Definition at line 156 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_ad165a55fc6368674c19beb5c860efdde}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Insert@{Insert}}
+\index{Insert@{Insert}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Insert}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::\+Sequence\+::\+Insert (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{x, }
+\item[{char}]{c, }
+\item[{char}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_ad165a55fc6368674c19beb5c860efdde}
+Insert 'c' before 'x'th position on original sequence. 
+
+Definition at line 176 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_ad26e4745cd7593d335a0c06dfee1d250}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!seqget@{seqget}}
 \index{seqget@{seqget}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -121,7 +181,18 @@ Definition at line 101 of file sequence.\+hh.
 \end{DoxyReturn}
 
 
-Definition at line 83 of file sequence.\+hh.
+Definition at line 138 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_ad52082fb6045b92289ba7ff0eeaa405f}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Set\+Str\+To\+Char@{Set\+Str\+To\+Char}}
+\index{Set\+Str\+To\+Char@{Set\+Str\+To\+Char}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Set\+Str\+To\+Char}]{\setlength{\rightskip}{0pt plus 5cm}void Rfold\+::\+Parameter\+::\+Sequence\+::\+Set\+Str\+To\+Char (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_ad52082fb6045b92289ba7ff0eeaa405f}
+Set sequence. 
+
+Definition at line 125 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a3fac33d4cc02dd9d50bbbe17c58840ca}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!slidebp@{slidebp}}
 \index{slidebp@{slidebp}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -136,7 +207,7 @@ bp index of base pairing between 'i' and 'j'.
 \end{DoxyReturn}
 
 
-Definition at line 113 of file sequence.\+hh.
+Definition at line 206 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a8e5c8d3ee721dc9964c383bbc4d19215}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!sliderbp@{sliderbp}}
 \index{sliderbp@{sliderbp}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -151,7 +222,7 @@ Reversed type of base pair between 'i' and 'j'.
 \end{DoxyReturn}
 
 
-Definition at line 119 of file sequence.\+hh.
+Definition at line 212 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a7e3a790783f67e1cbaa03effe703625b}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!strget@{strget}}
 \index{strget@{strget}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -165,7 +236,23 @@ A\+C\+G\+U at pos.
 \end{DoxyReturn}
 
 
-Definition at line 77 of file sequence.\+hh.
+Definition at line 132 of file sequence.\+hh.
+
+\hypertarget{class_rfold_1_1_parameter_1_1_sequence_aed2589e808c634273e100539574a3a9b}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!Sub@{Sub}}
+\index{Sub@{Sub}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
+\subsubsection[{Sub}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::\+Sequence\+::\+Sub (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{x, }
+\item[{char}]{c, }
+\item[{char}]{i}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{class_rfold_1_1_parameter_1_1_sequence_aed2589e808c634273e100539574a3a9b}
+Substitute a base into 'c' at 'x'th position on original sequence. \begin{DoxyReturn}{Returns}
+whether a base is changed. 
+\end{DoxyReturn}
+
+
+Definition at line 166 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_af90f7c6f47b6e0bf186116d73be8df76}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!substr@{substr}}
 \index{substr@{substr}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -180,7 +267,7 @@ Substring of str that starts at position 'start' of length 'slen'.
 \end{DoxyReturn}
 
 
-Definition at line 89 of file sequence.\+hh.
+Definition at line 144 of file sequence.\+hh.
 
 \hypertarget{class_rfold_1_1_parameter_1_1_sequence_a161d435f92ce632d19a04b6ecae30300}{\index{Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}!substr@{substr}}
 \index{substr@{substr}!Rfold\+::\+Parameter\+::\+Sequence@{Rfold\+::\+Parameter\+::\+Sequence}}
@@ -194,7 +281,7 @@ Substring of str that starts at position 'start'.
 \end{DoxyReturn}
 
 
-Definition at line 95 of file sequence.\+hh.
+Definition at line 150 of file sequence.\+hh.
 
 
 
@@ -204,7 +291,7 @@ Definition at line 95 of file sequence.\+hh.
 \subsubsection[{length}]{\setlength{\rightskip}{0pt plus 5cm}{\bf L\+E\+N} Rfold\+::\+Parameter\+::\+Sequence\+::length}}\label{class_rfold_1_1_parameter_1_1_sequence_aa9e3bfb9862ce32ecc4ab2260e4dd40c}
 \hyperlink{class_rfold_1_1_parameter_1_1_sequence}{Sequence} length for whole sequence. 
 
-Definition at line 62 of file sequence.\+hh.
+Definition at line 95 of file sequence.\+hh.
 
 
 

@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['m_5fpi',['M_PI',['../plot__struct_8hh.html#ae71449b1cc6e6250b91f539153a7a0d3',1,'plot_struct.hh']]],
   ['main',['main',['../class_rfold_1_1_paraso_r.html#a7625cbff41b741abca32bcd3077eb851',1,'Rfold::ParasoR::main()'],['../main_8cc.html#a3c04138a5bfe5d72780bb7e82a18e627',1,'main():&#160;main.cc']]],
   ['main_2ecc',['main.cc',['../main_8cc.html',1,'']]],
   ['mat',['Mat',['../namespace_rfold.html#a6392dbfbc164230455fdcdb1a0ff53d7',1,'Rfold']]],
@@ -9,6 +10,7 @@ var searchData=
   ['matrix_2ehh',['matrix.hh',['../matrix_8hh.html',1,'']]],
   ['maxloop',['MAXLOOP',['../energy__const_8hh.html#ad1bd6eabac419670ddd3c9ed82145988',1,'energy_const.hh']]],
   ['mea_5fflag',['mea_flag',['../class_rfold_1_1_arg.html#a7b3d1a355bec84586c9832c1858a2f6b',1,'Rfold::Arg']]],
+  ['memory',['memory',['../class_rfold_1_1_paraso_r.html#aac983ca08d7d6efbca76b6575ee839e2',1,'Rfold::ParasoR']]],
   ['minp',['minp',['../class_rfold_1_1_arg.html#a4ea3681597506bb5d8b10e2cda9a3ca6',1,'Rfold::Arg']]],
   ['mis1n',['Mis1n',['../class_rfold_1_1_parameter_1_1_convert.html#a65137d7d6c3c2c5e4707db094885aa5fa15af076dcfc2c45bf295253b9024915c',1,'Rfold::Parameter::Convert']]],
   ['misc',['Misc',['../class_rfold_1_1_parameter_1_1_convert.html#a65137d7d6c3c2c5e4707db094885aa5faf1b18690c9754ede42e7f0ed9d0b3f88',1,'Rfold::Parameter::Convert']]],
@@ -21,8 +23,8 @@ var searchData=
   ['movefile',['MoveFile',['../namespace_douter__concat.html#a489b9b4145e9325aef23c587c29e939d',1,'Douter_concat']]],
   ['mpoint',['mpoint',['../class_rfold_1_1_arg.html#a273269902f8a9b9974c1d46800df16e9',1,'Rfold::Arg']]],
   ['mtype',['mtype',['../class_rfold_1_1_arg.html#a9736867f9aac222c47efa0b5218fc8fa',1,'Rfold::Arg']]],
-  ['multi',['Multi',['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a1695824afcdc7774aa71e6b9c0805ced',1,'Rfold::Matrix::Multi()'],['../class_rfold_1_1_matrix.html#aae63edf0279f08764bf31766c2015daf',1,'Rfold::Matrix::multi()'],['../matrix_8hh.html#a2597f0c588e5b1afbb1d9757f3211132',1,'Multi():&#160;matrix.hh']]],
-  ['multi1',['Multi1',['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a060ab2ad0e50cd330e36c1d57e87ea08',1,'Rfold::Matrix::Multi1()'],['../class_rfold_1_1_matrix.html#a60276112ff38bf30f411846caa101ad4',1,'Rfold::Matrix::multi1()'],['../matrix_8hh.html#a8d73a18ba89901d60dbe77de01cc39c6',1,'Multi1():&#160;matrix.hh']]],
+  ['multi',['multi',['../class_rfold_1_1_matrix.html#aae63edf0279f08764bf31766c2015daf',1,'Rfold::Matrix::multi()'],['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a1695824afcdc7774aa71e6b9c0805ced',1,'Rfold::Matrix::Multi()'],['../matrix_8hh.html#a2597f0c588e5b1afbb1d9757f3211132',1,'Multi():&#160;matrix.hh']]],
+  ['multi1',['multi1',['../class_rfold_1_1_matrix.html#a60276112ff38bf30f411846caa101ad4',1,'Rfold::Matrix::multi1()'],['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a060ab2ad0e50cd330e36c1d57e87ea08',1,'Rfold::Matrix::Multi1()'],['../matrix_8hh.html#a8d73a18ba89901d60dbe77de01cc39c6',1,'Multi1():&#160;matrix.hh']]],
   ['multi2',['multi2',['../class_rfold_1_1_matrix.html#acd86fda1cabf4c1aa04ab33661644b71',1,'Rfold::Matrix::multi2()'],['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a2402adf92dc78e30e1746e94e14ee1ef',1,'Rfold::Matrix::Multi2()'],['../matrix_8hh.html#a65dbd4eff057e962930243bf7ae5e120',1,'Multi2():&#160;matrix.hh']]],
   ['multibif',['multibif',['../class_rfold_1_1_matrix.html#ab7337ede6bd124b14bd4ffd706852f56',1,'Rfold::Matrix::multibif()'],['../class_rfold_1_1_matrix.html#adb9d1d8ff7962b09506d56139ef4c0a5a30a7f8607bae95730eee1afe7d3657c7',1,'Rfold::Matrix::Multibif()'],['../matrix_8hh.html#a452a5901adf33b09f675c2e3f31e3ba4',1,'Multibif():&#160;matrix.hh']]],
   ['mut',['Mut',['../class_rfold_1_1_arg.html#a83e373e1c4c710d314bcf7fe1e53db81',1,'Rfold::Arg']]]

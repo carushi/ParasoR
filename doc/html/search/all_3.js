@@ -26,6 +26,7 @@ var searchData=
   ['convert_2ecc',['convert.cc',['../convert_8cc.html',1,'']]],
   ['convert_2ehh',['convert.hh',['../convert_8hh.html',1,'']]],
   ['convertparamfile',['ConvertParamFile',['../class_rfold_1_1_parameter_1_1_convert.html#ab50e43100375c5e462f81f90433a6fef',1,'Rfold::Parameter::Convert']]],
+  ['correlation',['Correlation',['../num__operator_8hh.html#a439440b295c871dac913f8ac820c6437',1,'num_operator.hh']]],
   ['cut',['cut',['../class_rfold_1_1_paraso_r.html#afd1dd1d5fccc77e48fa36bb090be6735',1,'Rfold::ParasoR']]],
   ['cutsequence',['CutSequence',['../class_rfold_1_1_parameter_1_1_sequence.html#a0a1a71514788ec342a185f04b9ca90f6',1,'Rfold::Parameter::Sequence']]]
 ];

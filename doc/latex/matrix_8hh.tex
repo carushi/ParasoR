@@ -44,6 +44,8 @@ class \hyperlink{class_rfold_1_1_matrix}{Rfold\+::\+Matrix}
 \item 
 \#define \hyperlink{matrix_8hh_ac3f0a682371b9df49cf9b58304cad8ef}{D\+Outer}(mat, j, h)~(mat.\+douter\mbox{[}j-\/mat.\+istart\mbox{]}\mbox{[}h\mbox{]})
 \item 
+\#define \hyperlink{matrix_8hh_a7357ee3f9318d574b70b458b30aff546}{D\+Outer\+Ind}(mat, j)~(j-\/mat.\+istart)
+\item 
 \#define \hyperlink{matrix_8hh_a85e39e12ef8133feb2fcb998f82fae31}{Outer}(mat, j)~(mat.\+outer\mbox{[}j-\/mat.\+istart\mbox{]})
 \end{DoxyCompactItemize}
 \subsection*{Typedefs}
@@ -73,6 +75,18 @@ typedef vector$<$ Vec $>$ \hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0
 
 
 Definition at line 25 of file matrix.\+hh.
+
+\hypertarget{matrix_8hh_a7357ee3f9318d574b70b458b30aff546}{\index{matrix.\+hh@{matrix.\+hh}!D\+Outer\+Ind@{D\+Outer\+Ind}}
+\index{D\+Outer\+Ind@{D\+Outer\+Ind}!matrix.\+hh@{matrix.\+hh}}
+\subsubsection[{D\+Outer\+Ind}]{\setlength{\rightskip}{0pt plus 5cm}\#define D\+Outer\+Ind(
+\begin{DoxyParamCaption}
+\item[{}]{mat, }
+\item[{}]{j}
+\end{DoxyParamCaption}
+)~(j-\/mat.\+istart)}}\label{matrix_8hh_a7357ee3f9318d574b70b458b30aff546}
+
+
+Definition at line 26 of file matrix.\+hh.
 
 \hypertarget{matrix_8hh_a8421428b8784209efa9f6ff99468e7b3}{\index{matrix.\+hh@{matrix.\+hh}!Get\+Do@{Get\+Do}}
 \index{Get\+Do@{Get\+Do}!matrix.\+hh@{matrix.\+hh}}
@@ -161,7 +175,7 @@ Definition at line 23 of file matrix.\+hh.
 )~(mat.\+outer\mbox{[}j-\/mat.\+istart\mbox{]})}}\label{matrix_8hh_a85e39e12ef8133feb2fcb998f82fae31}
 
 
-Definition at line 26 of file matrix.\+hh.
+Definition at line 27 of file matrix.\+hh.
 
 \hypertarget{matrix_8hh_a884bd30af2c24cbc6d050f96032b8908}{\index{matrix.\+hh@{matrix.\+hh}!Stem@{Stem}}
 \index{Stem@{Stem}!matrix.\+hh@{matrix.\+hh}}

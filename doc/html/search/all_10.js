@@ -19,7 +19,7 @@ var searchData=
   ['pre_5fflag',['pre_flag',['../class_rfold_1_1_arg.html#a8a7ca4df7e6085e8cc4af60917c99a92',1,'Rfold::Arg']]],
   ['prec',['PREC',['../part__func_8hh.html#a2bda1a81ce3474772a8a1f165e54516e',1,'part_func.hh']]],
   ['previouscalculation',['PreviousCalculation',['../class_rfold_1_1_paraso_r.html#a9ad145a89953ade89976ccf09e67de74',1,'Rfold::ParasoR']]],
-  ['print',['print',['../class_rfold_1_1_paraso_r.html#a11f8ab335a786811c32a9b430fcf4d2a',1,'Rfold::ParasoR::print()'],['../class_rfold_1_1_matrix.html#aaed1b655000f4a9a2cda435a4df1155d',1,'Rfold::Matrix::Print()']]],
+  ['print',['Print',['../class_rfold_1_1_matrix.html#aaed1b655000f4a9a2cda435a4df1155d',1,'Rfold::Matrix::Print()'],['../class_rfold_1_1_paraso_r.html#a11f8ab335a786811c32a9b430fcf4d2a',1,'Rfold::ParasoR::print()']]],
   ['printhelpoption',['PrintHelpOption',['../main_8cc.html#a9dcf20989ce5506312b60fe95185cb6c',1,'main.cc']]],
   ['printmat',['PrintMat',['../class_rfold_1_1_matrix.html#a67cabdd52cfcbc1bde59759181f60310',1,'Rfold::Matrix']]],
   ['printsummary',['PrintSummary',['../namespace_rfold_1_1_parameter.html#af2fc6f49adcbd2c489ef4afa27c096dc',1,'Rfold::Parameter']]],

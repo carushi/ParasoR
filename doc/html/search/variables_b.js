@@ -1,6 +1,7 @@
 var searchData=
 [
   ['mea_5fflag',['mea_flag',['../class_rfold_1_1_arg.html#a7b3d1a355bec84586c9832c1858a2f6b',1,'Rfold::Arg']]],
+  ['memory',['memory',['../class_rfold_1_1_paraso_r.html#aac983ca08d7d6efbca76b6575ee839e2',1,'Rfold::ParasoR']]],
   ['minp',['minp',['../class_rfold_1_1_arg.html#a4ea3681597506bb5d8b10e2cda9a3ca6',1,'Rfold::Arg']]],
   ['mpoint',['mpoint',['../class_rfold_1_1_arg.html#a273269902f8a9b9974c1d46800df16e9',1,'Rfold::Arg']]],
   ['mtype',['mtype',['../class_rfold_1_1_arg.html#a9736867f9aac222c47efa0b5218fc8fa',1,'Rfold::Arg']]],

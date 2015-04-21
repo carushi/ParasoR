@@ -2,8 +2,12 @@
 \label{num__operator_8hh}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/num\+\_\+operator.\+hh@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/num\+\_\+operator.\+hh}}
 }
 {\ttfamily \#include \char`\"{}energy\+\_\+const.\+hh\char`\"{}}\\*
+{\ttfamily \#include $<$vector$>$}\\*
 {\ttfamily \#include $<$cmath$>$}\\*
 {\ttfamily \#include $<$iostream$>$}\\*
+{\ttfamily \#include $<$numeric$>$}\\*
+{\ttfamily \#include $<$limits$>$}\\*
+{\ttfamily \#include $<$climits$>$}\\*
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
@@ -13,6 +17,8 @@
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
+\item 
+\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{num__operator_8hh_a439440b295c871dac913f8ac820c6437}{Correlation} (const std\+::vector$<$ \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} $>$ \&ori, const std\+::vector$<$ \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} $>$ \&mut)
 \item 
 static bool \hyperlink{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}{Is\+\_\+\+I\+N\+F} (const \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} value)
 \item 
@@ -49,7 +55,7 @@ const int \hyperlink{num__operator_8hh_a9bb68aa6c4819d6d9361d10f2d5829ae}{temper
 \subsubsection[{S\+C\+A\+L\+E}]{\setlength{\rightskip}{0pt plus 5cm}\#define S\+C\+A\+L\+E~(10.\+0)}}\label{num__operator_8hh_a0cbea62f1ce2043dd08108e65ed8de1d}
 
 
-Definition at line 8 of file num\+\_\+operator.\+hh.
+Definition at line 12 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a0e75be7c3935c7c6d0b1dfba05fe37a6}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!S\+M\+O\+O\+T\+H@{S\+M\+O\+O\+T\+H}}
 \index{S\+M\+O\+O\+T\+H@{S\+M\+O\+O\+T\+H}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -60,7 +66,7 @@ Definition at line 8 of file num\+\_\+operator.\+hh.
 )~((X)/{\bf S\+C\+A\+L\+E} $<$ -\/1.\+2283697) ? 0.\+0 \+: (((X)/{\bf S\+C\+A\+L\+E} $>$ 0.\+8660254) ? (X) \+: {\bf S\+C\+A\+L\+E}$\ast$0.\+38490018$\ast$(sin((X)/{\bf S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0)$\ast$(sin((X)/{\bf S\+C\+A\+L\+E}-\/0.\+34242663)+1.\+0))}}\label{num__operator_8hh_a0e75be7c3935c7c6d0b1dfba05fe37a6}
 
 
-Definition at line 10 of file num\+\_\+operator.\+hh.
+Definition at line 14 of file num\+\_\+operator.\+hh.
 
 
 
@@ -74,7 +80,19 @@ Definition at line 10 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_ab4a68ddf8c09397ded6e38315289241f}
 
 
-Definition at line 38 of file num\+\_\+operator.\+hh.
+Definition at line 59 of file num\+\_\+operator.\+hh.
+
+\hypertarget{num__operator_8hh_a439440b295c871dac913f8ac820c6437}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Correlation@{Correlation}}
+\index{Correlation@{Correlation}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
+\subsubsection[{Correlation}]{\setlength{\rightskip}{0pt plus 5cm}{\bf D\+O\+U\+B\+L\+E} Correlation (
+\begin{DoxyParamCaption}
+\item[{const std\+::vector$<$ {\bf D\+O\+U\+B\+L\+E} $>$ \&}]{ori, }
+\item[{const std\+::vector$<$ {\bf D\+O\+U\+B\+L\+E} $>$ \&}]{mut}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [inline]}}}\label{num__operator_8hh_a439440b295c871dac913f8ac820c6437}
+
+
+Definition at line 20 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a5aff2cb259eecce13bcf55ef672f9a6c}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Energy@{Energy}}
 \index{Energy@{Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -85,7 +103,7 @@ Definition at line 38 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a5aff2cb259eecce13bcf55ef672f9a6c}
 
 
-Definition at line 53 of file num\+\_\+operator.\+hh.
+Definition at line 74 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_ac8c038b1048e530defe0fb3cd897f900}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Exp\+Energy@{Exp\+Energy}}
 \index{Exp\+Energy@{Exp\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -96,7 +114,7 @@ Definition at line 53 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_ac8c038b1048e530defe0fb3cd897f900}
 
 
-Definition at line 49 of file num\+\_\+operator.\+hh.
+Definition at line 70 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Is\+\_\+\+I\+N\+F@{Is\+\_\+\+I\+N\+F}}
 \index{Is\+\_\+\+I\+N\+F@{Is\+\_\+\+I\+N\+F}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -107,7 +125,7 @@ Definition at line 49 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a7faa9ddfccb9193995232f218f89ea11}
 
 
-Definition at line 16 of file num\+\_\+operator.\+hh.
+Definition at line 37 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a590275b84bd71f97ca6c2dc854d90d7f}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Log\+Energy@{Log\+Energy}}
 \index{Log\+Energy@{Log\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -118,7 +136,7 @@ Definition at line 16 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a590275b84bd71f97ca6c2dc854d90d7f}
 
 
-Definition at line 41 of file num\+\_\+operator.\+hh.
+Definition at line 62 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a7ab48a3f89b2fa34ecd4c109ebc6d5bf}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Log\+Smoothing\+Energy@{Log\+Smoothing\+Energy}}
 \index{Log\+Smoothing\+Energy@{Log\+Smoothing\+Energy}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -129,7 +147,7 @@ Definition at line 41 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [static]}}}\label{num__operator_8hh_a7ab48a3f89b2fa34ecd4c109ebc6d5bf}
 
 
-Definition at line 45 of file num\+\_\+operator.\+hh.
+Definition at line 66 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_ad1af57446b0c2dca5c1ac288055a4dc2}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
 \index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -141,7 +159,7 @@ Definition at line 45 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_ad1af57446b0c2dca5c1ac288055a4dc2}
 
 
-Definition at line 27 of file num\+\_\+operator.\+hh.
+Definition at line 48 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a11f35c52d29c7099bc6964b43b17b281}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
 \index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -154,7 +172,7 @@ Definition at line 27 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a11f35c52d29c7099bc6964b43b17b281}
 
 
-Definition at line 31 of file num\+\_\+operator.\+hh.
+Definition at line 52 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_ab6915c34e4363a0bf706745e1d6c5acd}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsum@{Logsum}}
 \index{Logsum@{Logsum}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -168,7 +186,7 @@ Definition at line 31 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_ab6915c34e4363a0bf706745e1d6c5acd}
 
 
-Definition at line 34 of file num\+\_\+operator.\+hh.
+Definition at line 55 of file num\+\_\+operator.\+hh.
 
 \hypertarget{num__operator_8hh_a5be5e650134b0579fc1dbadd92e5f5ce}{\index{num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}!Logsumexp@{Logsumexp}}
 \index{Logsumexp@{Logsumexp}!num\+\_\+operator.\+hh@{num\+\_\+operator.\+hh}}
@@ -180,7 +198,7 @@ Definition at line 34 of file num\+\_\+operator.\+hh.
 )\hspace{0.3cm}{\ttfamily [inline]}, {\ttfamily [static]}}}\label{num__operator_8hh_a5be5e650134b0579fc1dbadd92e5f5ce}
 
 
-Definition at line 20 of file num\+\_\+operator.\+hh.
+Definition at line 41 of file num\+\_\+operator.\+hh.
 
 
 

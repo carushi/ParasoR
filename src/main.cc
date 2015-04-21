@@ -4,7 +4,7 @@
 #include <cctype>
 #include "part_func.hh"
 
-#define OPTION (16)
+#define OPTION (17)
 using namespace std;
 
 void PrintHelpOption()
@@ -30,18 +30,19 @@ void PrintHelpOption()
          << "-t\tkeep temporary douter files after connecting (only available with connect option)\n\n"
          << "--constraint [num]\tset the maximal span num\n"
          << "--input [filename]\tdeal filename as sequence file input\n"
-         << "--outerinput [filename]\tdeal filename as douter file input\n"
+         // << "--outerinput [filename]\tdeal filename as douter file input\n"
          << "--name [name]\tprefix of db filename\n"
          << "--divide\tcalculate divided douters and make temporal douter files (default)\n"
          << "--connect\tconnect douters and make douter_inside & outside file\n"
          << "--stemdb\toutput stem probability database\n"
-         << "--struct (or --struct=gamma)\toutput gamma centroid estimated structure (base pair having bpp (>= 1/(gamma+1)) \n"
-         << "--image\toutput images of gamma centroid estimated structure (only with struct option)\n"
+         << "--struct (or --struct=gamma)\toutput a centroid structure with gamma centroid estimator (whose base pairs having bpp (>= 1/(gamma+1) and length is less than 600 nt) \n"
+         << "--image\t\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--energy [.par file]\talso possible to use \"Turner2004\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n"
          << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
          << "--stem\tcalculate stem probability\n"
-         << "--text\ttext storage mode\n"
+         << "--text\ttext storage mode with low accuracy\n"
          << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
+         << "--init_file\tremove temp files for connect procedure (only valid with --connect and --save_memory option)\n"
          << "--pre\tnot parallel computing\n"
          << "--help\tprint these sentences\n\n\n\n";
     cout << "-------Sample List------\n"
@@ -54,13 +55,13 @@ void PrintHelpOption()
          << "Sample2:\n"
          << "\t\tParasoR --name seq1 --energy A --input [input filename] --bpp -s 10 -e 20\n"
          << "\t\tParasoR --name seq1 --energy T --input [input filename] -i 0 -k 1 --stemdb -a\n"
-         << "Sample3:\n"
+         << "Sample3: (not parallel)\n"
          << "\t\tParasoR --name test -f [sequence] --pre --bpp\t\t// base pairing probability;\n"
          << "\t\tParasoR --name test -f [sequence] --pre --stem\t\t// stem probability;\n"
          << "\t\tParasoR --name test -f [sequence] --pre -a\t\t// accessibility;\n"
          << "\t\tParasoR --name test -f [sequence] --pre -p\t\t// profile;\n"
          << "\t\tParasoR --name test -f [sequence] --pre -a -p\t\t// profile string;\n"
-         << "\t\tParasoR --name test -f [sequence] --pre --struct --image\t// MEA struct image;\n"
+         << "\t\tParasoR --name test -f [sequence] --pre --struct --image\t// centroid struct image;\n"
          << endl;
 }
 
@@ -82,9 +83,10 @@ struct option* option()
     options[12].name = "stem";
     options[13].name = "pre";
     options[14].name = "save_memory";
-    options[15].name = "help";
+    options[15].name = "init_file";
+    options[16].name = "help";
     for (int i = 0; i < OPTION; i++) {
-        if (i == 4 || i == 5 || i == 6 || i == 9 || i == 11 || i == 12 || i == 13 || i == 14 || i == 15)
+        if (i == 4 || i == 5 || i == 6 || i == 9 || i == 11 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16)
             options[i].has_arg = 0;
         else if (i == 10 || i == 8)
             options[i].has_arg = optional_argument;
@@ -104,8 +106,9 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
     } else if (option_index == 1 && optarg) {
         arg.input = string(optarg);
     } else if (option_index == 2 && optarg) {
-        arg.outer_input = string(optarg);
-        arg.init_calc = Rfold::Arg::Calc::Bpp;
+        ;
+        // arg.outer_input = string(optarg);
+        // arg.init_calc = Rfold::Arg::Calc::Bpp;
     } else if (option_index == 3 && optarg) {
         arg.name = string(optarg);
     } else if (option_index == 4) {
@@ -135,6 +138,8 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
     } else if (option_index == 14) {
         arg.save_memory = true;
     } else if (option_index == 15) {
+        arg.init_file = true;
+    } else if (option_index == 16) {
         PrintHelpOption();
         return false;
     }
@@ -241,7 +246,10 @@ bool InitCondition(Rfold::Arg& arg)
 {
     RNATransform(arg);
     NameTransform(arg.name);
-    if (arg.id >= 0 && arg.init_calc == Rfold::Arg::Calc::Pre)
+    if (arg.save_memory && arg.compl_flag) {
+        cerr << "Don't use --save_memory and -r option at same time." << endl;
+        return false;
+    } else if (arg.id >= 0 && arg.init_calc == Rfold::Arg::Calc::Pre)
         arg.init_calc = Rfold::Arg::Calc::Divide;
     if (arg.id == arg.chunk) {
         if (arg.init_calc == Rfold::Arg::Calc::Divide)
@@ -250,7 +258,9 @@ bool InitCondition(Rfold::Arg& arg)
         cerr << "id number is too large!" << endl;
         return false;
     } else if (arg.id < 0) {
-        if (arg.pre_flag || arg.init_calc != Rfold::Arg::Calc::Bpp)
+        if (arg.init_file && arg.init_calc == Rfold::Arg::Calc::Connect)
+            return true;
+        else if (arg.pre_flag || arg.init_calc != Rfold::Arg::Calc::Bpp)
             arg.init_calc = Rfold::Arg::Calc::Pre;
     }
     return true;
@@ -258,7 +268,7 @@ bool InitCondition(Rfold::Arg& arg)
 
 void CalcOneSeq(Rfold::Arg& arg)
 {
-    if ((int)arg.str.length() == 0) return;
+    if ((LEN)arg.str.length() == 0 && arg.length == 0) return;
     if (!InitCondition(arg)) return;
     switch(arg.init_calc) {
         case Rfold::Arg::Calc::Divide:
@@ -301,11 +311,20 @@ void CalcStrucFasta(Rfold::Arg& arg)
         if (str[0] == '>') {
             CalcOneSeq(arg);
             arg.name = tname+str.substr(1);
-            arg.str = "";
-        } else
-            arg.str += str;
+            if (arg.save_memory) {
+                arg.length = 0;
+                arg.seqID++;
+            } else {
+                arg.str = "";
+            }
+        } else {
+            if (arg.save_memory)
+                arg.length += str.length();
+            else
+                arg.str += str;
+        }
     }
-    if (arg.str != "")
+    if (arg.str != "" || arg.length > 0)
         CalcOneSeq(arg);
 }
 

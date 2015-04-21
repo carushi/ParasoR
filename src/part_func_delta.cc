@@ -174,7 +174,6 @@ int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
     string filename = GetShrunkFileList(File::Part, inside, tid);
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) != 2*_constraint) {
-        cout << h << endl;
         return 0;
     }
     if (!noout) cout << "-Reading " << filename << endl;
@@ -804,7 +803,6 @@ bool ParasoR::ReadBinStemToSingleFile(string& ifile, string& ofile, bool app)
         if (app) ofs.open(ofile.c_str(), ios::binary|ios::app);
         else ofs.open(ofile.c_str(), ios::binary|ios::trunc);
         h = 1;
-        cout << "--column " << h << endl;
         if (!app) ofs.write((char*)&h, sizeof(int));
         istreambuf_iterator<char> in(ifs), eos;
         ostream_iterator<char> out(ofs);
@@ -845,20 +843,26 @@ void ParasoR::Connect(ParasoR& rfold, bool shrink, bool keep)
 
 void ParasoR::Connect(Arg& arg, bool shrink)
 {
-    if (arg.str.length() == 0) return;
+    if (arg.str.length() == 0 && arg.length == 0) return;
     ParasoR rfold;
     rfold.SetBasicParam(arg, shrink);
     if (!rfold.SetChunkId(0, arg.chunk)) return;
+    if (arg.init_file) {
+        rfold.RemoveTempFilesSaveMem(true);
+        rfold.RemoveTempFilesSaveMem(false);
+        cout << "Complete file initiation." << endl;
+        return;
+    }
     Connect(rfold, shrink, arg.keep_flag);
     if (arg.stemdb_flag) {
-        rfold.SetRange(1, arg.str.length());
+        rfold.SetRange(1, arg.length);
         (arg.acc_flag) ? rfold.CalcAcc(true) : rfold.CalcStem(true);
     }
 }
 
 void ParasoR::Stemdb(Arg& arg, bool shrink)
 {
-    if (arg.str.length() == 0) return;
+    if (arg.str.length() == 0 && arg.length == 0) return;
     ParasoR rfold;
     rfold.SetBasicParam(arg, shrink);
     rfold.cut = true;

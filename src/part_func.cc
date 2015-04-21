@@ -501,7 +501,7 @@ void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid, string filenam
 void ParasoR::ConnectDo(bool keep_flag)
 {
     bool iflag = true, oflag = true;
-    Init();
+    Init(false, true);
     Vec old_douter = Vec(1, 0);
     Vec first_douter;
     for (int i = 0; i < chunk; i++) {
@@ -515,7 +515,7 @@ void ParasoR::ConnectDo(bool keep_flag)
         } else break;
     }
     if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
-    if (!keep_flag && iflag) RemoveTemp(true);
+    if (!keep_flag && iflag) RemoveTempFiles(true);
     old_douter = Vec(1, 0);
     first_douter.clear();
     for (int i = chunk-1; i >= 0; i--) {
@@ -529,13 +529,13 @@ void ParasoR::ConnectDo(bool keep_flag)
         } else break;
     }
     if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
-    if (!keep_flag && oflag) RemoveTemp(false);
+    if (!keep_flag && oflag) RemoveTempFiles(false);
 }
 
 void ParasoR::ConnectDoSaved(bool keep_flag)
 {
     bool iflag = true, oflag = true;
-    Init();
+    Init(false, true);
     Vec old_douter = Vec(1, 0);
     Vec first_douter;
     for (int i = 0; i < chunk; i++) {
@@ -617,7 +617,6 @@ void ParasoR::ConnectDoSaved(bool inside, Vec& old_douter)
         ReadFirstDouter(false);
         ConnectOutDo(old_douter, beta.douter, id, GetShrunkFileList(File::Whole, false, id), false);
     }
-    if (!noout) cout << "-Complete " << GetShrunkFileList(File::Whole, inside, id) << endl;
 }
 
 bool ParasoR::ConnectSavedFiles(bool keep_flag)
@@ -632,11 +631,7 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
     if (!binary)
         TabToNewLine(outfile);
     if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
-    if (!keep_flag) {
-        RemoveTemp(true, File::Shrunk);
-        RemoveTemp(true, File::Whole);
-        RemoveTemp(true, File::Part);
-    }
+    if (!keep_flag) RemoveTempFilesSaveMem(true);
     outfile = GetDoFile(false);
     for (int i = 0; i < chunk; i++) {
         string file = GetShrunkFileList(File::Whole, false, i);
@@ -647,11 +642,7 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
     if (!binary)
         TabToNewLine(outfile);
     if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
-    if (!keep_flag) {
-        RemoveTemp(false, File::Shrunk);
-        RemoveTemp(false, File::Whole);
-        RemoveTemp(false, File::Part);
-    }
+    if (!keep_flag) RemoveTempFilesSaveMem(false);
     return true;
 }
 
@@ -947,6 +938,7 @@ void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
         ofs << endl;
         ofs.close();
     }
+    if (!noout) cout << "-Written " << filename << endl;
 }
 
 void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
@@ -1003,13 +995,13 @@ void ParasoR::PrintMat(bool is_alpha)
     }
 }
 
-void ParasoR::Init(bool full)
+void ParasoR::Init(bool full, bool connect)
 {
     if (full) {
         alpha = Matrix(_end-_start+1, _constraint, true);
         beta = Matrix(_end-_start+1, _constraint, false);
     } else {
-        if (cut) {
+        if (cut && !connect) {
             seq.CutSequence(max(0, _start-CONST*_constraint), min(seq.length, _end+CONST*_constraint));
         }
         alpha = Matrix(CONST*_constraint, _constraint, true);
@@ -1032,10 +1024,15 @@ void ParasoR::InitBpp(bool full)
     }
     LEN left = max(_start-_constraint-10, (LEN)0);
     LEN right = min(_end+_constraint+10, seq.length);
-    if (full && cut) {
+    if (!full && cut) {
         seq.CutSequence(left, right);
     }
     SetIndex(left, right, false);
+}
+
+void ParasoR::SetSequence(const string& filename, int seqID, LEN length)
+{
+    seq = Sequence(filename, seqID, length);
 }
 
 void ParasoR::SetSequence(const string& sequence, bool out)
@@ -1046,12 +1043,26 @@ void ParasoR::SetSequence(const string& sequence, bool out)
         cout << endl;
     }
     string str = "$" + sequence;
-    vector<char> num_seq;
-    transform(str.begin(), str.end(), back_inserter(num_seq), Base());
-    seq = Sequence(str, num_seq, (LEN)sequence.length());
+    seq = Sequence(str);
 }
 
-void ParasoR::RemoveTemp(bool inside, int prefix)
+void ParasoR::RemoveTempFilesSaveMem(bool inside)
+{
+    string file;
+    for (int prefix = 0; prefix < 3; prefix++) {
+        for (int i = 0; i < chunk; i++) {
+            if (memory) {
+                file = GetShrunkFileList(prefix, inside, i);
+            } else
+                file = GetTempFileList(inside, i);
+            remove(file.c_str());
+            if (!noout && i == 0)
+                cout << "Remove " << file << " and others..." << endl;
+        }
+    }
+}
+
+void ParasoR::RemoveTempFiles(bool inside, int prefix)
 {
     cout << "Remove Temp files." << endl;
     string file;
@@ -1100,7 +1111,7 @@ void ParasoR::ConcatDo()
 
 void ParasoR::DivideChunk(Arg& arg, bool shrink)
 {
-    if (arg.str.length() == 0) return;
+    if (arg.str.length() == 0 && arg.length == 0) return;
     ParasoR rfold;
     rfold.SetBasicParam(arg, shrink);
     if (rfold.seq.length/arg.chunk > (LEN)INT_MAX) {
@@ -1134,7 +1145,7 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
 
 void ParasoR::main(Arg& arg, bool shrink)
 {
-    if (arg.str.length() == 0) return;
+    if (arg.str.length() == 0 && arg.length == 0) return;
     ParasoR rfold;
     rfold.SetWindow(arg.window, arg.acc_flag & !arg.prof_flag);
     if (arg.mtype == Arg::Mut::Ins && arg.constraint == arg.str.length())
@@ -1143,8 +1154,10 @@ void ParasoR::main(Arg& arg, bool shrink)
         rfold.SetBasicParam(arg, shrink);
     if (arg.mtype < 0) {
         if (arg.end < 0) {
-            arg.end = arg.str.length();
+            arg.end = max(arg.length, (LEN)arg.str.length());
+            if (arg.start < 0) arg.start = 0;
         }
+        if (!noout) cout << "-Calculate from " << arg.start << " to " << arg.end << endl;
         if (arg.end > arg.start) {
             rfold.SetBpRange(arg.start, arg.end);
             rfold.cut = true;

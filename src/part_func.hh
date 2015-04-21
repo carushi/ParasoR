@@ -91,6 +91,8 @@ public:
     string ene;
     LEN start;
     LEN end;
+    LEN length;
+    int seqID;
     int id;
     int chunk;
     int constraint;
@@ -111,6 +113,7 @@ public:
     bool mea_flag;
     bool pre_flag;
     bool save_memory;
+    bool init_file;
     bool debug;
     bool text;
     bool image;
@@ -194,10 +197,11 @@ private:
     void StoreProf(string, vector<char>&);
 
     void PrintMat(bool);
-    void Init(bool full = false);
+    void Init(bool full = false, bool connect = false);
     void InitBpp(bool full = false);
+    void SetSequence(const string&, int, LEN);
     void SetSequence(const string&, bool = true);
-    void RemoveTemp(bool, int = 0);
+    void RemoveTempFiles(bool, int = 0);
     void RemoveStem(bool, bool = false);
     void ConcatDo();
     static void Connect(ParasoR&, bool, bool = false);
@@ -359,6 +363,7 @@ public:
         id = 0;
         chunk = 0;
         InitEnergyParam();
+        cut = false;
         delta = true;
         binary = true;
         memory = false;
@@ -367,6 +372,7 @@ public:
         id = 0;
         chunk = 0;
         InitEnergyParam();
+        cut = false;
         delta = true;
         binary = true;
         memory = false;
@@ -404,6 +410,7 @@ public:
     void profile(LEN, Vec&);
     void profileDelta(LEN, DOUBLE, Vec&);
     void profileDeltaLinear(LEN, LEN, DOUBLE, Vec&);
+    void RemoveTempFilesSaveMem(bool);
     static void DivideChunk(Arg&, bool shrink = true);
     static void Connect(Arg&, bool shrink = true);
     static void Stemdb(Arg&, bool shrink = true);
@@ -417,6 +424,7 @@ public:
     }
     void SetMemory(bool tmemory) {
         memory = tmemory;
+        cut = (cut || tmemory);
     }
     void SetWindow(int window, bool acc = false)
     {
@@ -434,16 +442,16 @@ public:
         _length = length;
         _constraint = constraint;
     }
-    void SetBasicParam(int constraint, string& sequence, string& tname, bool shrink)
+    void SetBasicParam(int constraint, LEN length, string& tname, bool shrink)
     {
         name = tname;
-        if (shrink) SetConstraint(constraint, (LEN)sequence.length());
-        else SetRawCons(constraint, (LEN)sequence.length());
-        SetSequence(sequence);
+        if (shrink) SetConstraint(constraint, length);
+        else SetRawCons(constraint, length);
     }
     void SetBasicParam(Arg& arg, bool shrink = false)
     {
-        SetBasicParam(arg.constraint, arg.str, arg.name, shrink);
+        SetBasicParam(arg.constraint, max((LEN)arg.str.length(), arg.length), arg.name, shrink);
+        ((LEN)arg.str.length() > 0) ? SetSequence(arg.str) : SetSequence(arg.input, arg.seqID, arg.length);
         SetText(arg.text);
         SetGamma(arg.gamma);
         SetMemory(arg.save_memory);

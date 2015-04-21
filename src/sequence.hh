@@ -3,6 +3,7 @@
 
 #include "pair_mat.hh"
 #include "energy_const.hh"
+#include "matrix.hh"
 
 #include <vector>
 #include <string>
@@ -43,8 +44,11 @@ inline static int rbp(LEN i, LEN j, const vector<char>& sequence) {
 class Sequence {
 private:
     bool part;  // Don't include full sequence;
+    bool lazy;  // Lazy evaluation for sequence import;
     LEN _shift; // index to be slided;
     string str; // base string;
+    string filename;
+    int seqID;
     vector<char> sequence;
 
     void CutVector(LEN start, LEN end) {
@@ -54,6 +58,35 @@ private:
         cout << "-Cut " << start << " " << end << " " << str.length() << endl;
         str = str.substr(start, end-start);
     }
+    /**
+     * Set partial str.
+     */
+    void ReadPartialSeq(LEN start, LEN end)
+    {
+        int count = 0;
+        LEN readthrough = 1;
+        string temp;
+        ifstream ifs(filename.c_str());
+        str = (start == 0) ? "$" : "";
+        for (int i = 0; getline(ifs, temp); ) {
+            if (temp.length() == 0) continue;
+            if (temp[0] == '>') {
+                count++;
+                if (count > seqID) break;
+            } else if (count == seqID) {
+                readthrough += temp.length();
+                if (readthrough < start) continue;
+                LEN tstart = max((LEN)0, start-(readthrough-(LEN)temp.length()));
+                if (end > readthrough) {
+                    str += temp.substr(tstart);
+                } else {
+                    str += temp.substr(tstart, (LEN)temp.length()-tstart-(readthrough-end));
+                    break;
+                }
+            }
+        }
+        _shift = start;
+    }
 
 public:
     /**
@@ -61,16 +94,38 @@ public:
      */
     LEN length;
     Sequence() {}
+    Sequence(const string& str) : str(str) {
+        lazy = false;
+        part = false;
+        _shift = 0;
+        length = (LEN)str.length()-1;
+        SetStrToChar();
+    }
     Sequence(const string& str, const vector<char>& sequence, LEN length)
              : str(str), sequence(sequence), length(length) {
+                lazy = false;
                 part = false;
                 _shift = 0;
              }
     Sequence(const string& str, const vector<char>& sequence, LEN length, LEN shift)
              : _shift(shift), str(str), sequence(sequence), length(length) {
+        lazy = false;
         part = true;
+        _shift = 0;
+    }
+    Sequence(const string& filename, const int seqID, LEN length) : filename(filename), seqID(seqID), length(length) {
+        lazy = true;
+        part = true;
+        _shift = 0;
     }
     ~Sequence() {}
+    /**
+     * Set sequence.
+     */
+    void SetStrToChar() {
+        sequence = vector<char>();
+        transform(str.begin(), str.end(), back_inserter(sequence), Base());
+    }
     /**
      * @return ACGU at pos.
      */
@@ -128,13 +183,22 @@ public:
      * Cuts out a sequence from 'start' to 'end'.
      */
     void CutSequence(LEN start, LEN end) {
-        if (!part) {
-            part = true;
-            CutVector(start, end+1);
-            CutString(start, end+1);
-            _shift = start;
-            cout << "-Cut sequence ----" << start << "-----" << end << "----" << endl;
+        if (!lazy) {
+            if (!part) {
+                part = true;
+                CutVector(start, end+1);
+                CutString(start, end+1);
+                _shift = start;
+                cout << "-Cut sequence ----" << start << "-----" << end << "----" << endl;
+            }
+        } else {
+            ReadPartialSeq(start, end+1);
+            SetStrToChar();
+            cout << "-Read sequence ----" << start << "-----" << end << "----" << endl;
         }
+        cout << "# " << str.substr(0, 50);
+        if (str.length() > 50) cout << "...";
+        cout << endl;
     }
     /**
      * @return bp index of base pairing between 'i' and 'j'.

@@ -9,14 +9,14 @@ ParasoR can compute these features for RNA sequences even if longer than genome-
 * Base pairing probability
 * Stem probability
 * Accessibility
-* RNA profile
-* MEA structure (and its image)
+* RNA profile (probability and motif sequence)
+* γ-centroid structure
 
 ## Requirements
 
 * c++11
 
-We already tested ParasoR running with Apple LLVM version 6.0, GCC 4.5.3, and 4.8.1. 
+We already tested ParasoR running by Apple LLVM version 6.0, GCC 4.5.3, and 4.8.1. 
 
 ## How to install
 
@@ -47,8 +47,23 @@ make C++11=c++11 and VAR=SHORT
 ```
 from a default, where 'std=c++11' option with 'double' precision.
 
+## Example
+We prepare a shell script for test run in 'check.sh'.
+This script runs
+
+```
+make test
+cat ../doc/pre.txt 
+# stem probability based on previous algorithm (Rfold model)
+cat ../doc/stem.txt
+# stem probability based on ParasoR algorithm
+```
+
+For more sample, please type `./ParasoR --help`.
+
 ## Directory
 Here is a directory structure description.
+
 #### doc/
 Documents folder.
 
@@ -68,30 +83,24 @@ Program source folder.
 #### README.md (this file)
 #### LICENSE
 
-
-## Example
-
-```
-make test
-cat ../doc/pre.txt 
-# stem probability based on previous algorithm (Rfold model)
-cat ../doc/stem.txt
-# stem probability based on ParasoR algorithm
-```
-
-For more sample, please type `./ParasoR --help`.
+ParasoR needs directories for temporal files which are designated in advance such as outer/ and prob/. In these directories, there is a possibility that ParasoR removes unrelated files. Therefore, we would recommend that you not place any other files under the ParasoR directory.
+If you change the path of ParasoR directory, please recompile ParasoR.
 
 ## Reference
 
-Algorithm
+###Algorithm
 
 * Kiryu H. et al. (2008) Rfold: an exact algorithm for computing local base pairing probabilities. Bioinformatics., 24 (3), 367–373.
+* Hamada M. et al. (2009) Prediction of RNA secondary structure using generalized centroid estimators. Bioinformatics., 25 (4), 465-473. 
+* Kiryu H. et al. (2011) A detailed investigation of accessibilities around target sites of siRNAs and miRNAs. Bioinformatics., 27 (13), 1789-97.
+* Fukunaga T. et al. (2014) CapR: revealing structural specificities of RNA-binding protein target recognition using CLIP-seq data. Genome Biol., 15 (1), R16.
 
-Implementation
+
+###Implementation
 
 * Hamada M. et al. (2009) Prediction of RNA secondary structure using generalized centroid estimators. Bioinformatics., 25(4), 465–473.
 * Gruber AR. et al. (2008) The Vienna RNA websuite. Nucleic Acids Res., 36 (Web Server issue), W70–W74.
 
-Energy model
+###Energy model
 
 * Turner DH. et al. (2010) NNDB: the nearest neighbour parameter database for predicting stability of nucleic acid secondary structure. Nucleic Acids Res., 38(Database issue), D280–D282.* Andronescu M. et al. (2010) Computational approaches for RNA energyparameter estimation. RNA., 16(12), 2304–2318.

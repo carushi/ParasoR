@@ -544,7 +544,7 @@ void ParasoR::ConnectDoSaved(bool keep_flag)
         iflag = (binary) ? ReadBinDouterInside(douter, ifile, first_douter)
                 : ReadDouterInside(douter, ifile, first_douter);
         if (iflag) {
-            ConnectInDo(old_douter, douter, i, GetShrunkFileList(File::Part, true, i), false, false);
+            ConnectInDo(old_douter, douter, i, GetShrunkFileList(File::Part, true, i), i != 0, false);
             first_douter = douter[(LEN)douter.size()-1];
         } else break;
     }
@@ -556,7 +556,7 @@ void ParasoR::ConnectDoSaved(bool keep_flag)
         oflag = (binary) ? ReadBinDouterOutside(douter, ofile, first_douter)
                 : ReadDouterOutside(douter, ofile, first_douter);
         if (oflag) {
-            ConnectOutDo(old_douter, douter, i, GetShrunkFileList(File::Part, false, i), false, false);
+            ConnectOutDo(old_douter, douter, i, GetShrunkFileList(File::Part, false, i), i != chunk-1, false);
             first_douter = douter[0];
         } else break;
     }
@@ -625,7 +625,7 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
     for (int i = 0; i < chunk; i++) {
         string file = GetShrunkFileList(File::Whole, true, i);
         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
-                 : ReadStemToSingleFile(file, outfile, i != 0, i == chunk-1);
+                 : ReadStemToSingleFile(file, outfile, i != 0, "");
         if (error) return false;
     }
     if (!binary)
@@ -636,7 +636,7 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
     for (int i = 0; i < chunk; i++) {
         string file = GetShrunkFileList(File::Whole, false, i);
          bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
-                 : ReadStemToSingleFile(file, outfile, i != 0, i == chunk-1);
+                 : ReadStemToSingleFile(file, outfile, i != 0, "");
         if (error) return false;
     }
     if (!binary)
@@ -664,6 +664,8 @@ DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
         cout << "stack " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stack << endl;
         cout << "stemend " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stemend << endl;
         cout << "dpp " << i << " " << j << " " << temp << endl;
+        cout << "Catch error: caused by the irregular outer file." << endl;
+        abort();
     }
     return temp;
  }
@@ -679,6 +681,8 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
         cout << "---- " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << LogLoopEnergy(i, j, i+1, j-1, seq) << endl;
         cout << "---- " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << endl;
         cout << "dpp " << exp(Logsumexp(stack, stemend)) << endl;
+        cout << "Catch error: caused by outer file." << endl;
+        abort();
     }
     return exp(Logsumexp(stack, stemend));
 }
@@ -824,7 +828,7 @@ string ParasoR::GetShrunkFileList(int preID, bool inside, int tid)
     if (tid < 0) tid = id;
     string prefix;
     switch (preID) {
-        case File::Part: prefix = "part"; break;
+        case File::Part: prefix = "part"; tid = -1; break;
         case File::Shrunk: prefix = "shrunk"; break;
         case File::Whole: prefix = "whole"; break;
     }
@@ -1002,7 +1006,7 @@ void ParasoR::Init(bool full, bool connect)
         beta = Matrix(_end-_start+1, _constraint, false);
     } else {
         if (cut && !connect) {
-            seq.CutSequence(max(0, _start-CONST*_constraint), min(seq.length, _end+CONST*_constraint));
+            seq.CutSequence(max((LEN)0, _start-CONST*_constraint), min(seq.length, _end+CONST*_constraint));
         }
         alpha = Matrix(CONST*_constraint, _constraint, true);
         beta = Matrix(CONST*_constraint, _constraint, false);

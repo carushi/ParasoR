@@ -160,9 +160,21 @@ int ParasoR::ReadPartConnectedDouter(bool inside, Vec& vec)
     ifstream ifs(filename.c_str());
     if (!ifs) return 0;
     if (!noout) cout << "-Reading " << filename << endl;
-    for ( ; ; ) {
+    for (int i = 0; inside && i <= tid; i++) {
         if (!getline(ifs, str)) return vec.size();
-        ReadVec(vec, str);
+        if (i == tid) ReadVec(vec, str);
+        else {
+            Vec temp;
+            ReadVec(temp, str);
+        }
+    }
+    for (int i = chunk-1; !inside && i >= tid; i--) {
+        if (!getline(ifs, str)) return vec.size();
+        if (i == tid) ReadVec(vec, str);
+        else {
+            Vec temp;
+            ReadVec(temp, str);
+        }
     }
     return vec.size();
 }
@@ -178,12 +190,24 @@ int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
     }
     if (!noout) cout << "-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
-    for (LEN i = 0; ; i++) {
-        if (!ReadBinVec(h, vec, ifs)) break;
+    for (LEN i = 0; inside && i <= tid; i++) {
+        if (i == tid) ReadBinVec(h, vec, ifs);
+        else {
+            Vec temp;
+            if (!ReadBinVec(h, temp, ifs)) break;
+        }
+        GetColumn(ifs);
+    }
+    for (LEN i = chunk-1; !inside && i >= tid; i--) {
+        if (i == tid) ReadBinVec(h, vec, ifs);
+        else {
+            Vec temp;
+            if (!ReadBinVec(h, temp, ifs)) break;
+        }
+        GetColumn(ifs);
     }
     if (!noout) cout << "--size: " << vec.size() << endl;
     return vec.size();
-
 }
 
 bool ParasoR::ReadConnectedDouter(bool inside)
@@ -194,6 +218,9 @@ bool ParasoR::ReadConnectedDouter(bool inside)
     if (!ifs) return false;
     for (LEN i = 0; i <= alpha.iend; i++) {
         if (!getline(ifs, str)) return i == alpha.iend;
+        if (str == "") {
+            i--; continue;
+        }
         if (i >= alpha.istart && str.length() > 0) {
             DOUBLE value = atof(str.c_str());
             if (inside)
@@ -764,7 +791,7 @@ void ParasoR::TabToNewLine(string& filename)
     remove(oldfile.c_str());
 }
 
-bool ParasoR::ReadStemToSingleFile(string& ifile, string& ofile, bool app, bool end)
+bool ParasoR::ReadStemToSingleFile(string& ifile, string& ofile, bool app, string end)
 {
     string str;
     ifstream ifs(ifile.c_str());
@@ -778,9 +805,10 @@ bool ParasoR::ReadStemToSingleFile(string& ifile, string& ofile, bool app, bool 
     ostream_iterator<char> out(ofs);
     copy(in, eos, out);
     LEN pos = ofs.tellp();
-    ofs.seekp(pos-1);
-    if (end) ofs << "\n";
-    else ofs << "\t";
+    // if (end != "") {
+        ofs.seekp(pos-1);
+        ofs << end;
+    // }
     ifs.close();
     ofs.close();
     return false;
@@ -822,7 +850,7 @@ void ParasoR::ConcatStemdb(bool acc, bool prof)
         string file = GetDividedStemFile(acc, prof);
         cout << "-Reading " << file << endl;
         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
-                 : ReadStemToSingleFile(file, outfile, i != 0, i == chunk-1);
+                 : ReadStemToSingleFile(file, outfile, i != 0, (i == chunk-1) ? "\n" : "\t");
         if (error) return;
     }
     if (!noout) cout << "-Concatenation succeeded. (-> " << outfile << ")" << endl;

@@ -90,11 +90,11 @@ private:
 
 public:
     /**
-     * Sequence length for whole sequence.
+     * Sequence length for whole sequence excluding '$'.
      */
     LEN length;
     Sequence() {}
-    Sequence(const string& str) : str(str) {
+    Sequence(const string& str) : str(str) /* $+AUCU... */ {
         lazy = false;
         part = false;
         _shift = 0;
@@ -189,12 +189,12 @@ public:
                 CutVector(start, end+1);
                 CutString(start, end+1);
                 _shift = start;
-                cout << "-Cut sequence ----" << start << "-----" << end << "----" << endl;
+                cout << "-Cut sequence ----" << start << "-----" << end << "----" << length << endl;
             }
         } else {
             ReadPartialSeq(start, end+1);
             SetStrToChar();
-            cout << "-Read sequence ----" << start << "-----" << end << "----" << endl;
+            cout << "-Read sequence ----" << start << "-----" << end << "----" << length << endl;
         }
         cout << "# " << str.substr(0, 50);
         if (str.length() > 50) cout << "...";

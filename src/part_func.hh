@@ -55,6 +55,8 @@ public:
     Arg() {
         start = -1;
         end = -1;
+        length = 0;
+        seqID = 0;
         id = -1;
         chunk = 2;
         constraint = 200;
@@ -303,7 +305,7 @@ private:
     void CalcRangeAcc(Vec&, int, LEN, int);
 
     void TabToNewLine(string&);
-    bool ReadStemToSingleFile(string&, string&, bool, bool);
+    bool ReadStemToSingleFile(string&, string&, bool, string);
     bool ReadBinStemToSingleFile(string&, string&, bool);
     void ConcatStemdb(bool, bool = false);
 

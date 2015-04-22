@@ -137,7 +137,7 @@ static bool ConcatBinReverse(string filename)
 	ofstream ofs(tfile.c_str(), ios::binary | ios::trunc);
 	WriteHead(ofs);
     for (LEN i = all; i >= 0; i -= FILELINES) {
-    	WriteLines(ofs, max(0, i-FILELINES), i, filename);
+    	WriteLines(ofs, max((LEN)0, i-FILELINES), i, filename);
     }
     ifs.close();
     ofs.close();

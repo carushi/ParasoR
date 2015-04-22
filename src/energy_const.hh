@@ -12,7 +12,7 @@
 #define INF (100000000000)
 #endif
 
-#define LEN int
+#define LEN long int
 
 #define GASCONST (1.98717)  /* in [cal/K] */
 #define K0  (273.15)

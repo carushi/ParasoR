@@ -124,7 +124,7 @@ public:
 
 class ParasoR {
 private:
-    enum Out {STEM, ACC, PROF, MEA, BPP};
+    enum Out {STEM, ACC, PROF, MEA, BPP, MOTIF};
     enum File {Part, Shrunk, Whole};
     DOUBLE gamma;
 
@@ -155,6 +155,7 @@ private:
     void CalcOutDeltaOuter(LEN);
     void CalcChunkInside(bool = true);
     void CalcChunkOutside();
+    void CalcDeltaInOut(bool);
     void CalcDeltaInOut();
 
     void ReadVec(Vec&, string&);
@@ -174,6 +175,7 @@ private:
     void ReadFirstDouter(bool, Vec&, string&);
     void ReadFirstDouter(bool);
     void ConnectDoSaved(bool, Vec&);
+    bool ConnectSavedFiles(bool, bool);
     bool ConnectSavedFiles(bool = false);
 
     void WriteBpp(Mat&);

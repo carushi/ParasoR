@@ -227,7 +227,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    ofstream ofs(tfile.c_str(), ios::binary | ios::trunc);</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    <a class="code" href="namespace_douter__concat.html#a4d11def509a5faec6eee9dc701bf7162">WriteHead</a>(ofs);</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    <span class="keywordflow">for</span> (<a class="code" href="energy__const_8hh.html#a05b49c662c073f89e86804f7856622a0">LEN</a> i = all; i &gt;= 0; i -= <a class="code" href="douter__concat_8hh.html#ad3b770b661fc5cdd44d05e924cd76a12">FILELINES</a>) {</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <a class="code" href="namespace_douter__concat.html#ab823d0a82704dee70f3136abf7b80d49">WriteLines</a>(ofs, max(0, i-<a class="code" href="douter__concat_8hh.html#ad3b770b661fc5cdd44d05e924cd76a12">FILELINES</a>), i, filename);</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <a class="code" href="namespace_douter__concat.html#ab823d0a82704dee70f3136abf7b80d49">WriteLines</a>(ofs, max((<a class="code" href="energy__const_8hh.html#a05b49c662c073f89e86804f7856622a0">LEN</a>)0, i-<a class="code" href="douter__concat_8hh.html#ad3b770b661fc5cdd44d05e924cd76a12">FILELINES</a>), i, filename);</div>
 <div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    }</div>
 <div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    ifs.close();</div>
 <div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    ofs.close();</div>
@@ -294,7 +294,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 15:56:26 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 11 2015 17:16:47 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

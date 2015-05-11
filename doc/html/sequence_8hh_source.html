@@ -163,7 +163,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="keyword">public</span>:</div>
 <div class="line"><a name="l00095"></a><span class="lineno"><a class="line" href="class_rfold_1_1_parameter_1_1_sequence.html#aa9e3bfb9862ce32ecc4ab2260e4dd40c">   95</a></span>&#160;    <a class="code" href="energy__const_8hh.html#a05b49c662c073f89e86804f7856622a0">LEN</a> <a class="code" href="class_rfold_1_1_parameter_1_1_sequence.html#aa9e3bfb9862ce32ecc4ab2260e4dd40c">length</a>;</div>
 <div class="line"><a name="l00096"></a><span class="lineno"><a class="line" href="class_rfold_1_1_parameter_1_1_sequence.html#ab2aad5252c57fc410a8bd122cb5a0f0e">   96</a></span>&#160;    <a class="code" href="class_rfold_1_1_parameter_1_1_sequence.html#ab2aad5252c57fc410a8bd122cb5a0f0e">Sequence</a>() {}</div>
-<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="class_rfold_1_1_parameter_1_1_sequence.html#a6abde50eed15e5bd3bf1a4888132be1d">   97</a></span>&#160;    <a class="code" href="class_rfold_1_1_parameter_1_1_sequence.html#a6abde50eed15e5bd3bf1a4888132be1d">Sequence</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; str) : str(str) {</div>
+<div class="line"><a name="l00097"></a><span class="lineno"><a class="line" href="class_rfold_1_1_parameter_1_1_sequence.html#a6abde50eed15e5bd3bf1a4888132be1d">   97</a></span>&#160;    <a class="code" href="class_rfold_1_1_parameter_1_1_sequence.html#a6abde50eed15e5bd3bf1a4888132be1d">Sequence</a>(<span class="keyword">const</span> <span class="keywordtype">string</span>&amp; str) : str(str) <span class="comment">/* $+AUCU... */</span> {</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        lazy = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        part = <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        _shift = 0;</div>
@@ -230,12 +230,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                CutVector(start, end+1);</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;                CutString(start, end+1);</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;                _shift = start;</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;-Cut sequence ----&quot;</span> &lt;&lt; start &lt;&lt; <span class="stringliteral">&quot;-----&quot;</span> &lt;&lt; end &lt;&lt; <span class="stringliteral">&quot;----&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;                cout &lt;&lt; <span class="stringliteral">&quot;-Cut sequence ----&quot;</span> &lt;&lt; start &lt;&lt; <span class="stringliteral">&quot;-----&quot;</span> &lt;&lt; end &lt;&lt; <span class="stringliteral">&quot;----&quot;</span> &lt;&lt; length &lt;&lt; endl;</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;            }</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        } <span class="keywordflow">else</span> {</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;            ReadPartialSeq(start, end+1);</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;            <a class="code" href="class_rfold_1_1_parameter_1_1_sequence.html#ad52082fb6045b92289ba7ff0eeaa405f">SetStrToChar</a>();</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;-Read sequence ----&quot;</span> &lt;&lt; start &lt;&lt; <span class="stringliteral">&quot;-----&quot;</span> &lt;&lt; end &lt;&lt; <span class="stringliteral">&quot;----&quot;</span> &lt;&lt; endl;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;            cout &lt;&lt; <span class="stringliteral">&quot;-Read sequence ----&quot;</span> &lt;&lt; start &lt;&lt; <span class="stringliteral">&quot;-----&quot;</span> &lt;&lt; end &lt;&lt; <span class="stringliteral">&quot;----&quot;</span> &lt;&lt; length &lt;&lt; endl;</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        }</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;        cout &lt;&lt; <span class="stringliteral">&quot;# &quot;</span> &lt;&lt; str.substr(0, 50);</div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <span class="keywordflow">if</span> (str.length() &gt; 50) cout &lt;&lt; <span class="stringliteral">&quot;...&quot;</span>;</div>
@@ -286,7 +286,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 21 2015 15:56:26 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon May 11 2015 17:16:47 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

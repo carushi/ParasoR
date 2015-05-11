@@ -277,32 +277,27 @@ void ParasoR::CalcChunkOutside()
     if (ddebug) PrintMat(true);
 }
 
+void ParasoR::CalcDeltaInOut(bool inside)
+{
+    if (inside) CalcChunkInside();
+    else CalcChunkOutside();
+    if (memory) {
+        Vec old_douter = Vec();
+        int icount = (binary) ? ReadBinPartConnectedDouter(inside, old_douter) : ReadPartConnectedDouter(inside, old_douter);
+        if (icount > 0) {
+            ConnectDoSaved(inside, old_douter);
+        } else {
+            StoreDouterTempShrunk(inside);
+        }
+    } else {
+        StoreDouterTemp(inside);
+    }
+}
+
 void ParasoR::CalcDeltaInOut()
 {
-    CalcChunkInside();
-    if (memory) {
-        Vec old_douter = Vec();
-        int icount = (binary) ? ReadBinPartConnectedDouter(true, old_douter) : ReadPartConnectedDouter(true, old_douter);
-        if (icount > 0) {
-            ConnectDoSaved(true, old_douter);
-        } else {
-            StoreDouterTempShrunk(true);
-        }
-    } else {
-        StoreDouterTemp(true);
-    }
-    CalcChunkOutside();
-    if (memory) {
-        Vec old_douter = Vec();
-        int ocount = (binary) ? ReadBinPartConnectedDouter(false, old_douter) : ReadPartConnectedDouter(false, old_douter);
-        if (ocount > 0) {
-            ConnectDoSaved(false, old_douter);
-        } else {
-            StoreDouterTempShrunk(false);
-        }
-    } else {
-        StoreDouterTemp(false);
-    }
+    CalcDeltaInOut(true);
+    CalcDeltaInOut(false);
 }
 
 /* ///////////////////////////////////////////// */
@@ -619,31 +614,28 @@ void ParasoR::ConnectDoSaved(bool inside, Vec& old_douter)
     }
 }
 
-bool ParasoR::ConnectSavedFiles(bool keep_flag)
+bool ParasoR::ConnectSavedFiles(bool keep_flag, bool inside)
 {
-    string outfile = GetDoFile(true);
+    string outfile = GetDoFile(inside);
+    bool flag = true;
     for (int i = 0; i < chunk; i++) {
-        string file = GetShrunkFileList(File::Whole, true, i);
+        string file = GetShrunkFileList(File::Whole, inside, i);
         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
                  : ReadStemToSingleFile(file, outfile, i != 0, "");
         if (error) return false;
     }
     if (!binary)
         TabToNewLine(outfile);
-    if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
-    if (!keep_flag) RemoveTempFilesSaveMem(true);
-    outfile = GetDoFile(false);
-    for (int i = 0; i < chunk; i++) {
-        string file = GetShrunkFileList(File::Whole, false, i);
-         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
-                 : ReadStemToSingleFile(file, outfile, i != 0, "");
-        if (error) return false;
-    }
-    if (!binary)
-        TabToNewLine(outfile);
-    if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
-    if (!keep_flag) RemoveTempFilesSaveMem(false);
+    if (!noout) cout << "-Complete " << GetDoFile(inside) << endl;
+    if (!keep_flag) RemoveTempFilesSaveMem(inside);
     return true;
+}
+
+bool ParasoR::ConnectSavedFiles(bool keep_flag)
+{
+    bool flagi = ConnectSavedFiles(keep_flag, true);
+    bool flago = ConnectSavedFiles(keep_flag, false);
+    return flagi || flago;
 }
 
 /* ///////////////////////////////////////////// */
@@ -1026,8 +1018,8 @@ void ParasoR::InitBpp(bool full)
             beta = Matrix(CONST*_constraint, _constraint, false);
         }
     }
-    LEN left = max(_start-_constraint-10, (LEN)0);
-    LEN right = min(_end+_constraint+10, seq.length);
+    LEN left = max(_start-CONST*_constraint, (LEN)0);
+    LEN right = min(_end+CONST*_constraint, seq.length);
     if (!full && cut) {
         seq.CutSequence(left, right);
     }
@@ -1140,11 +1132,20 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
     rfold.SetWindow(arg.window, arg.acc_flag & !arg.prof_flag);
     rfold.SetBasicParam(arg, shrink);
     rfold.SetRange(1, arg.str.length());
-    if (arg.prof_flag) rfold.CalcAllAtOnce(Out::PROF);
-    else if (arg.acc_flag) rfold.CalcAllAtOnce(Out::ACC);
-    else if (arg.mea_flag) rfold.CalcAllAtOnce(Out::MEA, arg.gamma);
-    else if (arg.stem_flag) rfold.CalcAllAtOnce(Out::STEM);
-    else rfold.CalcAllAtOnce(Out::BPP, arg.minp);
+    if (arg.prof_flag) {
+        if (arg.acc_flag)
+            rfold.CalcAllAtOnce(Out::PROF);
+        else
+            rfold.CalcAllAtOnce(Out::MOTIF);
+    } else if (arg.acc_flag) {
+        rfold.CalcAllAtOnce(Out::ACC);
+    } else if (arg.mea_flag) {
+        rfold.CalcAllAtOnce(Out::MEA, arg.gamma);
+    } else if (arg.stem_flag) {
+        rfold.CalcAllAtOnce(Out::STEM);
+    } else {
+        rfold.CalcAllAtOnce(Out::BPP, arg.minp);
+    }
 }
 
 void ParasoR::main(Arg& arg, bool shrink)

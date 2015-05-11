@@ -428,12 +428,17 @@ void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out)
         if (i+(LEN)_window <= seq.length) {
             cout << "* " << i << "-" << i+(LEN)_window << " : " << acc(i, i+(LEN)_window) << endl;
         }
-    } else {
+    } else if (out == Out::PROF) {
         GetProfs(i, prom);
         cout << "* " << i << " : ";
         for (Vec::iterator it = prom.begin(); it != prom.end(); it++)
             cout << *it << ",";
         cout << endl;
+    } else if (out == Out::MOTIF) {
+        GetProfs(i, prom);
+        auto it = prom.begin();
+        cout << "* " << i << " : ";
+        cout << substructure(std::distance(it, max_element(it, it+TYPE))) << endl;
     }
 }
 
@@ -983,6 +988,8 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
         cout << "--range : accessibility (kcal/mol)" << endl;
     else if (out == Out::PROF)
         cout << "--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
+    else if (out == Out::MOTIF)
+        cout << "--pos : B(ulge) or O(uter) or H(airpin) or M(ulti) or S(tem) or I(nterior)" << endl;
     PreCalcInside(1);
     PreCalcOutside(1);
     if (out == Out::MEA || out == Out::BPP)

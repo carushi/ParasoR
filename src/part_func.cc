@@ -167,12 +167,12 @@ DOUBLE ParasoR::GetStemDelta(LEN j, LEN i, bool inside)
 DOUBLE ParasoR::GetStemDelta(LEN j, LEN i, int h, bool inside)
 {
     if (inside) {
-        if (i >= _start+1 || i == _start-h) {
+        if (i >= _start+1 || i == _start-(LEN)h) {
             if (j-i == 1) return 0;     // extension of outer;
             else return Logsum(Stem(alpha, i, j), SumExtML(seq.slidebp(i+1, j), i, j+1, true, seq));
         }
     } else {
-        if (i <= _end-1 || i == _end+h) {
+        if (i <= _end-1 || i == _end+(LEN)h) {
             if (i-j == 1) return 0;     // extension of outer;
             else return Logsum(Stem(alpha, j, i), SumExtML(seq.slidebp(j+1, i), j, i+1, true, seq));
         }
@@ -210,10 +210,10 @@ void ParasoR::CalcInDeltaOuter(LEN j)
 {
     cout.precision(15);
     if (ddebug) cout << j << endl;
-    for (int h = 0; h <= _constraint; h++) {
+    for (LEN h = 0; h <= _constraint; h++) {
         if (ddebug) cout << "------------" << h << endl;
         DOUBLE dalpha = 0, temp = -INF;
-        for (int k = 1; k <= _constraint+1 && j-k >= 0; k++) {
+        for (LEN k = 1; k <= _constraint+1 && j-k >= 0; k++) {
             dalpha = Logsum(dalpha, GetDo(alpha, j-k, 0));
             if (j-k == _start-h || j >= _start+1) {
                 DOUBLE tdalpha = CalcDalpha(j, j-k, h, dalpha);
@@ -244,11 +244,11 @@ void ParasoR::CalcChunkInside(bool outer)
 
 void ParasoR::CalcOutDeltaOuter(LEN j)
 {
-     for (int h = 0; h < _constraint+1; h++) {
+     for (LEN h = 0; h < _constraint+1; h++) {
         if (ddebug) cout << "------------" << h << endl;
         DOUBLE dbeta = 0;
         DOUBLE temp = -INF;
-        for (int k = 1; j+k <= RightRange(j); k++) {
+        for (LEN k = 1; j+k <= RightRange(j); k++) {
             dbeta = Logsum(dbeta, GetDo(beta, j+k, 0));
             if (j+k == _end+h || j+k <= _end-1) {
                 DOUBLE tdbeta = CalcDbeta(j, j+k, h, dbeta);
@@ -400,14 +400,14 @@ void ParasoR::GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool insi
 {
     if (inside) {
         DOUBLE acc = 0.0;
-        for (int i = 0; i <= _constraint; i++) {
+        for (LEN i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
-            if (i < _constraint && i < (int)old_douter.size())
+            if (i < _constraint && i < (LEN)old_douter.size())
                 acc = Logsum(acc, old_douter[(LEN)old_douter.size()-1-i]);
         }
     } else {
         DOUBLE acc = 0.0;
-        for (int i = 0; i <= _constraint; i++) {
+        for (LEN i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
             if (i < _constraint && i < (int)old_douter.size())
                 acc = Logsum(acc, old_douter[i]);
@@ -419,7 +419,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
 {
     if (inside) {
         DOUBLE value = -INF;
-        for (int h = 0; h <= _constraint && h < (int)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
             if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
@@ -427,7 +427,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
         return value;
     } else {
         DOUBLE value = -INF;
-        for (int h = 0; h <= _constraint && h < (int)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
             if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
@@ -436,18 +436,18 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
     }
 }
 
-DOUBLE ParasoR::GetNumerator(const Mat& douter, const Vec& sum_douter, int k, bool inside)
+DOUBLE ParasoR::GetNumerator(const Mat& douter, const Vec& sum_douter, LEN k, bool inside)
 {
     if (inside) {
         DOUBLE value = -INF;
-        for (int h = 0; h <= _constraint && h < (int)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
             if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k-1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k-1][0]-sum_douter[h]);
         }
         return value;
     } else {
         DOUBLE value = -INF;
-        for (int h = 0; h <= _constraint && h < (int)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
             if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k+1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k+1][0]-sum_douter[h]);
         }
@@ -461,7 +461,7 @@ void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid, string filename
     Vec sum_douter = Vec(old_douter.size(), 0.0);
     if (tid != 0)
         GetSumDouterList(old_douter, sum_douter, true);
-    for (int i = 1; i < new_douter.size(); i++) {
+    for (LEN i = 1; i < new_douter.size(); i++) {
         if (ddebug) cout << "--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
         DOUBLE denominator = (i == 1 && start) ? douter[i-1][0] : //start position;
                                       GetDenominator(douter[i-1], sum_douter, true);
@@ -881,13 +881,13 @@ void ParasoR::StoreDouterTemp(bool inside)
 void ParasoR::LeaveDouterEdgeRegion(bool inside)
 {
     if (inside) {
-        Mat::const_iterator first = alpha.douter.begin()+max(0, (int)alpha.douter.size()-2*_constraint-1);
+        Mat::const_iterator first = alpha.douter.begin()+max((LEN)0, (LEN)alpha.douter.size()-2*_constraint-1);
         Mat::const_iterator last = alpha.douter.end();
         Mat temp(first, last);
         alpha.douter = temp;
     } else {
         Mat::const_iterator first = beta.douter.begin();
-        Mat::const_iterator last = beta.douter.begin()+min((int)beta.douter.size(), 2*_constraint+1);
+        Mat::const_iterator last = beta.douter.begin()+min((LEN)beta.douter.size(), 2*_constraint+1);
         Mat temp(first, last);
         beta.douter = temp;
     }
@@ -917,13 +917,13 @@ void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
         cerr << "Cannot store douter (may have a problem in reading temp douter file)" << endl;
         abort();
     }
-    int start = (inside) ? 1 : 0;
-    int end = (inside) ? 0 : -1;
+    LEN start = (inside) ? 1 : 0;
+    LEN end = (inside) ? 0 : -1;
     if (binary) {
-        int const_size = douter.size()+(end-start);
+        LEN const_size = (LEN)douter.size()+(end-start);
         ofstream ofs(filename.c_str(), ((app) ? ios::app : ios::trunc) | ios::binary);
         ofs.write((char*)&const_size, sizeof(int));
-        for (int i = start; i < (int)douter.size()+end; i++)
+        for (LEN i = start; i < (LEN)douter.size()+end; i++)
             ofs.write((char*)(&douter[i]), sizeof(DOUBLE));
         ofs.close();
     } else {
@@ -944,10 +944,10 @@ void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
     else if (*max_element(vec.begin(), vec.end())-1.0 >= 0.1 || *min_element(vec.begin(),vec.end()) <= -0.1)
         throw "Value overflow or underflow";
     if (binary) {
-        int const_size = vec.size();
+        LEN const_size = vec.size();
         ofstream ofs(filename.c_str(), ios::binary);
         ofs.write((char*)&const_size, sizeof(int));
-        for (int i = 0; i < _end-_start && i < (int)vec.size(); i++) {
+        for (LEN i = 0; i < _end-_start && i < (LEN)vec.size(); i++) {
             if (!acc) vec[i] = min(max((DOUBLE)0, vec[i]), (DOUBLE)1);
             ofs.write((char*)(&vec[i]), sizeof(DOUBLE));
         }

@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-#define CONST (4)
+
 #define PREC (15)
 #define JUMP (1)
 #define TMP (HOMEDIR + string("outer/"))
@@ -166,7 +166,7 @@ private:
     bool ReadBinDouterOutside(Mat&, string, Vec&);
     void GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool);
     DOUBLE GetDenominator(const Vec& douter, const Vec& sum_douter, bool);
-    DOUBLE GetNumerator(const Mat& douter, const Vec& sum_douter, int k, bool inside);
+    DOUBLE GetNumerator(const Mat& douter, const Vec& sum_douter, LEN k, bool inside);
     void ConnectInDo(Vec&, Mat&, int, string, bool, bool = true);
     void ConnectOutDo(Vec&, Mat&, int, string, bool, bool = true);
     void ConnectDo(bool);
@@ -385,7 +385,7 @@ public:
     int id;
     int chunk;
     LEN _length;    // the length of original sequence;
-    int _constraint;
+    LEN _constraint;
     int _window;    // window := average width, region := window-1;
     LEN _start;
     LEN _end;
@@ -398,14 +398,15 @@ public:
     Vec prom;       // used in profile calculation;
     bool cut;       // cut a needless region of sequence;
     bool delta;     // douter or outer flag;
-    bool binary; // binary storage flag;
-    bool memory; // memory saving mode;
-    static const bool ene = true; // output an energy of accessibility;
+    bool binary;    // binary storage flag;
+    bool memory;    // memory saving mode;
+    static const bool ene = true;    // output an energy of accessibility;
     static const bool linear = true; // linear profile calculation;
     static const bool noout = false;
     static const bool print = (false && !noout);
     static const bool debug = (false && print);
     static const bool ddebug = false;
+    static const LEN CONST = 4;
 
     DOUBLE bpp(LEN, LEN, bool deb = false);
     DOUBLE bppDelta(LEN, LEN, bool deb = false);
@@ -444,7 +445,7 @@ public:
     void SetRawCons(int constraint, LEN length)
     {
         _length = length;
-        _constraint = constraint;
+        _constraint = (LEN)constraint;
     }
     void SetBasicParam(int constraint, LEN length, string& tname, bool shrink)
     {

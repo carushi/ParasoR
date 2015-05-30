@@ -14,7 +14,7 @@ DOUBLE ParasoR::ReCalcDouterInside(LEN j)
     if (j < 0 || j > seq.length) return 0.0;
     DOUBLE dalpha = 0;
     DOUBLE newDouter = -INF;
-    for (int k = 1; k <= _constraint+1 && k <= j; k++) {
+    for (LEN k = 1; k <= _constraint+1 && k <= j; k++) {
         DOUBLE tdalpha = Logsum(GetStemDelta(j, j-k, true), -dalpha);
         newDouter = Logsumexp(newDouter, tdalpha);
         dalpha = Logsum(dalpha, Outer(alpha, j-k-1));
@@ -27,7 +27,7 @@ DOUBLE ParasoR::ReCalcDouterOutside(LEN j)
     if (j < 0 || j > seq.length) return 0.0;
     DOUBLE dbeta = 0;
     DOUBLE newDouter = -INF;
-    for (int k = 1; k <= _constraint+1 && j+k <= seq.length; k++) {
+    for (LEN k = 1; k <= _constraint+1 && j+k <= seq.length; k++) {
         DOUBLE tdbeta = Logsum(GetStemDelta(j, j+k, false), -dbeta);
         newDouter = Logsumexp(newDouter, tdbeta);
         dbeta = Logsum(dbeta, Outer(beta, j+k));
@@ -185,7 +185,7 @@ int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
     int tid = (inside) ? ((id == 0) ? id : id-1) : ((id == chunk-1) ? id : id+1);
     string filename = GetShrunkFileList(File::Part, inside, tid);
     ifstream ifs(filename.c_str(), ios::binary);
-    if (!ifs || (h = GetColumn(ifs)) != 2*_constraint) {
+    if (!ifs || (h = GetColumn(ifs)) != 2*(int)_constraint) {
         return 0;
     }
     if (!noout) cout << "-Reading " << filename << endl;
@@ -534,12 +534,12 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
     P = Vec();
     for (LEN pos = bstart; pos <= end; pos++) {
         CalcForward(pos, uxx);
-        DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+region);
+        DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+(LEN)region);
         if (ddebug)
-            cout << "---au " << pos << " " << pos+region << ": " << uij << endl;
-        if ((pos-1)%(region+1) == 0) {
-            P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+region), uij)
-                                 : acc(pos, min(seq.length, pos+region)) );
+            cout << "---au " << pos << " " << pos+(LEN)region << ": " << uij << endl;
+        if ((pos-1)%((LEN)region+1) == 0) {
+            P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+(LEN)region), uij)
+                                 : acc(pos, min(seq.length, pos+(LEN)region)) );
         }
         uxx = SlideLocalOuter(pos, uxx);
     }
@@ -649,7 +649,7 @@ void ParasoR::CalcProf(bool value)
             StoreStem(GetStemFile(true, true), P, true);
         } else {
             cout << "--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
-            for (int i = 0; i < P.size(); i++) {
+            for (LEN i = 0; i < P.size(); i++) {
                 if (i%TYPE == 0) cout << "\n" << i/TYPE+_start+1 << " : ";
                 cout << P[i] << ",";
             }

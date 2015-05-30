@@ -68,7 +68,7 @@ private:
         string temp;
         ifstream ifs(filename.c_str());
         str = (start == 0) ? "$" : "";
-        for (int i = 0; getline(ifs, temp); ) {
+        while (getline(ifs, temp)) {
             if (temp.length() == 0) continue;
             if (temp[0] == '>') {
                 count++;

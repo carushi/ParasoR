@@ -136,13 +136,13 @@ static void InitEnergyParam()
 static DOUBLE SumExtML(int type, LEN five, LEN three, bool ext, const Sequence& seq)
 {
     DOUBLE temp = 0.0;
-    if (five > 0 && three <= (int)seq.length) {
+    if (five > 0 && three <= seq.length) {
         if (ext) temp = Logsum(temp, logmismatchExt[type][seq.seqget(five)][seq.seqget(three)]);
         else temp = Logsum(temp, logmismatchM[type][seq.seqget(five)][seq.seqget(three)]);
         if (IsAU(type)) temp = Logsum(temp, logTermAU);
     } else {
         if (five > 0) temp = Logsum(temp, logdangle5[type][seq.seqget(five)]);
-        if (three <= (int)seq.length) temp = Logsum(temp, logdangle3[type][seq.seqget(three)]);
+        if (three <= seq.length) temp = Logsum(temp, logdangle3[type][seq.seqget(three)]);
         if (IsAU(type)) temp = Logsum(temp, logTermAU);
     }
     return temp;
@@ -156,7 +156,7 @@ static DOUBLE LogHairpinEnergy(LEN i, LEN j, const Sequence& seq)
 {
     int type = seq.slidebp(i, j);
     DOUBLE q = -INF;
-    int d = j-i-1;
+    LEN d = j-i-1;
     q = (d <= MAXLOOP) ? loghairpin[d] : loghairpin[MAXLOOP]-lxc37*log(d/(DOUBLE)MAXLOOP)*10.0/kT;
     if (d < 3) return q;
     if (tetra && d==4) {
@@ -187,7 +187,7 @@ static DOUBLE LogHairpinEnergy(LEN i, LEN j, const Sequence& seq)
  * @return Bulge loop energy surrounded by base pair of 'type' and 'type2'.
  * From exp_E_IntLoop in Vienna RNA package 2.0.7.
  */
-static DOUBLE LogBulge(int u, int type, int type2)
+static DOUBLE LogBulge(LEN u, int type, int type2)
 {
     DOUBLE z = logbulge[u];
     if (u == 1) z = Logsum(z, logstack[type][type2]);
@@ -207,7 +207,7 @@ static DOUBLE LogLoopEnergy(LEN i, LEN j, LEN p, LEN q, const Sequence&  seq)
 {
     int type = seq.slidebp(i, j), type2 = seq.sliderbp(p, q);
     DOUBLE z = -INF;
-    int u1 = p-i-1, u2 = j-q-1, u = max(u1, u2);
+    LEN u1 = p-i-1, u2 = j-q-1, u = max(u1, u2);
     if (u1 == 0 && u2 == 0) {
         return logstack[type][type2];
     } else if (no_closingGU && (IsCloseGU(type) || IsCloseGU(type2))) {

@@ -239,6 +239,7 @@ void NameTransform(string& name) {
         name.replace(pos, 1, rep);
     for (string::size_type pos = name.find("\\"); pos != string::npos; pos = name.find("\\", rep.length()+pos))
         name.replace(pos, 1, rep);
+    cout << "--working directory: " << HOMEDIR << endl;
     cout << "--file prefix: " << name << endl;
 }
 

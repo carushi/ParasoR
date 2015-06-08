@@ -42,7 +42,7 @@ You can also change an option for c++11 and precision of floating point like
 ```
 make C++11=c++0x VAR=LONG
 # use c++0x and long double.
-make C++11=c++11 and VAR=SHORT
+make C++11=c++11 VAR=SHORT
 # use c++11 and float.
 ```
 from a default, where 'std=c++11' option with 'double' precision.

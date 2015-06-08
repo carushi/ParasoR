@@ -1,4 +1,5 @@
 #!/bin/sh
+set -euo pipefail
 constraint=$1
 chunk=$2
 

@@ -2,9 +2,12 @@
 #include <getopt.h>
 #include <cstdlib>
 #include <cctype>
+#include <sys/stat.h>
 #include "part_func.hh"
 
 #define OPTION (17)
+#define MINDIRLEN (8)
+
 using namespace std;
 
 void PrintHelpOption()
@@ -232,21 +235,22 @@ void RNATransform(Rfold::Arg& arg) {
     RNATransform(arg, arg.str);
 }
 
-void NameTransform(string& name) {
+bool NameTransform(string& name) {
     string rep = "";
-    if (name.length() == 0) return;
+    if (name.length() == 0) return true;
     for (string::size_type pos = name.find("/"); pos != string::npos; pos = name.find("/", rep.length()+pos))
         name.replace(pos, 1, rep);
     for (string::size_type pos = name.find("\\"); pos != string::npos; pos = name.find("\\", rep.length()+pos))
         name.replace(pos, 1, rep);
-    cout << "--working directory: " << HOMEDIR << endl;
     cout << "--file prefix: " << name << endl;
+    return true;
 }
 
 bool InitCondition(Rfold::Arg& arg)
 {
     RNATransform(arg);
-    NameTransform(arg.name);
+    if (!NameTransform(arg.name))
+        return false;
     if (arg.save_memory && arg.compl_flag) {
         cerr << "Don't use --save_memory and -r option at same time." << endl;
         return false;
@@ -379,6 +383,14 @@ int main(int argc, char** argv)
             }
         }
         delete[] options;
+        cout << "--working directory: " << HOMEDIR << endl;
+        struct stat buf;
+        if (stat(HOMEDIR, &buf) != 0 || strlen(HOMEDIR) < MINDIRLEN) {
+            cerr << "Cannot find working directory or may contain incorrect (too short) path.\n"
+                 << "Please execute below commands and recompile ParasoR.\n"
+                 << "  make clean; make\n";
+            return 1;
+        }
         Rfold::Parameter::SetTemperature(arg.temp);
         Rfold::Parameter::ChangeEnergyParam(arg.ene);
         if (Rfold::Parameter::initialized)

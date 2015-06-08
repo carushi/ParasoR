@@ -28,7 +28,7 @@ void PrintHelpOption()
          << "-T [temperature]\tchange temperature\n"
          //<< "-d\tfor debug\n"
          << "-t\tkeep temporary douter files after connecting (only available with connect option)\n\n"
-         << "--constraint [num]\tset the maximal span num\n"
+         << "--constraint [num]\tset the maximal span to num\n"
          << "--input [filename]\tdeal filename as sequence file input\n"
          // << "--outerinput [filename]\tdeal filename as douter file input\n"
          << "--name [name]\tprefix of db filename\n"

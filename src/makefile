@@ -2,7 +2,8 @@
 VAR = MED
 C++11 = c++11
 CC = g++
-CFLAGS = -O3 -std=${C++11} -Wno-unused-function -Wno-unused-variable -D$(VAR) -DGLIBCXX_DEBUG -D"HOMEDIR=\"$(PWD)/../"\"
+HOMEDIR:=$(shell cd $(CURDIR)/../;pwd)
+CFLAGS = -O3 -std=${C++11} -Wno-unused-function -Wno-unused-variable -D$(VAR) -DGLIBCXX_DEBUG -D"HOMEDIR=\"$(HOMEDIR)/\""
 LDFLAGS = -lm 
 TARGET = ParasoR
 OBJS = matrix.o part_func.o main.o param.o convert.o part_func_delta.o part_func_prof.o part_func_mut.o num_operator.o plot_struct.o

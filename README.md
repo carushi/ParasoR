@@ -1,7 +1,6 @@
 # ParasoR
 
-![ParasoR logo](https://sites.google.com/site/cawatchm/software/parasor/logo.png)
-
+<img src="https://sites.google.com/site/cawatchm/software/parasor/logo.png" width="400">
 
 ## Features 
 ParasoR can compute these features for RNA sequences even if longer than genome-sequence.
@@ -11,10 +10,10 @@ ParasoR can compute these features for RNA sequences even if longer than genome-
 * Accessibility
 * RNA profile (probability and motif sequence)
 * Local γ-centroid structure (bpp >= 1/(1+γ)) with the color code of stem probability.
- ![stem](https://sites.google.com/site/cawatchm/software/parasor/stem.png)
+<img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
 * Local γ-centroid structure with the color code of RNA profile. 
 	* Color: Exterior (right green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
- ![prof](https://sites.google.com/site/cawatchm/software/parasor/prof.png)
+<img src="https://sites.google.com/site/cawatchm/software/parasor/prof.png" width="450">
 
 
 ## Requirements

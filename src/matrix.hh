@@ -27,6 +27,7 @@
 #define Outer(mat, j) (mat.outer[j-mat.istart])
 
 
+
 namespace Rfold {
 
 using std::string;
@@ -50,7 +51,6 @@ using std::swap;
 typedef vector<DOUBLE> Vec;
 typedef vector<Vec> Mat;
 
-
 struct Base {
     char operator()(char c) {
         switch(c) {
@@ -63,8 +63,6 @@ struct Base {
         }
     }
 };
-
-
 
 
 template<class Data>

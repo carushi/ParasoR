@@ -1,7 +1,7 @@
 #include <iostream>
 #include <getopt.h>
 #include <cstdlib>
-#include <cctype>
+
 #include <sys/stat.h>
 #include "part_func.hh"
 
@@ -171,63 +171,13 @@ string GetSampleStr(int num)
         // random sequence;
 }
 
-char ComplementRNA(char c)
-{
-    if (c == '$') return c;
-    c = toupper(c);
-    switch(c) {
-        case 'T': case 'U': return 'A';
-        case 'G': return 'C';
-        case 'C': return 'G';
-        case 'A': return 'U';
-        case 'N': return 'N';
-        default:
-            return 'N';
-        /*
-        case 'W': case 'K': case 'Y': case 'H': case 'B': case 'D': case 'N': return 'A';
-        case 'R': case 'M': case 'V': return 'U';
-        case 'S': return 'C';
-        */
-    }
-}
-
-char CapitalRNA(char c)
-{
-    if (c == '$') return c;
-    c = toupper(c);
-    switch(c) {
-        case 'A': case 'C': case 'G': case'U': case 'N': return c;
-        case 'T': case 'K': case 'Y': case 'B': return 'U';
-        case 'W': case 'R': case 'M':
-        case 'H': case 'V': case 'D': return 'A';
-        case 'S': return 'C';
-        default:
-            std::cerr << "ambiguous character " << c << endl;
-            return 'N';
-    }
-}
-
-void GetCapitalRNA(string& seq)
-{
-    string str;
-    transform(seq.begin(), seq.end(), back_inserter(str), CapitalRNA);
-    seq = str;
-}
-
-void GetCompCapitalRNA(string& seq)
-{
-    string str;
-    transform(seq.begin(), seq.end(), back_inserter(str), ComplementRNA);
-    reverse(str.begin(), str.end());
-    seq = str;
-}
 
 void RNATransform(Rfold::Arg& arg, string& seq)
 {
-    GetCapitalRNA(seq);
+    Rfold::Parameter::GetCapitalRNA(seq);
     if (arg.compl_flag) {
         arg.name += "_rev_";
-        GetCompCapitalRNA(seq);
+        Rfold::Parameter::GetCompCapitalRNA(seq);
     }
 }
 
@@ -323,10 +273,11 @@ void CalcStrucFasta(Rfold::Arg& arg)
                 arg.str = "";
             }
         } else {
-            if (arg.save_memory)
+            if (arg.save_memory) {
                 arg.length += str.length();
-            else
+            } else {
                 arg.str += str;
+            }
         }
     }
     if (arg.str != "" || arg.length > 0)

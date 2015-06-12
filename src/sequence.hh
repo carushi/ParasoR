@@ -4,6 +4,7 @@
 #include "pair_mat.hh"
 #include "energy_const.hh"
 #include "matrix.hh"
+#include <cctype>
 
 #include <vector>
 #include <string>
@@ -15,6 +16,57 @@ using std::vector;
 using std::string;
 using std::min;
 using std::max;
+
+static char ComplementRNA(char c)
+{
+    if (c == '$') return c;
+    c = toupper(c);
+    switch(c) {
+        case 'T': case 'U': return 'A';
+        case 'G': return 'C';
+        case 'C': return 'G';
+        case 'A': return 'U';
+        case 'N': return 'N';
+        default:
+            return 'N';
+        /*
+        case 'W': case 'K': case 'Y': case 'H': case 'B': case 'D': case 'N': return 'A';
+        case 'R': case 'M': case 'V': return 'U';
+        case 'S': return 'C';
+        */
+    }
+}
+
+static char CapitalRNA(char c)
+{
+    if (c == '$') return c;
+    c = toupper(c);
+    switch(c) {
+        case 'A': case 'C': case 'G': case'U': case 'N': return c;
+        case 'T': case 'K': case 'Y': case 'B': return 'U';
+        case 'W': case 'R': case 'M':
+        case 'H': case 'V': case 'D': return 'A';
+        case 'S': return 'C';
+        default:
+            std::cerr << "ambiguous character " << c << endl;
+            return 'N';
+    }
+}
+
+static void GetCapitalRNA(string& seq)
+{
+    string str;
+    transform(seq.begin(), seq.end(), back_inserter(str), CapitalRNA);
+    seq = str;
+}
+
+static void GetCompCapitalRNA(string& seq)
+{
+    string str;
+    transform(seq.begin(), seq.end(), back_inserter(str), ComplementRNA);
+    reverse(str.begin(), str.end());
+    seq = str;
+}
 
 /**
  * @return Whether 'type' of base pair is possible.
@@ -85,6 +137,7 @@ private:
                 }
             }
         }
+        GetCapitalRNA(str);
         _shift = start;
     }
 

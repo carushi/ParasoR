@@ -35,7 +35,7 @@ make
 # cp ParasoR /usr/local/bin (optional)
 ```
 
-As a default, 'std=c++11' and 'double' is used.
+As a default, 'std=c++11' and 'double' is valid.
 
 You can also change an option for c++11 and precision of floating point like
 

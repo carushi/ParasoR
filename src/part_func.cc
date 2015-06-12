@@ -896,6 +896,7 @@ void ParasoR::LeaveDouterEdgeRegion(bool inside)
 void ParasoR::StoreDouterTempShrunk(bool inside)
 {
     string file = GetShrunkFileList(File::Shrunk, inside);
+    bool flag = false;
     LeaveDouterEdgeRegion(inside);
     if (binary) {
         ofstream ofs(file.c_str(), ios::binary);

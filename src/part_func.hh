@@ -354,7 +354,7 @@ private:
     }
 
     int BestChunk(int tchunk) {
-        if (seq.length/tchunk <= 3*_constraint) return seq.length/(_constraint*3)+1;
+        if (seq.length/(LEN)tchunk <= 3*_constraint) return seq.length/(_constraint*3)+1;
         else return tchunk;
     }
     int GetColumn(ifstream& ifs) {
@@ -461,13 +461,13 @@ public:
         SetGamma(arg.gamma);
         SetMemory(arg.save_memory);
     }
-    int RangeChunkId(int pos) {
-        int unit = (seq.length/chunk);
-        return pos/unit;
-    }
-    int Shift(int startid) {
-        return (seq.length/chunk) * (startid);
-    }
+    // int RangeChunkId(int pos) {
+    //     LEN unit = (seq.length/chunk);
+    //     return pos/unit;
+    // }
+    // int Shift(int startid) {
+    //     return (seq.length/chunk) * (startid);
+    // }
     void SetRange(LEN start, LEN end) {
         _start = max((LEN)1, start);
         _end = min(seq.length, (LEN)end);

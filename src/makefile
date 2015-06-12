@@ -11,7 +11,7 @@ OBJS = matrix.o part_func.o main.o param.o convert.o part_func_delta.o part_func
 .PHONY: all
 all: $(TARGET)
 .PHONY: test
-CONSTRAINT=50
+CONSTRAINT=150
 CHUNK=3
 test: $(TARGET)
 	sh check.sh $(CONSTRAINT) $(CHUNK)

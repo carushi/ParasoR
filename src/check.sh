@@ -23,3 +23,5 @@ do
     ./ParasoR --save_memory --constraint $constraint -i $i -k $chunk  >> ../doc/stem_mem.txt
 done
 ./ParasoR --constraint $constraint --stem   >> ../doc/stem_mem.txt
+./ParasoR --constraint $constraint --stem --struct --image
+./ParasoR --constraint $constraint -p -a --struct --image

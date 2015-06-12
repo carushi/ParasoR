@@ -300,7 +300,7 @@ private:
     void CalcProf(bool = false);
     void DrawImage(vector<int>&, Vec&, string&, int = 1);
     bool GetWholeImage(string, vector<int>&, Vec&, int = 1);
-    void GetImage(string, LEN, LEN, Vec);
+    void GetImage(string, LEN, LEN, Vec, int = 1);
     void CalcBpp(bool = false, DOUBLE = -1.0, bool = false);
     void CalcMEA(bool = true, bool = false, bool = false, bool = false);
     void CalcRangeStem(Vec&, LEN, int);

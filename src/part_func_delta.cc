@@ -666,12 +666,12 @@ void ParasoR::CalcProf(bool value)
     }
 }
 
-void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem)
+void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem, int elem)
 {
     Plot plot;
     if (end-start <= TURN)  return;
     ostringstream oss;
-    oss << STMP << name << "_" << _start << "_se=" << start << "_" << end << "_gamma=" << gamma << ".ps";
+    oss << STMP << name << "_" << ((elem == PROF_NUM) ? "prof_" : "stem_") << _start << "_se=" << start << "_" << end << "_gamma=" << gamma << ".ps";
     cout << "-Drawing to " << oss.str() << endl;
     cout << "seq: " << seq.substr(start+_start+1, end-start+1) << endl;
     cout << "str: " << str.substr(start, end-start+1) << endl;
@@ -691,7 +691,7 @@ bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
     LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
     LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
     if (right-left > MAXLEN || right <= left)    return false;
-    GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem));
+    GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
     return true;
 }
 
@@ -704,7 +704,7 @@ void ParasoR::DrawImage(vector<int>& cbpp, Vec& stem, string& str, int elem)
             left = min(cbpp[i], left);
         } else if (cbpp[i] > i || i-left > _constraint) {
             if (left >= 0 && left < i) {
-                GetImage(str, left, cbpp[left], Vec(stem.begin()+left*elem, stem.begin()+(cbpp[left]+1)*elem));
+                GetImage(str, left, cbpp[left], Vec(stem.begin()+left*elem, stem.begin()+(cbpp[left]+1)*elem), elem);
             }
             left = (cbpp[i] > i) ? i : cbpp.size();
             i = cbpp[i];

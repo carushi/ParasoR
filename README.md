@@ -12,7 +12,7 @@ ParasoR can compute these features for RNA sequences even if longer than genome-
 * Local γ-centroid structure (bpp >= 1/(1+γ)) with the color code of stem probability.
 <img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
 * Local γ-centroid structure with the color code of RNA profile. 
-	* Color: Exterior (right green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
+	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
 <img src="https://sites.google.com/site/cawatchm/software/parasor/prof.png" width="450">
 

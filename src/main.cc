@@ -14,7 +14,7 @@ void PrintHelpOption()
 {
     cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.0.0\n"
          << "\twith Radiam method (RNA secondary structure analysis with deletion, insertion and substitution mutation).\n"
-         << "This algorithm has been developed by xxxx xxxxxxxx.\n"
+         << "This algorithm has been developed by github.com/carushi.\n"
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"
          << "You can achieve calculation of base pairing probability or accessibility for sequences having any length by ParasoR.\n\n";
     cout << "-------Option List------\n";
@@ -263,6 +263,7 @@ void CalcStrucFasta(Rfold::Arg& arg)
     cout << "-File Reading " << arg.input << "..." << endl;
     while (getline(ifs, str)) {
         if (str.length() == 0) continue;
+        Rfold::EraseWindowsNewline(str);
         if (str[0] == '>') {
             CalcOneSeq(arg);
             arg.name = tname+str.substr(1);

@@ -67,6 +67,11 @@ static void GetCompCapitalRNA(string& seq)
     reverse(str.begin(), str.end());
     seq = str;
 }
+static void EraseWindowsNewline(string& seq)
+{
+    if (seq[seq.length()-1] == '\r')
+        seq.erase(seq.begin()+seq.length()-1);
+}
 
 /**
  * @return Whether 'type' of base pair is possible.
@@ -122,6 +127,7 @@ private:
         str = (start == 0) ? "$" : "";
         while (getline(ifs, temp)) {
             if (temp.length() == 0) continue;
+            EraseWindowsNewline(temp);
             if (temp[0] == '>') {
                 count++;
                 if (count > seqID) break;

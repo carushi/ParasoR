@@ -29,7 +29,7 @@ We already tested ParasoR running by Apple LLVM version 6.0, GCC 4.5.3, and 4.8.
 git clone https://github.com/carushi/ParasoR
 cd ParasoR/src
 make
-# cp ParasoR /usr/local/bin (optional)
+# make install (optional)
 ```
 
 Or download from "Download ZIP" button and unzip it.

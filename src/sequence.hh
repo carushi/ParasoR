@@ -37,18 +37,30 @@ static char ComplementRNA(char c)
     }
 }
 
+// static char CapitalRNA(char c)
+// {
+//     if (c == '$') return c;
+//     c = toupper(c);
+//     switch(c) {
+//         case 'A': case 'C': case 'G': case'U': case 'N': return c;
+//         case 'T': case 'K': case 'Y': case 'B': return 'U';
+//         case 'W': case 'R': case 'M':
+//         case 'H': case 'V': case 'D': return 'A';
+//         case 'S': return 'C';
+//         default:
+//             std::cerr << "ambiguous character " << c << endl;
+//             return 'N';
+//     }
+// }
+
 static char CapitalRNA(char c)
 {
     if (c == '$') return c;
     c = toupper(c);
     switch(c) {
         case 'A': case 'C': case 'G': case'U': case 'N': return c;
-        case 'T': case 'K': case 'Y': case 'B': return 'U';
-        case 'W': case 'R': case 'M':
-        case 'H': case 'V': case 'D': return 'A';
-        case 'S': return 'C';
+        case 'T': return 'U';
         default:
-            std::cerr << "ambiguous character " << c << endl;
             return 'N';
     }
 }
@@ -134,11 +146,11 @@ private:
             } else if (count == seqID) {
                 readthrough += temp.length();
                 if (readthrough < start) continue;
-                LEN tstart = max((LEN)0, start-(readthrough-(LEN)temp.length()));
+                LEN tstart = max(static_cast<LEN>(0), start-(readthrough-static_cast<LEN>(temp.length())));
                 if (end > readthrough) {
                     str += temp.substr(tstart);
                 } else {
-                    str += temp.substr(tstart, (LEN)temp.length()-tstart-(readthrough-end));
+                    str += temp.substr(tstart, static_cast<LEN>(temp.length())-tstart-(readthrough-end));
                     break;
                 }
             }
@@ -157,7 +169,7 @@ public:
         lazy = false;
         part = false;
         _shift = 0;
-        length = (LEN)str.length()-1;
+        length = static_cast<LEN>(str.length())-1;
         SetStrToChar();
     }
     Sequence(const string& str, const vector<char>& sequence, LEN length)

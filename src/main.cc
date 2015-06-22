@@ -14,7 +14,7 @@ void PrintHelpOption()
 {
     cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.0.0\n"
          << "\twith Radiam method (RNA secondary structure analysis with deletion, insertion and substitution mutation).\n"
-         << "This algorithm has been developed by github.com/carushi.\n"
+         << "This algorithm has been developed in github.com/carushi.\n"
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"
          << "You can achieve calculation of base pairing probability or accessibility for sequences having any length by ParasoR.\n\n";
     cout << "-------Option List------\n";
@@ -70,7 +70,7 @@ void PrintHelpOption()
 
 struct option* option()
 {
-    struct option *options = new struct option[OPTION+1];
+    struct option *options = new struct option[OPTION+1]();
     options[0].name = "constraint";
     options[1].name = "input";
     options[2].name = "outerinput";
@@ -302,12 +302,12 @@ void CheckCondition(Rfold::Arg& arg)
 
 int main(int argc, char** argv)
 {
-    int option_index;
-    Rfold::Arg arg;
+    int option_index = 0;
+    Rfold::Arg arg = Rfold::Arg();
     try {
         struct option *options = option();
         while (1) {
-            int opt = getopt_long(argc, argv, "m:w:s:e:bapi:k:f:cdrtT:", options, &option_index);
+            int opt = getopt_long(argc, argv, "m:w:s:e:api:k:f:cdrtT:", options, &option_index);
             if (opt == -1) break;
             switch(opt) {
                 case 0: case 1:
@@ -318,7 +318,6 @@ int main(int argc, char** argv)
                     break;
                 case 's': if (optarg != NULL) arg.start = atoi(optarg)-1; break;
                 case 'e': if (optarg != NULL) arg.end = atoi(optarg); break;
-                case 'b': arg.init_calc = false; break;
                 case 'i': if (optarg != NULL) arg.id = atoi(optarg); break;
                 case 'k': if (optarg != NULL) arg.chunk = atoi(optarg); break;
                 case 'a': arg.acc_flag = true; break;

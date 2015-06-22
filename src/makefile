@@ -45,3 +45,5 @@ clean:
 .PHONY: clear
 clear:
 	rm -f *.o *.gch *.a
+install:
+	cp ParasoR /usr/local/bin/

@@ -50,9 +50,17 @@ using std::find_if;
 using std::distance;
 using std::plus;
 
+
+
 class Arg {
 public:
     Arg() {
+        str = "";
+        input = "";
+        outer_input = "";
+        output = "";
+        name = "";
+        ene = "";
         start = -1;
         end = -1;
         length = 0;
@@ -78,7 +86,7 @@ public:
         mea_flag = false;
         pre_flag = false;
         save_memory = false;
-        debug = false;
+        init_file = false;
         text = false;
         image = false;
     }
@@ -201,6 +209,7 @@ private:
     void StoreProf(string, vector<char>&);
 
     void PrintMat(bool);
+    void InitMatrix(LEN, LEN);
     void Init(bool full = false, bool connect = false);
     void InitBpp(bool full = false);
     void SetSequence(const string&, int, LEN);
@@ -340,11 +349,11 @@ private:
         return min(seq.length, i+_constraint);
     }
     LEN LeftRange(LEN j) {
-        return max((LEN)0, j-_constraint-1);
+        return max(static_cast<LEN>(0), j-_constraint-1);
     }
     LEN LeftBpRange(LEN j) {
-        // return max((LEN)0, j-_constraint);
-        return max((LEN)1, j-_constraint);
+        // return max(static_cast<LEN>(0, j-_constraint);
+        return max(static_cast<LEN>(1), j-_constraint);
     }
     bool IsRange(LEN i, LEN j) {
         return (i >= j-_constraint-1 && i > 0 && j < seq.length);
@@ -354,7 +363,7 @@ private:
     }
 
     int BestChunk(int tchunk) {
-        if (seq.length/(LEN)tchunk <= 3*_constraint) return seq.length/(_constraint*3)+1;
+        if (seq.length/static_cast<LEN>(tchunk) <= 3*_constraint) return seq.length/(_constraint*3)+1;
         else return tchunk;
     }
     int GetColumn(ifstream& ifs) {
@@ -440,12 +449,12 @@ public:
     void SetConstraint(int constraint, LEN length)
     {
         _length = length;
-        _constraint = (constraint > 0) ? min((LEN)constraint, _length-1) : _length-1;
+        _constraint = (constraint > 0) ? min(static_cast<LEN>(constraint), _length-1) : _length-1;
     }
     void SetRawCons(int constraint, LEN length)
     {
         _length = length;
-        _constraint = (LEN)constraint;
+        _constraint = static_cast<LEN>(constraint);
     }
     void SetBasicParam(int constraint, LEN length, string& tname, bool shrink)
     {
@@ -455,8 +464,8 @@ public:
     }
     void SetBasicParam(Arg& arg, bool shrink = false)
     {
-        SetBasicParam(arg.constraint, max((LEN)arg.str.length(), arg.length), arg.name, shrink);
-        ((LEN)arg.str.length() > 0) ? SetSequence(arg.str) : SetSequence(arg.input, arg.seqID, arg.length);
+        SetBasicParam(arg.constraint, max(static_cast<LEN>(arg.str.length()), arg.length), arg.name, shrink);
+        (static_cast<LEN>(arg.str.length()) > 0) ? SetSequence(arg.str) : SetSequence(arg.input, arg.seqID, arg.length);
         SetText(arg.text);
         SetGamma(arg.gamma);
         SetMemory(arg.save_memory);
@@ -469,12 +478,12 @@ public:
     //     return (seq.length/chunk) * (startid);
     // }
     void SetRange(LEN start, LEN end) {
-        _start = max((LEN)1, start);
-        _end = min(seq.length, (LEN)end);
+        _start = max(static_cast<LEN>(1), start);
+        _end = min(seq.length, static_cast<LEN>(end));
     }
     void SetBpRange(LEN start, LEN end) {
-        _start = max((LEN)0, start);
-        _end = min(seq.length, (LEN)end);
+        _start = max(static_cast<LEN>(0), start);
+        _end = min(seq.length, static_cast<LEN>(end));
     }
     bool SetChunkId(int tid, int tchunk, bool range = true)
     {

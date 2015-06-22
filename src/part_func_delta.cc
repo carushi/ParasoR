@@ -37,7 +37,7 @@ DOUBLE ParasoR::ReCalcDouterOutside(LEN j)
 
 void ParasoR::PreCalcInside(LEN x)
 {
-    for (LEN j = max((LEN)0, x-2*_constraint-10); j <= RightRange(x); j++) {
+    for (LEN j = max(static_cast<LEN>(0), x-2*_constraint-10); j <= RightRange(x); j++) {
         CalcInside(j);
     }
 }
@@ -425,8 +425,8 @@ void ParasoR::StoreBppSlide(LEN i, LEN right, Vec& prebpp)
 void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out)
 {
     if (out == Out::ACC) {
-        if (i+(LEN)_window <= seq.length) {
-            cout << "* " << i << "-" << i+(LEN)_window << " : " << acc(i, i+(LEN)_window) << endl;
+        if (i+static_cast<LEN>(_window) <= seq.length) {
+            cout << "* " << i << "-" << i+static_cast<LEN>(_window) << " : " << acc(i, i+static_cast<LEN>(_window)) << endl;
         }
     } else if (out == Out::PROF) {
         GetProfs(i, prom);
@@ -485,7 +485,7 @@ void ParasoR::CheckDouter(LEN start, LEN end, DOUBLE uxx)
     LEN bstart = start+1;
     LEN right = RightBpRange(end);
     Vec P = Vec(end-start, 0.0);
-    for (LEN i = max((LEN)1, start+1); i <= min(seq.length, end+_constraint); ++i)
+    for (LEN i = max(static_cast<LEN>(1), start+1); i <= min(seq.length, end+_constraint); ++i)
     {
         DOUBLE diff1 = Outer(alpha, i-1)-ReCalcDouterInside(i);
         DOUBLE diff2 = (i-_constraint > 0) ? Outer(beta, i-_constraint)-ReCalcDouterOutside(i-_constraint) : 0.0;
@@ -534,12 +534,12 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
     P = Vec();
     for (LEN pos = bstart; pos <= end; pos++) {
         CalcForward(pos, uxx);
-        DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+(LEN)region);
+        DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+static_cast<LEN>(region));
         if (ddebug)
-            cout << "---au " << pos << " " << pos+(LEN)region << ": " << uij << endl;
-        if ((pos-1)%((LEN)region+1) == 0) {
-            P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+(LEN)region), uij)
-                                 : acc(pos, min(seq.length, pos+(LEN)region)) );
+            cout << "---au " << pos << " " << pos+static_cast<LEN>(region) << ": " << uij << endl;
+        if ((pos-1)%(static_cast<LEN>(region)+1) == 0) {
+            P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+static_cast<LEN>(region)), uij)
+                                 : acc(pos, min(seq.length, pos+static_cast<LEN>(region))));
         }
         uxx = SlideLocalOuter(pos, uxx);
     }
@@ -754,22 +754,22 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
 void ParasoR::CalcRangeStem(Vec& stem, LEN pos, int mtype)
 {
     if (mtype == Arg::Mut::Del) {
-        CalcSlidingWindowStem(stem, max((LEN)0, pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
+        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
     } else if (mtype == Arg::Mut::Ins) {
-        CalcSlidingWindowStem(stem, max((LEN)0, pos-_constraint-2), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-2), min(seq.length, pos+_constraint), false);
     } else {
-        CalcSlidingWindowStem(stem, max((LEN)0, pos-_constraint-1), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint), false);
     }
 }
 
 void ParasoR::CalcRangeAcc(Vec& stem, int window, LEN pos, int mtype)
 {
     if (mtype == Arg::Mut::Del) {
-        CalcSlidingWindowAcc(stem, window, max((LEN)0, pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
+        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
     } else if (mtype == Arg::Mut::Ins) {
-        CalcSlidingWindowAcc(stem, window, max((LEN)0, pos-_constraint-2), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-2), min(seq.length, pos+_constraint), false);
     } else {
-        CalcSlidingWindowAcc(stem, window, max((LEN)0, pos-_constraint-1), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint), false);
     }
 }
 

@@ -49,7 +49,8 @@ DOUBLE ParasoR::GetInStemend(LEN i, LEN j)
 {
     LEN p = i, q = j+1;
     DOUBLE temp = -INF;
-    if (q > p+_constraint || !IsPair(seq.slidebp(p, q))) return temp;
+    if (q > p+_constraint) return temp;
+    else if (q > seq.length || !IsPair(seq.slidebp(p, q))) return temp;
     else if (p > 0 && q <= seq.length) {
         temp = LogHairpinEnergy(p, q, seq);
         for (LEN ip = i; ip < j-TURN-1; ip++) {
@@ -106,7 +107,7 @@ DOUBLE ParasoR::GetOutMulti2(LEN i, LEN j)
     DOUBLE temp = Multi1(beta, i, j);
     if (IsOnlyRange(i, j+1))
         temp = Logsumexp(temp, Logsum(Multi2(beta, i, j+1), logML_BASE));
-    for (LEN k = max((LEN)0, j-_constraint-1); k < i-TURN-1; k++)
+    for (LEN k = max(static_cast<LEN>(0), j-_constraint-1); k < i-TURN-1; k++)
         temp = Logsumexp(temp, Logsum(Multibif(beta, k, j), Multi1(alpha, k, i)));
     return temp;
 }
@@ -167,12 +168,12 @@ DOUBLE ParasoR::GetStemDelta(LEN j, LEN i, bool inside)
 DOUBLE ParasoR::GetStemDelta(LEN j, LEN i, int h, bool inside)
 {
     if (inside) {
-        if (i >= _start+1 || i == _start-(LEN)h) {
+        if (i >= _start+1 || i == _start-static_cast<LEN>(h)) {
             if (j-i == 1) return 0;     // extension of outer;
             else return Logsum(Stem(alpha, i, j), SumExtML(seq.slidebp(i+1, j), i, j+1, true, seq));
         }
     } else {
-        if (i <= _end-1 || i == _end+(LEN)h) {
+        if (i <= _end-1 || i == _end+static_cast<LEN>(h)) {
             if (i-j == 1) return 0;     // extension of outer;
             else return Logsum(Stem(alpha, j, i), SumExtML(seq.slidebp(j+1, i), j, i+1, true, seq));
         }
@@ -234,7 +235,7 @@ void ParasoR::CalcInDeltaOuter(LEN j)
 void ParasoR::CalcChunkInside(bool outer)
 {
     if (ddebug) cout << "inside" << endl;
-    for (LEN j = max(_start-_constraint, (LEN)1); j <= _end; j++) {
+    for (LEN j = max(_start-_constraint, static_cast<LEN>(1)); j <= _end; j++) {
         if (ddebug) cout << j << endl;
         CalcInside(j);
         if (outer && j >= _start+1) CalcInDeltaOuter(j);
@@ -371,7 +372,7 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
         ReadVec(douter[i], str);
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[(LEN)douter.size()-1] = first_douter;
+        douter[static_cast<LEN>(douter.size())-1] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -390,7 +391,7 @@ bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_dout
         } else  break;
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[(LEN)douter.size()-1] = first_douter;
+        douter[static_cast<LEN>(douter.size())-1] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -402,8 +403,8 @@ void ParasoR::GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool insi
         DOUBLE acc = 0.0;
         for (LEN i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
-            if (i < _constraint && i < (LEN)old_douter.size())
-                acc = Logsum(acc, old_douter[(LEN)old_douter.size()-1-i]);
+            if (i < _constraint && i < static_cast<LEN>(old_douter.size()))
+                acc = Logsum(acc, old_douter[static_cast<LEN>(old_douter.size())-1-i]);
         }
     } else {
         DOUBLE acc = 0.0;
@@ -419,7 +420,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
 {
     if (inside) {
         DOUBLE value = -INF;
-        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
             if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
@@ -427,7 +428,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
         return value;
     } else {
         DOUBLE value = -INF;
-        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
             if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
@@ -440,14 +441,14 @@ DOUBLE ParasoR::GetNumerator(const Mat& douter, const Vec& sum_douter, LEN k, bo
 {
     if (inside) {
         DOUBLE value = -INF;
-        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k-1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k-1][0]-sum_douter[h]);
         }
         return value;
     } else {
         DOUBLE value = -INF;
-        for (LEN h = 0; h <= _constraint && h < (LEN)sum_douter.size(); h++) {
+        for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k+1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k+1][0]-sum_douter[h]);
         }
@@ -506,7 +507,7 @@ void ParasoR::ConnectDo(bool keep_flag)
                 : ReadDouterInside(douter, ifile, first_douter);
         if (iflag) {
             ConnectInDo(old_douter, douter, i, GetDoFile(true), i > 0);
-            first_douter = douter[(LEN)douter.size()-1];
+            first_douter = douter[static_cast<LEN>(douter.size())-1];
         } else break;
     }
     if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
@@ -540,7 +541,7 @@ void ParasoR::ConnectDoSaved(bool keep_flag)
                 : ReadDouterInside(douter, ifile, first_douter);
         if (iflag) {
             ConnectInDo(old_douter, douter, i, GetShrunkFileList(File::Part, true, i), i != 0, false);
-            first_douter = douter[(LEN)douter.size()-1];
+            first_douter = douter[static_cast<LEN>(douter.size())-1];
         } else break;
     }
     old_douter = Vec(1, 0);
@@ -599,7 +600,7 @@ void ParasoR::ReadFirstDouter(bool inside)
     if ((inside && id > 0) || (!inside && id < chunk-1)) {
         (binary) ? ReadBinFirstDouter(inside, first_douter, filename) : ReadFirstDouter(inside, first_douter, filename);
         if (inside) alpha.douter[0] = first_douter;
-        else beta.douter[(LEN)beta.douter.size()-1] = first_douter;
+        else beta.douter[static_cast<LEN>(beta.douter.size())-1] = first_douter;
     }
 }
 
@@ -709,9 +710,9 @@ void ParasoR::WriteAcc(Mat& data)
 void ParasoR::WriteStemProb(Vec& stem, const Mat& mat)
 {
     stem.clear();
-    stem = Vec((LEN)mat.size());
-    for (LEN i = 0; i < (LEN)mat.size(); i++) {
-        for (LEN j = 0; j < (LEN)mat[i].size(); j++) {
+    stem = Vec(static_cast<LEN>(mat.size()));
+    for (LEN i = 0; i < static_cast<LEN>(mat.size()); i++) {
+        for (LEN j = 0; j < static_cast<LEN>(mat[i].size()); j++) {
             stem[i] += mat[i][j];
             stem[i+j+1] += mat[i][j];
         }
@@ -736,7 +737,7 @@ void ParasoR::OutputStemProb(bool _acc)
     cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
     for (LEN i = 1; i <= seq.length; i++) {
         DOUBLE P[3] = { 1.0, 0.0, 0.0 };
-        for (LEN j = max((LEN)1, i-_constraint); j <= min(seq.length, i+_constraint); j++) {
+        for (LEN j = max(static_cast<LEN>(1), i-_constraint); j <= min(seq.length, i+_constraint); j++) {
             if (!_acc && j == i) continue;
             DOUBLE value = ((_acc) ? acc(i, j) : bpp(i, j));
             if (_acc) { cout << "* " << i << " " << j << " " << value << endl; continue; }
@@ -757,7 +758,7 @@ void ParasoR::OutputBppCond(bool _acc)
         }
     } else {
         for (LEN i = 1; i <= seq.length; i++) {
-            for (LEN j = max((LEN)1, i-_constraint); j <= min(seq.length, i+_constraint); j++) {
+            for (LEN j = max(static_cast<LEN>(1), i-_constraint); j <= min(seq.length, i+_constraint); j++) {
                 if (j == i) continue;
                 DOUBLE value = bpp(i, j);
                 cout << "*\t" << i << "\t" << j << "\t" << value << endl;
@@ -854,8 +855,8 @@ void ParasoR::WriteBinDouterTemp(ofstream& ofs, Mat& mat)
 {
     int h = mat[0].size();
     ofs.write((char*)&h, sizeof(int));
-    for (LEN i = 0; i < (LEN)mat.size(); i++) {
-        for (LEN j = 0; j < (LEN)(mat[i].size()); j++) {
+    for (LEN i = 0; i < static_cast<LEN>(mat.size()); i++) {
+        for (LEN j = 0; j < static_cast<LEN>((mat[i].size())); j++) {
             ofs.write((char*)&(mat[i][j]), sizeof(DOUBLE));
         }
     }
@@ -881,13 +882,13 @@ void ParasoR::StoreDouterTemp(bool inside)
 void ParasoR::LeaveDouterEdgeRegion(bool inside)
 {
     if (inside) {
-        Mat::const_iterator first = alpha.douter.begin()+max((LEN)0, (LEN)alpha.douter.size()-2*_constraint-1);
+        Mat::const_iterator first = alpha.douter.begin()+max(static_cast<LEN>(0), static_cast<LEN>(alpha.douter.size())-2*_constraint-1);
         Mat::const_iterator last = alpha.douter.end();
         Mat temp(first, last);
         alpha.douter = temp;
     } else {
         Mat::const_iterator first = beta.douter.begin();
-        Mat::const_iterator last = beta.douter.begin()+min((LEN)beta.douter.size(), 2*_constraint+1);
+        Mat::const_iterator last = beta.douter.begin()+min(static_cast<LEN>(beta.douter.size()), 2*_constraint+1);
         Mat temp(first, last);
         beta.douter = temp;
     }
@@ -921,10 +922,10 @@ void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
     LEN start = (inside) ? 1 : 0;
     LEN end = (inside) ? 0 : -1;
     if (binary) {
-        LEN const_size = (LEN)douter.size()+(end-start);
+        LEN const_size = static_cast<LEN>(douter.size())+(end-start);
         ofstream ofs(filename.c_str(), ((app) ? ios::app : ios::trunc) | ios::binary);
         ofs.write((char*)&const_size, sizeof(int));
-        for (LEN i = start; i < (LEN)douter.size()+end; i++)
+        for (LEN i = start; i < static_cast<LEN>(douter.size())+end; i++)
             ofs.write((char*)(&douter[i]), sizeof(DOUBLE));
         ofs.close();
     } else {
@@ -948,7 +949,7 @@ void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
         LEN const_size = vec.size();
         ofstream ofs(filename.c_str(), ios::binary);
         ofs.write((char*)&const_size, sizeof(int));
-        for (LEN i = 0; i < _end-_start && i < (LEN)vec.size(); i++) {
+        for (LEN i = 0; i < _end-_start && i < static_cast<LEN>(vec.size()); i++) {
             if (!acc) vec[i] = min(max((DOUBLE)0, vec[i]), (DOUBLE)1);
             ofs.write((char*)(&vec[i]), sizeof(DOUBLE));
         }
@@ -992,34 +993,31 @@ void ParasoR::PrintMat(bool is_alpha)
     }
 }
 
+void ParasoR::InitMatrix(LEN row, LEN col)
+{
+    alpha = Matrix(row, col, true);
+    beta = Matrix(row, col, false);
+}
+
 void ParasoR::Init(bool full, bool connect)
 {
-    if (full) {
-        alpha = Matrix(_end-_start+1, _constraint, true);
-        beta = Matrix(_end-_start+1, _constraint, false);
-    } else {
+    if (full) InitMatrix(_end-_start+1, _constraint);
+    else {
         if (cut && !connect) {
-            seq.CutSequence(max((LEN)0, _start-CONST*_constraint), min(seq.length, _end+CONST*_constraint));
+            seq.CutSequence(max(static_cast<LEN>(0), _start-CONST*_constraint), min(seq.length, _end+CONST*_constraint));
         }
-        alpha = Matrix(CONST*_constraint, _constraint, true);
-        beta = Matrix(CONST*_constraint, _constraint, false);
+        InitMatrix(CONST*_constraint, _constraint);
     }
-    alpha.SetIndex(_start, _end);
-    beta.SetIndex(_start, _end);
+    SetIndex(_start, _end, true);
 }
 
 void ParasoR::InitBpp(bool full)
 {
     if (!alpha.isSet() || !beta.isSet()) {
-        if (full) {
-            alpha = Matrix(_end-_start+1, _constraint, true);
-            beta = Matrix(_end-_start+1, _constraint, false);
-        } else {
-            alpha = Matrix(CONST*_constraint, _constraint, true);
-            beta = Matrix(CONST*_constraint, _constraint, false);
-        }
+        if (full) InitMatrix(_end-_start+1, _constraint);
+        else InitMatrix(CONST*_constraint, _constraint);
     }
-    LEN left = max(_start-CONST*_constraint, (LEN)0);
+    LEN left = max(_start-CONST*_constraint, static_cast<LEN>(0));
     LEN right = min(_end+CONST*_constraint, seq.length);
     if (!full && cut) {
         seq.CutSequence(left, right);
@@ -1111,9 +1109,9 @@ void ParasoR::DivideChunk(Arg& arg, bool shrink)
     if (arg.str.length() == 0 && arg.length == 0) return;
     ParasoR rfold;
     rfold.SetBasicParam(arg, shrink);
-    if (rfold.seq.length/arg.chunk > (LEN)INT_MAX) {
+    if (rfold.seq.length/arg.chunk > static_cast<LEN>(INT_MAX)) {
         cout << INT_MAX << " " << rfold.seq.length << endl;
-        cerr << "Too long sequence for a single chunk.\nPlease increase the chunk number more than  " << rfold.seq.length/(LEN)INT_MAX << endl;
+        cerr << "Too long sequence for a single chunk.\nPlease increase the chunk number more than  " << rfold.seq.length/static_cast<LEN>(INT_MAX) << endl;
     } else if (rfold.SetChunkId(arg.id, arg.chunk)) {
         if (rfold.seq.length/rfold.chunk) {
             rfold.cut = true;
@@ -1160,7 +1158,7 @@ void ParasoR::main(Arg& arg, bool shrink)
         rfold.SetBasicParam(arg, shrink);
     if (arg.mtype < 0) {
         if (arg.end < 0) {
-            arg.end = max(arg.length, (LEN)arg.str.length());
+            arg.end = max(arg.length, static_cast<LEN>(arg.str.length()));
             if (arg.start < 0) arg.start = 0;
         }
         if (!noout) cout << "-Calculate from " << arg.start << " to " << arg.end << endl;

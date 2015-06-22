@@ -37,7 +37,7 @@ Or download from "Download ZIP" button and unzip it.
 ```
 cd ParasoR-master/src
 make
-# cp ParasoR /usr/local/bin (optional)
+# make install (optional)
 ```
 
 As a default, 'std=c++11' and 'double' is valid.

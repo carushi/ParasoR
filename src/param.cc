@@ -38,8 +38,8 @@ std::string Tetraloops;
 std::string Hexaloops;
 
 DOUBLE lxc37 = 107.856;
-bool initialized;
-bool inittermau;
+bool initialized = false;
+bool inittermau = false;
 
 
 }

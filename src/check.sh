@@ -1,4 +1,5 @@
 #!/bin/sh
+# This shellscript is called from ''make test'' command.
 set -euo pipefail
 constraint=$1
 chunk=$2

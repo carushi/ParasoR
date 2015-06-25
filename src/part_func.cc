@@ -922,9 +922,9 @@ void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
     LEN start = (inside) ? 1 : 0;
     LEN end = (inside) ? 0 : -1;
     if (binary) {
-        LEN const_size = static_cast<LEN>(douter.size())+(end-start);
+        int h = douter.size()+static_cast<int>(end-start);
         ofstream ofs(filename.c_str(), ((app) ? ios::app : ios::trunc) | ios::binary);
-        ofs.write((char*)&const_size, sizeof(int));
+        ofs.write((char*)&h, sizeof(int));
         for (LEN i = start; i < static_cast<LEN>(douter.size())+end; i++)
             ofs.write((char*)(&douter[i]), sizeof(DOUBLE));
         ofs.close();
@@ -1083,17 +1083,7 @@ void ParasoR::RemoveStem(bool acc, bool prof)
 
 void ParasoR::ConcatDo()
 {
-    ostringstream os;
     if (binary) {
-        os << " binary ";
-#if defined (LONG)
-        os << " long ";
-#elif defined (SHORT)
-        os << " short ";
-#endif
-    }
-    os << "constraint=" << _constraint;
-     if (binary) {
         Douter_concat::ConcatBin(GetDoFile(true));
         Douter_concat::ConcatBinReverse(GetDoFile(false));
         if (!noout) cout << "-Complete Do file." << endl;

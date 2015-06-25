@@ -109,21 +109,20 @@ static void WriteLines(ofstream& ofs, LEN start, LEN end, string ifile)
 {
 	int h = 0;
 	DOUBLE value;
-	vector<DOUBLE> outers;
 	ifstream ifs(ifile.c_str(), ios::binary);
     ifs.seekg(sizeof(int)*start+sizeof(DOUBLE)*(start), std::ios_base::beg);
     for (LEN i = start; i < end; i++) {
     	ifs.read((char*)&h, sizeof(int));
+        if (CheckHeader(ifs, h, ifile)) return;
     	vector<DOUBLE> vec;
     	for (int j = 0; j < h; j++) {
 	        ifs.read((char*)&(value), sizeof(DOUBLE));
 	        vec.push_back(value);
 	    }
-       	copy(outers.begin(), outers.end(), back_inserter(vec));
-    	outers = vec;
+        for (vector<DOUBLE>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++) {
+            ofs.write((char*)&(*it), sizeof(DOUBLE));
+        }
 	}
-	for (vector<DOUBLE>::iterator it = outers.begin(); it != outers.end(); it++)
-		ofs.write((char*)&(*it), sizeof(DOUBLE));
 }
 
 static bool ConcatBinReverse(string filename)
@@ -136,8 +135,9 @@ static bool ConcatBinReverse(string filename)
     LEN all = SeekAllData(filename, h);
 	ofstream ofs(tfile.c_str(), ios::binary | ios::trunc);
 	WriteHead(ofs);
-    for (LEN i = all; i >= 0; i -= FILELINES) {
-    	WriteLines(ofs, max((LEN)0, i-FILELINES), i, filename);
+    int step = (h > 1) ? 1 : FILELINES;
+    for (LEN i = all; i >= 0; i -= step) {
+    	WriteLines(ofs, max((LEN)0, i-step), i, filename);
     }
     ifs.close();
     ofs.close();

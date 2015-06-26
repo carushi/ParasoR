@@ -109,6 +109,7 @@ static void WriteLines(ofstream& ofs, LEN start, LEN end, string ifile)
 {
 	int h = 0;
 	DOUBLE value;
+    vector<DOUBLE> outers;
 	ifstream ifs(ifile.c_str(), ios::binary);
     ifs.seekg(sizeof(int)*start+sizeof(DOUBLE)*(start), std::ios_base::beg);
     for (LEN i = start; i < end; i++) {
@@ -119,10 +120,11 @@ static void WriteLines(ofstream& ofs, LEN start, LEN end, string ifile)
 	        ifs.read((char*)&(value), sizeof(DOUBLE));
 	        vec.push_back(value);
 	    }
-        for (vector<DOUBLE>::reverse_iterator it = vec.rbegin(); it != vec.rend(); it++) {
-            ofs.write((char*)&(*it), sizeof(DOUBLE));
-        }
+        copy(outers.begin(), outers.end(), back_inserter(vec));
+        outers = vec;
 	}
+    for (vector<DOUBLE>::iterator it = outers.begin(); it != outers.end(); it++)
+        ofs.write((char*)&(*it), sizeof(DOUBLE));
 }
 
 static bool ConcatBinReverse(string filename)

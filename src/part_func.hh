@@ -177,6 +177,7 @@ private:
     DOUBLE GetNumerator(const Mat& douter, const Vec& sum_douter, LEN k, bool inside);
     void ConnectInDo(Vec&, Mat&, int, string, bool, bool = true);
     void ConnectOutDo(Vec&, Mat&, int, string, bool, bool = true);
+    bool ConnectDo(bool, bool);
     void ConnectDo(bool);
     void ConnectDoSaved(bool);
     void ReadBinFirstDouter(bool, Vec&, string&);

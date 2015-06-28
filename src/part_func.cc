@@ -372,7 +372,7 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
         ReadVec(douter[i], str);
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[static_cast<LEN>(douter.size())-1] = first_douter;
+        douter[static_cast<LEN>(douter.size()-1)] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -391,7 +391,7 @@ bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_dout
         } else  break;
     }
     if (first_douter.size() > 0 && douter.size() > 0)
-        douter[static_cast<LEN>(douter.size())-1] = first_douter;
+        douter[static_cast<LEN>(douter.size()-1)] = first_douter;
     if (!noout) cout << "--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
@@ -404,7 +404,7 @@ void ParasoR::GetSumDouterList(const Vec& old_douter, Vec& sum_douter, bool insi
         for (LEN i = 0; i <= _constraint; i++) {
             sum_douter[i] = acc;
             if (i < _constraint && i < static_cast<LEN>(old_douter.size()))
-                acc = Logsum(acc, old_douter[static_cast<LEN>(old_douter.size())-1-i]);
+                acc = Logsum(acc, old_douter[static_cast<LEN>(old_douter.size()-1)-i]);
         }
     } else {
         DOUBLE acc = 0.0;
@@ -494,38 +494,40 @@ void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid, string filenam
     old_douter = new_douter;
 }
 
-void ParasoR::ConnectDo(bool keep_flag)
+bool ParasoR::ConnectDo(bool keep_flag, bool inside)
 {
-    bool iflag = true, oflag = true;
+    bool flag = true;
     Init(false, true);
     Vec old_douter = Vec(1, 0);
     Vec first_douter;
     for (int i = 0; i < chunk; i++) {
+        int tid = (inside) ? i : chunk-1-i;
         Mat douter;
-        string ifile = GetTempFileList(true, i);
-        iflag = (binary) ? ReadBinDouterInside(douter, ifile, first_douter)
-                : ReadDouterInside(douter, ifile, first_douter);
-        if (iflag) {
-            ConnectInDo(old_douter, douter, i, GetDoFile(true), i > 0);
-            first_douter = douter[static_cast<LEN>(douter.size())-1];
-        } else break;
-    }
-    if (!noout) cout << "-Complete " << GetDoFile(true) << endl;
-    if (!keep_flag && iflag) RemoveTempFiles(true);
-    old_douter = Vec(1, 0);
-    first_douter.clear();
-    for (int i = chunk-1; i >= 0; i--) {
-        Mat douter;
-        string ofile = GetTempFileList(false, i);
-        oflag = (binary) ? ReadBinDouterOutside(douter, ofile, first_douter)
-                : ReadDouterOutside(douter, ofile, first_douter);
-        if (oflag) {
-            ConnectOutDo(old_douter, douter, i, GetDoFile(false), i < chunk-1);
+        string file = GetTempFileList(inside, tid);
+        flag = (binary) ? ReadBinDouterInside(douter, file, first_douter)
+                : ReadDouterInside(douter, file, first_douter);
+        if (!flag) {
+            if (!noout) cout << "File format error" << endl;
+            return false;
+        }
+        if (inside) {
+            ConnectInDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
+            first_douter = douter[static_cast<LEN>(douter.size()-1)];
+        } else {
+            ConnectOutDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
             first_douter = douter[0];
-        } else break;
+        }
     }
-    if (!noout) cout << "-Complete " << GetDoFile(false) << endl;
-    if (!keep_flag && oflag) RemoveTempFiles(false);
+    if (!keep_flag) RemoveTempFiles(inside);
+    if (!noout) cout << "-Complete " << GetDoFile(inside) << endl;
+    return true;
+}
+
+void ParasoR::ConnectDo(bool keep_flag)
+{
+    Init(false, true);
+    ConnectDo(keep_flag, true);
+    ConnectDo(keep_flag, false);
 }
 
 void ParasoR::ConnectDoSaved(bool keep_flag)

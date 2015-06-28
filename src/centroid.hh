@@ -20,19 +20,19 @@ using std::max;
  */
 static string GetMEAStructure(Rfold::Mat& bppm, LEN end, DOUBLE gamma)
 {
-	string str;
-	str.assign(end, '.');
-	for (LEN j = 0; j < bppm.size(); j++) {
-		for (LEN dist = 0; dist < bppm[j].size(); dist++) {
-			if (bppm[j][dist] > 1./(gamma+1.)) {
-				if (j-dist >= 0)
-					str[j-dist] = '(';
-				if (j < end)
-					str[j] = ')';
-			}
-		}
-	}
-	return str;
+    string str;
+    str.assign(end, '.');
+    for (LEN j = 0; j < bppm.size(); j++) {
+        for (LEN dist = 0; dist < bppm[j].size(); dist++) {
+            if (bppm[j][dist] > 1./(gamma+1.)) {
+                if (j-dist >= 0)
+                    str[j-dist] = '(';
+                if (j < end)
+                    str[j] = ')';
+            }
+        }
+    }
+    return str;
 }
 
 /**
@@ -43,14 +43,14 @@ static string GetMEAStructure(Rfold::Mat& bppm, LEN end, DOUBLE gamma)
  */
 static void GetStemProb(Rfold::Mat& bppm, LEN end, Rfold::Vec& stem)
 {
-	stem = Rfold::Vec(end, 0);
-	for (LEN j = 0; j < bppm.size(); j++) {
-		for (LEN dist = 0; dist < bppm[j].size(); dist++) {
-			if (bppm[j][dist] < 0)	continue;
-			if (j-dist >= 0) stem[j-dist] += bppm[j][dist];
-			if (j < end) stem[j] += bppm[j][dist];
-		}
-	}
+    stem = Rfold::Vec(end, 0);
+    for (LEN j = 0; j < bppm.size(); j++) {
+        for (LEN dist = 0; dist < bppm[j].size(); dist++) {
+            if (bppm[j][dist] < 0)    continue;
+            if (j-dist >= 0) stem[j-dist] += bppm[j][dist];
+            if (j < end) stem[j] += bppm[j][dist];
+        }
+    }
 }
 
 /**
@@ -62,16 +62,16 @@ static void GetStemProb(Rfold::Mat& bppm, LEN end, Rfold::Vec& stem)
  */
 static void GetMEABpp(Rfold::Mat& bppm, LEN end, DOUBLE gamma, vector<int>& cbpp)
 {
-	cbpp = vector<int>(end, 0);
-	for (LEN i = 0; i < end; i++) cbpp[i] = i;
-	for (LEN j = 0; j < bppm.size(); j++) {
-		for (LEN dist = 0; dist < bppm[j].size(); dist++) {
-			if (bppm[j][dist] > 1./(gamma+1.)) {
-				if (j-dist >= 0) cbpp[j-dist] = j;
-				if (j < end) cbpp[j] = j-dist;
-			}
-		}
-	}
+    cbpp = vector<int>(end, 0);
+    for (LEN i = 0; i < end; i++) cbpp[i] = i;
+    for (LEN j = 0; j < bppm.size(); j++) {
+        for (LEN dist = 0; dist < bppm[j].size(); dist++) {
+            if (bppm[j][dist] > 1./(gamma+1.)) {
+                if (j-dist >= 0) cbpp[j-dist] = j;
+                if (j < end) cbpp[j] = j-dist;
+            }
+        }
+    }
 }
 
 }

@@ -58,7 +58,7 @@ void ParasoR::PreCalcOutside(LEN x, DOUBLE uxx)
         for (LEN i = x; i > left; i--)
             uxx = RewindLocalOuter(i, uxx);
     }
-    if (ddebug) cout << "--rewind: " << left << " " << uxx << endl;
+    if (ddebug) cout << "#--rewind: " << left << " " << uxx << endl;
     for (LEN i = left; i < x; i++) {
         CalcOutside(i, uxx);
         uxx = SlideLocalOuter(i, uxx);
@@ -107,7 +107,7 @@ DOUBLE ParasoR::RewindLocalOuter(LEN pre, DOUBLE old) {
 
 DOUBLE ParasoR::SlideLocalOuter(LEN x, DOUBLE old) {
     if (ddebug)
-        cout << "--slide " << x << " " << Outer(alpha, x) << " " << Outer(beta, x) << endl;
+        cout << "#--slide " << x << " " << Outer(alpha, x) << " " << Outer(beta, x) << endl;
     return old+Outer(alpha, x)-Outer(beta, x);
 }
 
@@ -159,7 +159,7 @@ int ParasoR::ReadPartConnectedDouter(bool inside, Vec& vec)
     string filename = GetShrunkFileList(File::Part, inside, tid);
     ifstream ifs(filename.c_str());
     if (!ifs) return 0;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     for (int i = 0; inside && i <= tid; i++) {
         if (!getline(ifs, str)) return vec.size();
         if (i == tid) ReadVec(vec, str);
@@ -188,7 +188,7 @@ int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
     if (!ifs || (h = GetColumn(ifs)) != 2*(int)_constraint) {
         return 0;
     }
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for (LEN i = 0; inside && i <= tid; i++) {
         if (i == tid) ReadBinVec(h, vec, ifs);
@@ -206,7 +206,7 @@ int ParasoR::ReadBinPartConnectedDouter(bool inside, Vec& vec)
         }
         GetColumn(ifs);
     }
-    if (!noout) cout << "--size: " << vec.size() << endl;
+    if (!noout) cout << "#--size: " << vec.size() << endl;
     return vec.size();
 }
 
@@ -214,7 +214,7 @@ bool ParasoR::ReadConnectedDouter(bool inside)
 {
     string str;
     ifstream ifs(GetDoFile(inside).c_str());
-    if (!noout) cout << "-Reading " << GetDoFile(inside) << " " << alpha.istart << "~" << alpha.iend << endl;
+    if (!noout) cout << "#-Reading " << GetDoFile(inside) << " " << alpha.istart << "~" << alpha.iend << endl;
     if (!ifs) return false;
     for (LEN i = 0; i <= alpha.iend; i++) {
         if (!getline(ifs, str)) return i == alpha.iend;
@@ -235,11 +235,11 @@ bool ParasoR::ReadConnectedDouter(bool inside)
 bool ParasoR::ReadBinConnectedDouter(bool inside)
 {
     ifstream ifs(GetDoFile(inside).c_str(), ios::binary);
-    if (!noout) cout << "-Reading " << GetDoFile(inside) << " " << alpha.istart << "~" << alpha.iend << endl;
+    if (!noout) cout << "#-Reading " << GetDoFile(inside) << " " << alpha.istart << "~" << alpha.iend << endl;
     int h = GetColumn(ifs);
     if (!ifs || h != 1) return false;
     DOUBLE value;
-    if (!noout) cout << "--column size: " << h << endl;
+    if (!noout) cout << "#--column size: " << h << endl;
     ifs.seekg(sizeof(int)+sizeof(DOUBLE)*(alpha.istart), std::ios::beg);
     for (LEN i = alpha.istart; i <= alpha.iend; i++) {
         ifs.read((char*)&(value), sizeof(DOUBLE));
@@ -254,7 +254,7 @@ void ParasoR::ReadStem(Vec& vec, string file, LEN s, LEN e)
 {
     string str;
     ifstream ifs(file.c_str());
-    if (!noout) cout << "-Reading " << file << endl;
+    if (!noout) cout << "#-Reading " << file << endl;
     for (LEN i = 1; i < e; i++) {
         if (!getline(ifs, str)) {
             cerr << file << " does not include enough data\nPlease retry to make " << file << endl;
@@ -270,10 +270,10 @@ void ParasoR::ReadStem(Vec& vec, string file, LEN s, LEN e)
 void ParasoR::ReadBinStem(Vec& vec, string file, LEN s, LEN e)
 {
     ifstream ifs(file.c_str(), ios::binary);
-    if (!noout) cout << "-Reading " << file << endl;
+    if (!noout) cout << "#-Reading " << file << endl;
     int h = GetColumn(ifs);
     DOUBLE value;
-    if (!noout) cout << "--column size: " << h << endl;
+    if (!noout) cout << "#--column size: " << h << endl;
     if (h != 1) {
         cerr << file << "'s size != 1\nPlease retry to make " << file << endl;
         exit(-1);
@@ -321,7 +321,7 @@ void ParasoR::InitColMat(Matrix& mat, LEN pos)
 void ParasoR::CalcInside(LEN tpos)
 {
     InitRowMat(alpha, tpos);
-    if (ddebug) cout << "--inside left " << tpos << endl;
+    if (ddebug) cout << "#--inside left " << tpos << endl;
     for (LEN i = tpos-TURN; i >= LeftRange(tpos); i--) {
         SetInsideMat(i, tpos);
     }
@@ -330,7 +330,7 @@ void ParasoR::CalcInside(LEN tpos)
 void ParasoR::CalcInsideFromRight(LEN tpos)
 {
     InitColMat(alpha, tpos);
-    if (ddebug) cout << "--inside right " << tpos << endl;
+    if (ddebug) cout << "#--inside right " << tpos << endl;
     for (LEN j = tpos+TURN; j <= RightRange(tpos); j++) {
         SetInsideMat(tpos, j);
     }
@@ -339,7 +339,7 @@ void ParasoR::CalcInsideFromRight(LEN tpos)
 void ParasoR::CalcOutside(LEN pos)
 {
     InitColMat(beta, pos);
-    if (ddebug) cout << "--outside right " << pos << endl;
+    if (ddebug) cout << "#--outside right " << pos << endl;
     for (LEN j = RightRange(pos); j >= pos+TURN; j--)
         SetOutsideMat(pos, j, 0);
 }
@@ -347,12 +347,12 @@ void ParasoR::CalcOutside(LEN pos)
 void ParasoR::CalcOutside(LEN pos, DOUBLE uxx)
 {
     InitColMat(beta, pos);
-    if (ddebug) cout << "--uxx : " << "u" << pos << "_" << pos << " " << uxx << endl;
+    if (ddebug) cout << "#--uxx : " << "u" << pos << "_" << pos << " " << uxx << endl;
     LEN right = RightRange(pos);
     DOUBLE uij = ExpandLocalOuter(uxx, pos, pos, right);
-    if (ddebug) cout << "----expand : " << uxx << endl;
+    if (ddebug) cout << "#----expand : " << uxx << endl;
     for (LEN j = right; j >= pos+TURN; j--) {
-        if (ddebug) cout << "---u" << pos << "_" << j << ": " << uij << endl;
+        if (ddebug) cout << "#---u" << pos << "_" << j << ": " << uij << endl;
         SetOutsideMat(pos, j, uij);
         uij = ShrinkLocalOuter(uij, j);
     }
@@ -380,12 +380,12 @@ void ParasoR::SetRawRangedMatrix(bool set)
         if (!ReadBinConnectedDouter(true) || !ReadBinConnectedDouter(false))
             throw "File read error. Please check connected douter file.";
         if (!noout)
-            cout << "-Finish reading connected douters binary" << endl;
+            cout << "#-Finish reading connected douters binary" << endl;
     } else {
         if (!ReadConnectedDouter(true) || !ReadConnectedDouter(false))
             throw "File read error. Please check connected douter file.";
         if (!noout)
-            cout << "-Finish reading connected douters" << endl;
+            cout << "#-Finish reading connected douters" << endl;
     }
     if (ddebug) {
         PrintVec(alpha.outer, true);
@@ -395,7 +395,7 @@ void ParasoR::SetRawRangedMatrix(bool set)
 
 DOUBLE ParasoR::SetRangedMatrix(LEN start, bool set)
 {
-    if (!noout) cout << "-SetMatrix..." << endl;
+    if (!noout) cout << "#-SetMatrix..." << endl;
     SetRawRangedMatrix(set);
     PreCalcInside(start+1);
     DOUBLE uxx = ReproduceLocalOuter(start+1); // CalcInside(~pos+_constraint);
@@ -406,7 +406,7 @@ DOUBLE ParasoR::SetRangedMatrix(LEN start, bool set)
 
 void ParasoR::StoreBppSlide(LEN i, LEN right, Mat& bppm)
 {
-    for (LEN j = max(_start+1, i+TURN); j <= i+_constraint && j <= right; j++) {
+    for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
         DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
         if (ddebug) cout << "bpp: " << i << " " << j << " " << tbpp << endl;
         BPPM(j, j-i, _start+1) = tbpp;
@@ -445,7 +445,7 @@ void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out)
 void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Mat& bppm)
 {
     LEN shift = _start+1;
-    for (LEN j = max(_start+1, i+TURN); j <= i+_constraint && j <= right; j++) {
+    for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
         DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
         BPPM(j, j-i, _start+1) = tbpp;
     }
@@ -454,7 +454,7 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Mat& bppm)
 void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Vec& prebpp)
 {
     LEN shift = _start+1;
-    for (LEN j = max(_start+1, i+TURN); j <= i+_constraint && j <= right; j++) {
+    for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
         DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
         if (i >= shift) prebpp[i-shift] += tbpp;
         if (j <= _end) prebpp[j-shift] += tbpp;
@@ -468,12 +468,12 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Vec& prebpp)
 //     LEN bstart = _start+1;
 //     DOUBLE uxx = SetRangedMatrix(_start);
 //     bppm = Mat(right-bstart+1, Vec(_constraint+1, -INF));
-//     if (!noout) cout << "--size:" << right-bstart+1 << endl;
+//     if (!noout) cout << "#--size:" << right-bstart+1 << endl;
 //     for (LEN i = bstart-1; bstart-i <= _constraint && i >= 1; i--) {
 //         StoreBppSlide(i, right, bppm);
 //     }
 //     for (LEN pos = bstart+1; pos <= _end; pos++) {
-//         if (!noout && (pos%10000 == 0 || pos == bstart)) cout << "--calculating-- " << pos << endl;
+//         if (!noout && (pos%10000 == 0 || pos == bstart)) cout << "#--calculating-- " << pos << endl;
 //         CalcForward(pos, uxx);
 //         StoreBppSlide(pos, right, bppm);
 //         uxx = SlideLocalOuter(pos, uxx);
@@ -513,13 +513,13 @@ void ParasoR::CalcSlidingWindowStem(Probs& P, LEN start, LEN end, bool set)
     if (ddebug)
         CheckDouter(start, end, uxx);
     SetProbs(P);
-    if (!noout) cout << "--size:" << right-bstart+1 << endl;
+    if (!noout) cout << "#--size:" << right-bstart+1 << endl;
     for (LEN i = bstart-1; bstart-i <= _constraint && i >= 1; i--) {
         StoreAreaBppSlide(i, right, P);
     }
     for (LEN pos = bstart; pos <= end; pos++) {
         if (!noout && (pos%10000 == 0 || pos == bstart)) {
-            cout << "--calculating-- " << pos << endl;
+            cout << "#--calculating-- " << pos << endl;
         }
         CalcForward(pos, uxx);
         StoreAreaBppSlide(pos, right, P);
@@ -536,7 +536,7 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
         CalcForward(pos, uxx);
         DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+static_cast<LEN>(region));
         if (ddebug)
-            cout << "---au " << pos << " " << pos+static_cast<LEN>(region) << ": " << uij << endl;
+            cout << "#---au " << pos << " " << pos+static_cast<LEN>(region) << ": " << uij << endl;
         if ((pos-1)%(static_cast<LEN>(region)+1) == 0) {
             P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+static_cast<LEN>(region)), uij)
                                  : acc(pos, min(seq.length, pos+static_cast<LEN>(region))));
@@ -544,7 +544,7 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
         uxx = SlideLocalOuter(pos, uxx);
     }
     if (!noout)
-        cout << "--calculated size " << P.size() << " ("  << start
+        cout << "#--calculated size " << P.size() << " ("  << start
             << "~" << end << ", " << region << ")" << endl;
 }
 
@@ -557,10 +557,10 @@ void ParasoR::CalcSlidingWindowProf(Structure& P, LEN start, LEN end, bool set)
     P = Structure();
     prom = Vec((end-start)*TYPE, 0.);
     DOUBLE uxx = SetRangedMatrix(start, set);
-    if (!noout) cout << "--size:" << right-bstart+1 << endl;
+    if (!noout) cout << "#--size:" << right-bstart+1 << endl;
     for (LEN pos = bstart; pos <= end; pos++) {
         if (!noout && (pos%10000 == 0 || pos == bstart)) {
-            cout << "--calculating-- " << pos << endl;
+            cout << "#--calculating-- " << pos << endl;
         }
         CalcForward(pos, uxx);
         if (linear) {
@@ -593,7 +593,7 @@ void ParasoR::CalcStem(bool store)
             StoreStem(GetStemFile(false), P, false);
         else {
             if (!noout)
-                cout << "-Writing to " << GetDividedStemFile(false) << endl;
+                cout << "#-Writing to " << GetDividedStemFile(false) << endl;
             StoreStem(GetDividedStemFile(false), P, false);
         }
     } else {
@@ -643,12 +643,12 @@ void ParasoR::CalcProf(bool value)
         CalcProf(P);
         if (chunk > 0) {
             if (!noout)
-                cout << "-Writing to " << GetDividedStemFile(true, true) << endl;
+                cout << "#-Writing to " << GetDividedStemFile(true, true) << endl;
             StoreStem(GetDividedStemFile(true, true), P, true);
         } else if (chunk > 0 && chunk == id) {
             StoreStem(GetStemFile(true, true), P, true);
         } else {
-            cout << "--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
+            cout << "#--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
             for (LEN i = 0; i < P.size(); i++) {
                 if (i%TYPE == 0) cout << "\n" << i/TYPE+_start+1 << " : ";
                 cout << P[i] << ",";
@@ -659,7 +659,7 @@ void ParasoR::CalcProf(bool value)
         vector<char> P;
         CalcProf(P);
         if (!noout)
-            cout << "-Writing to " << "stdout" << endl;
+            cout << "#-Writing to " << "stdout" << endl;
         for (LEN i = 0; i <= _end-(_start+1) && i < P.size(); i++)
             cout << P[i];
         cout << endl;
@@ -672,7 +672,7 @@ void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem, int elem)
     if (end-start <= TURN)  return;
     ostringstream oss;
     oss << STMP << name << "_" << ((elem == PROF_NUM) ? "prof_" : "stem_") << _start << "_se=" << start << "_" << end << "_gamma=" << gamma << ".ps";
-    cout << "-Drawing to " << oss.str() << endl;
+    cout << "#-Drawing to " << oss.str() << endl;
     cout << "seq: " << seq.substr(start+_start+1, end-start+1) << endl;
     cout << "str: " << str.substr(start, end-start+1) << endl;
     Plot::RNAColorPlot(seq.substr(start+_start+1, end-start+1), str.substr(start, end-start+1), oss.str(), stem);
@@ -721,7 +721,7 @@ void ParasoR::CalcBpp(bool output, DOUBLE minp, bool calculated)
     for (LEN j = 0; j < bppm.size(); j++) {
         for (LEN dist = 0; dist < bppm[j].size(); dist++) {
             if (bppm[j][dist] < minp)  continue;
-              if (j-dist >= 0 || j < seq.length) cout << "* " << bstart+j-dist << " " << bstart+j  << " " << bppm[j][dist] << endl;
+            if (j-dist >= 0 || j < seq.length) cout << "* " << j+bstart-dist << " " << j+bstart  << " " << bppm[j][dist] << endl;
         }
     }
 }
@@ -731,7 +731,7 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
     if (!calculated)
         CalcBpp();
     LEN bstart = _start+1;
-    if (!noout) cout << "-Gamma " << gamma << endl;
+    if (!noout) cout << "#-Gamma " << gamma << endl;
     string str = Centroid::GetMEAStructure(bppm, _end-_start, gamma);
     if (out) {
         cout << str << endl;
@@ -853,12 +853,12 @@ void ParasoR::ConcatStemdb(bool acc, bool prof)
     for (int i = 0; i < chunk; i++) {
         id = i;
         string file = GetDividedStemFile(acc, prof);
-        cout << "-Reading " << file << endl;
+        cout << "#-Reading " << file << endl;
         bool error = (binary) ? ReadBinStemToSingleFile(file, outfile, i != 0)
                  : ReadStemToSingleFile(file, outfile, i != 0, (i == chunk-1) ? "\n" : "\t");
         if (error) return;
     }
-    if (!noout) cout << "-Concatenation succeeded. (-> " << outfile << ")" << endl;
+    if (!noout) cout << "#-Concatenation succeeded. (-> " << outfile << ")" << endl;
     RemoveStem(acc, prof);
 }
 
@@ -868,7 +868,7 @@ void ParasoR::Connect(ParasoR& rfold, bool shrink, bool keep)
         if (!rfold.ConnectSavedFiles(keep))
             rfold.ConnectDoSaved(keep);
     } else {
-        if (!noout) cout << "--file: " << rfold.GetDoFile(true) << ", " << rfold.GetDoFile(false) << endl;
+        if (!noout) cout << "#--file: " << rfold.GetDoFile(true) << ", " << rfold.GetDoFile(false) << endl;
         rfold.ConnectDo(keep);
         rfold.ConcatDo();
     }
@@ -983,13 +983,13 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
     Vec prebpp = Vec(_constraint+1, 0);
     _start = 0;
     cout << std::setprecision(20);
-    cout << "--Z: " << alpha.outer[seq.length] << endl;
+    cout << "#--Z: " << alpha.outer[seq.length] << endl;
     if (out == Out::ACC)
-        cout << "--range : accessibility (kcal/mol)" << endl;
+        cout << "#--range : accessibility (kcal/mol)" << endl;
     else if (out == Out::PROF)
-        cout << "--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
+        cout << "#--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
     else if (out == Out::MOTIF)
-        cout << "--pos : B(ulge) or O(uter) or H(airpin) or M(ulti) or S(tem) or I(nterior)" << endl;
+        cout << "#--pos : B(ulge) or O(uter) or H(airpin) or M(ulti) or S(tem) or I(nterior)" << endl;
     PreCalcInside(1);
     PreCalcOutside(1);
     if (out == Out::MEA || out == Out::BPP)

@@ -192,7 +192,7 @@ bool NameTransform(string& name) {
         name.replace(pos, 1, rep);
     for (string::size_type pos = name.find("\\"); pos != string::npos; pos = name.find("\\", rep.length()+pos))
         name.replace(pos, 1, rep);
-    cout << "--file prefix: " << name << endl;
+    cout << "#--file prefix: " << name << endl;
     return true;
 }
 
@@ -260,7 +260,7 @@ void CalcStrucFasta(Rfold::Arg& arg)
     string str;
     string tname = arg.name;
     ifstream ifs(arg.input.c_str());
-    cout << "-File Reading " << arg.input << "..." << endl;
+    cout << "#-File Reading " << arg.input << "..." << endl;
     while (getline(ifs, str)) {
         if (str.length() == 0) continue;
         Rfold::EraseWindowsNewline(str);
@@ -334,7 +334,7 @@ int main(int argc, char** argv)
             }
         }
         delete[] options;
-        cout << "--working directory: " << HOMEDIR << endl;
+        cout << "#--working directory: " << HOMEDIR << endl;
         struct stat buf;
         if (stat(HOMEDIR, &buf) != 0 || strlen(HOMEDIR) < MINDIRLEN) {
             cerr << "Cannot find working directory or may contain incorrect (too short) path.\n"

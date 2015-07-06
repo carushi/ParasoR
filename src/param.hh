@@ -63,7 +63,7 @@ inline bool IsCloseGU(const int type) {
 static void SetTemperature(int temp)
 {
     ChangeTemperature(temp);
-    cout << "-Temperature " << temp << " " << kT << endl;
+    cout << "#-Temperature " << temp << " " << kT << endl;
 }
 
 static void PrintSummary()
@@ -98,7 +98,7 @@ static void ChangeEnergyParam(string name = "")
         file = name;
         doubt = true;
     }
-    cout << "-Read Energy " << name << " -> " << file << endl;
+    cout << "#-Read Energy " << name << " -> " << file << endl;
     class Convert convert;
     if (!convert.ConvertParamFile(file))
         cerr << "Format error: Energy param file " << file << endl;

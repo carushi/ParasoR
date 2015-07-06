@@ -212,7 +212,7 @@ void ParasoR::CalcInDeltaOuter(LEN j)
     cout.precision(15);
     if (ddebug) cout << j << endl;
     for (LEN h = 0; h <= _constraint; h++) {
-        if (ddebug) cout << "------------" << h << endl;
+        if (ddebug) cout << "#------------" << h << endl;
         DOUBLE dalpha = 0, temp = -INF;
         for (LEN k = 1; k <= _constraint+1 && j-k >= 0; k++) {
             dalpha = Logsum(dalpha, GetDo(alpha, j-k, 0));
@@ -246,7 +246,7 @@ void ParasoR::CalcChunkInside(bool outer)
 void ParasoR::CalcOutDeltaOuter(LEN j)
 {
      for (LEN h = 0; h < _constraint+1; h++) {
-        if (ddebug) cout << "------------" << h << endl;
+        if (ddebug) cout << "#------------" << h << endl;
         DOUBLE dbeta = 0;
         DOUBLE temp = -INF;
         for (LEN k = 1; j+k <= RightRange(j); k++) {
@@ -329,7 +329,7 @@ bool ParasoR::ReadDouterInside(Mat& douter, string filename, Vec& first_douter)
     string str;
     ifstream ifs(filename.c_str());
     if (!ifs) return false;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     for (LEN i = 0; getline(ifs, str); i++) {
         if (first_douter.size() > 0 && i == 0) {
             douter.push_back((first_douter));
@@ -338,7 +338,7 @@ bool ParasoR::ReadDouterInside(Mat& douter, string filename, Vec& first_douter)
             ReadVec(douter[i], str);
         }
     }
-    if (!noout) cout << "--size: " << douter.size() << endl;
+    if (!noout) cout << "#--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
 
@@ -347,7 +347,7 @@ bool ParasoR::ReadBinDouterInside(Mat& douter, string filename, Vec& first_doute
     int h = 0;
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) <= 0) return false;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for (LEN i = 0; ; i++) {
         Vec temp = Vec();
@@ -357,7 +357,7 @@ bool ParasoR::ReadBinDouterInside(Mat& douter, string filename, Vec& first_doute
             } else douter.push_back(temp);
         } else  break;
     }
-    if (!noout) cout << "--size: " << douter.size() << endl;
+    if (!noout) cout << "#--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
 
@@ -365,7 +365,7 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
 {
     string str;
     ifstream ifs(filename.c_str());
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     if (!ifs) return false;
     for (LEN i = 0; getline(ifs, str); i++) {
         douter.push_back(Vec());
@@ -373,7 +373,7 @@ bool ParasoR::ReadDouterOutside(Mat& douter, string filename, Vec& first_douter)
     }
     if (first_douter.size() > 0 && douter.size() > 0)
         douter[static_cast<LEN>(douter.size()-1)] = first_douter;
-    if (!noout) cout << "--size: " << douter.size() << endl;
+    if (!noout) cout << "#--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
 
@@ -382,7 +382,7 @@ bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_dout
     int h = 0;
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) <= 0) return false;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for ( ; ; ) {
         Vec temp = Vec();
@@ -392,7 +392,7 @@ bool ParasoR::ReadBinDouterOutside(Mat& douter, string filename, Vec& first_dout
     }
     if (first_douter.size() > 0 && douter.size() > 0)
         douter[static_cast<LEN>(douter.size()-1)] = first_douter;
-    if (!noout) cout << "--size: " << douter.size() << endl;
+    if (!noout) cout << "#--size: " << douter.size() << endl;
     return douter.size() > 0;
 }
 
@@ -463,7 +463,7 @@ void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid, string filename
     if (tid != 0)
         GetSumDouterList(old_douter, sum_douter, true);
     for (LEN i = 1; i < new_douter.size(); i++) {
-        if (ddebug) cout << "--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
+        if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
         DOUBLE denominator = (i == 1 && start) ? douter[i-1][0] : //start position;
                                       GetDenominator(douter[i-1], sum_douter, true);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, true);
@@ -482,7 +482,7 @@ void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid, string filenam
     if (tid != chunk-1)
         GetSumDouterList(old_douter, sum_douter, false);
     for (LEN i = douter.size()-2; i >= 0; i--) {
-        if (ddebug) cout << "--------" << i << " " << seq.strget(seq.length/chunk*tid+i+1) << endl;
+        if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i+1) << endl;
         DOUBLE denominator = (i == douter.size()-2 && start) ? douter[i+1][0] : // start position;
                              GetDenominator(douter[i+1], sum_douter, false);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, false);
@@ -519,7 +519,7 @@ bool ParasoR::ConnectDo(bool keep_flag, bool inside)
         }
     }
     if (!keep_flag) RemoveTempFiles(inside);
-    if (!noout) cout << "-Complete " << GetDoFile(inside) << endl;
+    if (!noout) cout << "#-Complete " << GetDoFile(inside) << endl;
     return true;
 }
 
@@ -565,7 +565,7 @@ void ParasoR::ReadBinFirstDouter(bool inside, Vec& first_douter, string& filenam
     int h = 0;
     ifstream ifs(filename.c_str(), ios::binary);
     if (!ifs || (h = GetColumn(ifs)) <= 0) return;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     if (!noout) cout << "column size: " << h << endl;
     for (LEN i = 0; i <= _constraint; i++) {
         Vec temp = Vec();
@@ -583,7 +583,7 @@ void ParasoR::ReadFirstDouter(bool inside, Vec& first_douter, string& filename)
     string str;
     ifstream ifs(filename.c_str());
     if (!ifs) return;
-    if (!noout) cout << "-Reading " << filename << endl;
+    if (!noout) cout << "#-Reading " << filename << endl;
     for (LEN i = 0; getline(ifs, str); i++) {
         Vec temp = Vec();
         ReadVec(temp, str);
@@ -629,7 +629,7 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag, bool inside)
     }
     if (!binary)
         TabToNewLine(outfile);
-    if (!noout) cout << "-Complete " << GetDoFile(inside) << endl;
+    if (!noout) cout << "#-Complete " << GetDoFile(inside) << endl;
     if (!keep_flag) RemoveTempFilesSaveMem(inside);
     return true;
 }
@@ -672,9 +672,9 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
     DOUBLE stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
     DOUBLE stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
     if (deb && exp(Logsumexp(stack, stemend))-1.0 > 1e-6) {
-        cout << "----error " << i << " " << j << endl;
-        cout << "---- " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << LogLoopEnergy(i, j, i+1, j-1, seq) << endl;
-        cout << "---- " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << endl;
+        cout << "#----error " << i << " " << j << endl;
+        cout << "#---- " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << LogLoopEnergy(i, j, i+1, j-1, seq) << endl;
+        cout << "#---- " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << endl;
         cout << "dpp " << exp(Logsumexp(stack, stemend)) << endl;
         cout << "Catch error: caused by outer file." << endl;
         abort();
@@ -871,12 +871,12 @@ void ParasoR::StoreDouterTemp(bool inside)
         ofstream ofs(file.c_str(), ios::binary);
         WriteBinDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
         ofs.close();
-        if (!noout) cout << "-Written (binary) " << file << endl;
+        if (!noout) cout << "#-Written (binary) " << file << endl;
     } else {
         ofstream ofs(file.c_str());
         ofs.precision(PREC);
         WriteDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
-        if (!noout) cout << "-Written " << file << endl;
+        if (!noout) cout << "#-Written " << file << endl;
         ofs.close();
     }
 }
@@ -905,12 +905,12 @@ void ParasoR::StoreDouterTempShrunk(bool inside)
         ofstream ofs(file.c_str(), ios::binary);
         WriteBinDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
         ofs.close();
-        if (!noout) cout << "-Written (binary) " << file << endl;
+        if (!noout) cout << "#-Written (binary) " << file << endl;
     } else {
         ofstream ofs(file.c_str());
         ofs.precision(PREC);
         WriteDouterTemp(ofs, (inside) ? alpha.douter : beta.douter);
-        if (!noout) cout << "-Written " << file << endl;
+        if (!noout) cout << "#-Written " << file << endl;
         ofs.close();
     }
 }
@@ -938,7 +938,7 @@ void ParasoR::StoreDouter(string filename, Vec& douter, bool inside, bool app)
         ofs << endl;
         ofs.close();
     }
-    if (!noout) cout << "-Written " << filename << endl;
+    if (!noout) cout << "#-Written " << filename << endl;
 }
 
 void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
@@ -987,10 +987,10 @@ void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
 void ParasoR::PrintMat(bool is_alpha)
 {
     if (is_alpha) {
-        cout << "--alpha" << endl;
+        cout << "#--alpha" << endl;
         alpha.Print(seq.substr(alpha.istart));
     } else {
-        cout << "--beta" << endl;
+        cout << "#--beta" << endl;
         beta.Print(seq.substr(alpha.istart));
     }
 }
@@ -1088,11 +1088,11 @@ void ParasoR::ConcatDo()
     if (binary) {
         Douter_concat::ConcatBin(GetDoFile(true));
         Douter_concat::ConcatBinReverse(GetDoFile(false));
-        if (!noout) cout << "-Complete Do file." << endl;
+        if (!noout) cout << "#-Complete Do file." << endl;
     } else {
         Douter_concat::Concat(GetDoFile(true));
         Douter_concat::ConcatReverse(GetDoFile(false));
-        if (!noout) cout << "-Complete Do file." << endl;
+        if (!noout) cout << "#-Complete Do file." << endl;
     }
 }
 
@@ -1153,7 +1153,7 @@ void ParasoR::main(Arg& arg, bool shrink)
             arg.end = max(arg.length, static_cast<LEN>(arg.str.length()));
             if (arg.start < 0) arg.start = 0;
         }
-        if (!noout) cout << "-Calculate from " << arg.start << " to " << arg.end << endl;
+        if (!noout) cout << "#-Calculate from " << arg.start << " to " << arg.end << endl;
         if (arg.end > arg.start) {
             rfold.SetBpRange(arg.start, arg.end);
             rfold.cut = true;

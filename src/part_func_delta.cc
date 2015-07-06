@@ -340,7 +340,7 @@ void ParasoR::CalcOutside(LEN pos)
 {
     InitColMat(beta, pos);
     if (ddebug) cout << "--outside right " << pos << endl;
-    for (LEN j = RightRange(pos); j>= pos+TURN; j--)
+    for (LEN j = RightRange(pos); j >= pos+TURN; j--)
         SetOutsideMat(pos, j, 0);
 }
 

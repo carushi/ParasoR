@@ -340,7 +340,7 @@ void ParasoR::CalcOutside(LEN pos)
 {
     InitColMat(beta, pos);
     if (ddebug) cout << "--outside right " << pos << endl;
-    for (LEN j = RightRange(pos); j >= pos+TURN; j--)
+    for (LEN j = RightRange(pos); j>= pos+TURN; j--)
         SetOutsideMat(pos, j, 0);
 }
 
@@ -721,7 +721,7 @@ void ParasoR::CalcBpp(bool output, DOUBLE minp, bool calculated)
     for (LEN j = 0; j < bppm.size(); j++) {
         for (LEN dist = 0; dist < bppm[j].size(); dist++) {
             if (bppm[j][dist] < minp)  continue;
-            if (j-dist >= 0 || j < seq.length) cout << "* " << bstart+j << " " << bstart+j+dist << " " << bppm[j][dist] << endl;
+              if (j-dist >= 0 || j < seq.length) cout << "* " << bstart+j-dist << " " << bstart+j  << " " << bppm[j][dist] << endl;
         }
     }
 }

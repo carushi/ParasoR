@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (17)
+#define OPTION (22)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -18,8 +18,9 @@ void PrintHelpOption()
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"
          << "You can achieve calculation of base pairing probability or accessibility for sequences having any length by ParasoR.\n\n";
     cout << "-------Option List------\n";
-    cout << "-a\tuse accessibility \n\t(default: stem probability)\n"
-         << "-p\tuse profiles\n"
+    cout << "-a (--acc)\tuse accessibility \n\t(default: stem probability)\n"
+         << "-p -a (--prof)\tuse profiles\n"
+         << "-p (--motif)\tprint a motif sequence\n"
          << "-c\tprint correlation coefficient of distance (eucledian, eSDC)\n"
          << "-r\tuse complementary sequence\n\n"
          << "-m [S or D or I or nan]\tcalculate mutated probability around single point Substitution or Deletion or Insertion from start to end\n"
@@ -47,6 +48,8 @@ void PrintHelpOption()
          << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
          << "--init_file\tremove temp files for connect procedure (only valid with --connect and --save_memory option)\n"
          << "--pre\tnot parallel computing\n"
+         // << "--remote [input]\tcalculate the stability of remote duplexes (not completed)\n"
+         // << "--transcribed\tsimulate the arrangement of structure during transcription (not completed)\n"
          << "--help\tprint these sentences\n\n\n\n";
     cout << "-------Sample List------\n"
          << "Sample1:\n"
@@ -87,14 +90,25 @@ struct option* option()
     options[13].name = "pre";
     options[14].name = "save_memory";
     options[15].name = "init_file";
-    options[16].name = "help";
+    options[16].name = "acc";
+    options[17].name = "prof";
+    options[18].name = "motif";
+    options[19].name = "remote";
+    options[20].name = "transcribed";
+    options[21].name = "help";
     for (int i = 0; i < OPTION; i++) {
-        if (i == 4 || i == 5 || i == 6 || i == 9 || i == 11 || i == 12 || i == 13 || i == 14 || i == 15 || i == 16)
-            options[i].has_arg = 0;
-        else if (i == 10 || i == 8)
-            options[i].has_arg = optional_argument;
-        else
-           options[i].has_arg = required_argument;
+        switch(i) {
+            case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
+            case 15: case 16: case 17: case 18: case 20: case 21:
+                options[i].has_arg = 0;
+                break;
+            case 8: case 10:
+                options[i].has_arg = optional_argument;
+                break;
+            default:
+               options[i].has_arg = required_argument;
+               break;
+        }
         options[i].flag = NULL; options[i].val = 1;
     }
     options[OPTION].name = 0; options[OPTION].has_arg = 0;
@@ -104,47 +118,51 @@ struct option* option()
 
 bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
 {
-    if (option_index == 0 && optarg) {
-        arg.constraint = atoi(optarg);
-    } else if (option_index == 1 && optarg) {
-        arg.input = string(optarg);
-    } else if (option_index == 2 && optarg) {
-        ;
-        // arg.outer_input = string(optarg);
-        // arg.init_calc = Rfold::Arg::Calc::Bpp;
-    } else if (option_index == 3 && optarg) {
-        arg.name = string(optarg);
-    } else if (option_index == 4) {
-        arg.init_calc = Rfold::Arg::Calc::Divide;
-    } else if (option_index == 5) {
-        arg.init_calc = Rfold::Arg::Calc::Connect;
-    } else if (option_index == 6) {
-        arg.init_calc = Rfold::Arg::Calc::Stemdb;
-    } else if (option_index == 7) {
-        arg.ene = string(optarg);
-    } else if (option_index == 8) {
-        arg.init_calc = Rfold::Arg::Calc::Bpp;
-        if (optarg) arg.minp = atof(optarg);
-    } else if (option_index == 9) {
-        arg.text = true;
-    } else if (option_index == 10) {
-        if (optarg) arg.gamma = atof(optarg);
-        arg.mea_flag = true;
-        arg.init_calc = Rfold::Arg::Calc::Bpp;
-    } else if (option_index == 11) {
-        arg.image = true;
-    } else if (option_index == 12) {
-        arg.init_calc = Rfold::Arg::Calc::Bpp;
-        arg.stem_flag = true;
-    } else if (option_index == 13) {
-        arg.pre_flag = true;
-    } else if (option_index == 14) {
-        arg.save_memory = true;
-    } else if (option_index == 15) {
-        arg.init_file = true;
-    } else if (option_index == 16) {
-        PrintHelpOption();
-        return false;
+    switch(option_index) {
+        case 0:
+            if (optarg) arg.constraint = atoi(optarg);
+            break;
+        case 1:
+            if (optarg) arg.input = string(optarg);
+            break;
+        case 2:
+            if (optarg) ;
+            // arg.outer_input = string(optarg);
+            // arg.init_calc = Rfold::Arg::Calc::Bpp;
+            break;
+        case 3:
+            if (optarg) arg.name = string(optarg);
+            break;
+        case 4: arg.init_calc = Rfold::Arg::Calc::Divide; break;
+        case 5: arg.init_calc = Rfold::Arg::Calc::Connect; break;
+        case 6: arg.init_calc = Rfold::Arg::Calc::Stemdb; break;
+        case 7: arg.ene = string(optarg); break;
+        case 8:
+            if (optarg) arg.minp = atof(optarg);
+            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            break;
+        case 9: arg.text = true;
+        case 10:
+            if (optarg) arg.gamma = atof(optarg);
+            arg.mea_flag = true;
+            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            break;
+        case 11: arg.image = true; break;
+        case 12:
+            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            arg.stem_flag = true;
+            break;
+        case 13: arg.pre_flag = true; break;
+        case 14: arg.save_memory = true; break;
+        case 15: arg.init_file = true; break;
+        case 16: arg.acc_flag = true; break;
+        case 17: arg.prof_flag = arg.acc_flag = true; break;
+        case 18: arg.prof_flag = true; break;
+        case 19: arg.init_calc = 0; arg.input = string(optarg); break;
+        case 20: arg.init_calc = 0; break;
+        default:
+            PrintHelpOption();
+            return false;
     }
     return true;
 }
@@ -252,6 +270,12 @@ void CalcOneSeq(Rfold::Arg& arg)
             }
             Rfold::ParasoR::Stemdb(arg);
             break;
+        // case Rfold::Arg::Calc::Remote:
+        //     Rfold::ParasoR::Remote(arg);
+        //     break;
+        // case Rfold::Arg::Calc::Transcribed:
+        //     Rfold::ParasoR::Transcribed(arg);
+        //     break;
     }
 }
 

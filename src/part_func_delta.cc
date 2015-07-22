@@ -397,9 +397,9 @@ DOUBLE ParasoR::SetRangedMatrix(LEN start, bool set)
 {
     if (!noout) cout << "#-SetMatrix..." << endl;
     SetRawRangedMatrix(set);
-    PreCalcInside(start+1);
-    DOUBLE uxx = ReproduceLocalOuter(start+1); // CalcInside(~pos+_constraint);
-    PreCalcOutside(start+1, uxx);
+    PreCalcInside(min(seq.length-1, start+1));
+    DOUBLE uxx = ReproduceLocalOuter(min(seq.length-1, start+1)); // CalcInside(~pos+_constraint);
+    PreCalcOutside(min(seq.length-1,start+1), uxx);
     return uxx;
 }
 

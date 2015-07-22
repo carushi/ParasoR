@@ -68,20 +68,20 @@ static void SetTemperature(int temp)
 
 static void PrintSummary()
 {
-    cout << "Hairpin score:\t" << ExpEnergy(loghairpin[3]) << " " << ExpEnergy(loghairpin[4]) << " ...\n";
-    cout << "Bulge score:\t" << ExpEnergy(logbulge[0]) << " " << ExpEnergy(logbulge[1]) << " ...\n";
-    cout << "Internal score:\t" << ExpEnergy(loginternal[2]) << " " << ExpEnergy(loginternal[3]) << " ...\n";
-    cout << "Tri:\t" << ExpEnergy(Triloop[0]) << " " << ExpEnergy(Triloop[1]) << " ...\n";
-    cout << "Tetra:\t" << ExpEnergy(Tetraloop[0]) << " " << ExpEnergy(Tetraloop[1]) << " ...\n";
-    cout << "TermAU:\t" << ExpEnergy(logTermAU) << "\n";
-    cout << "Ninio:\t" << ExpEnergy(logninio[0]) << " " << ExpEnergy(logninio[1]) << " ...\n";
-    cout << "ML_internal:\t" << ExpEnergy(logMLintern) << "\n";
-    cout << "ML_closing:\t" << ExpEnergy(logMLclosing) << "\n";
-    cout << "ML_BASE:\t" << ExpEnergy(logML_BASE) << "\n";
-    cout << "Triloops:\t" << Triloops << "\n";
-    cout << "Tetraloops:\t" << Tetraloops << "\n";
-    cout << "Hexaloops:\t" << Hexaloops << "\n";
-    cout << "Lxc:\t" << lxc37 << endl;
+    cout << "#Hairpin score:\t" << ExpEnergy(loghairpin[3]) << " " << ExpEnergy(loghairpin[4]) << " ...\n";
+    cout << "#Bulge score:\t" << ExpEnergy(logbulge[0]) << " " << ExpEnergy(logbulge[1]) << " ...\n";
+    cout << "#Internal score:\t" << ExpEnergy(loginternal[2]) << " " << ExpEnergy(loginternal[3]) << " ...\n";
+    cout << "#Tri:\t" << ExpEnergy(Triloop[0]) << " " << ExpEnergy(Triloop[1]) << " ...\n";
+    cout << "#Tetra:\t" << ExpEnergy(Tetraloop[0]) << " " << ExpEnergy(Tetraloop[1]) << " ...\n";
+    cout << "#TermAU:\t" << ExpEnergy(logTermAU) << "\n";
+    cout << "#Ninio:\t" << ExpEnergy(logninio[0]) << " " << ExpEnergy(logninio[1]) << " ...\n";
+    cout << "#ML_internal:\t" << ExpEnergy(logMLintern) << "\n";
+    cout << "#ML_closing:\t" << ExpEnergy(logMLclosing) << "\n";
+    cout << "#ML_BASE:\t" << ExpEnergy(logML_BASE) << "\n";
+    cout << "#Triloops:\t" << Triloops << "\n";
+    cout << "#Tetraloops:\t" << Tetraloops << "\n";
+    cout << "#Hexaloops:\t" << Hexaloops << "\n";
+    cout << "#Lxc:\t" << lxc37 << endl;
 
 }
 static void ChangeEnergyParam(string name = "")

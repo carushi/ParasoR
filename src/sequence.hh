@@ -124,7 +124,7 @@ private:
         sequence = vector<char>(sequence.begin()+start, sequence.begin()+end);
     }
     void CutString(LEN start, LEN end) {
-        cout << "-Cut " << start << " " << end << " " << str.length() << endl;
+        cout << "#-Cut " << start << " " << end << " " << str.length() << endl;
         str = str.substr(start, end-start);
     }
     /**

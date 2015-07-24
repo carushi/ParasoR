@@ -4,7 +4,7 @@
 <meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.8"/>
-<title>My Project: /Users/cawa/Research/GenomewideRNA/src/main.cc File Reference</title>
+<title>My Project: /Users/cawa/Research/GenomewideRNA/git/ParasoR/src/main.cc File Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -94,15 +94,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><code>#include &lt;iostream&gt;</code><br />
 <code>#include &lt;getopt.h&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
-<code>#include &lt;cctype&gt;</code><br />
+<code>#include &lt;sys/stat.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="part__func_8hh_source.html">part_func.hh</a>&quot;</code><br />
 </div>
 <p><a href="main_8cc_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
 Macros</h2></td></tr>
-<tr class="memitem:a39d0de5f53bbf5622cd6af16d647fbe5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a39d0de5f53bbf5622cd6af16d647fbe5">OPTION</a>&#160;&#160;&#160;(17)</td></tr>
+<tr class="memitem:a39d0de5f53bbf5622cd6af16d647fbe5"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a39d0de5f53bbf5622cd6af16d647fbe5">OPTION</a>&#160;&#160;&#160;(23)</td></tr>
 <tr class="separator:a39d0de5f53bbf5622cd6af16d647fbe5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7e33dbae8e615e4876459a347aa0d96"><td class="memItemLeft" align="right" valign="top">#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#ac7e33dbae8e615e4876459a347aa0d96">MINDIRLEN</a>&#160;&#160;&#160;(8)</td></tr>
+<tr class="separator:ac7e33dbae8e615e4876459a347aa0d96"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -116,20 +118,12 @@ Functions</h2></td></tr>
 <tr class="separator:a0a3ebc3eb0a420c7db311a53cb448613"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a147697aa5125bc7342336a4beba2a295"><td class="memItemLeft" align="right" valign="top">string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a147697aa5125bc7342336a4beba2a295">GetSampleStr</a> (int num)</td></tr>
 <tr class="separator:a147697aa5125bc7342336a4beba2a295"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a93621528e506ed7dc118e0254cda2ca3"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a93621528e506ed7dc118e0254cda2ca3">ComplementRNA</a> (char c)</td></tr>
-<tr class="separator:a93621528e506ed7dc118e0254cda2ca3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad005c0731893ab3a9dcbd2999c0e94b0"><td class="memItemLeft" align="right" valign="top">char&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#ad005c0731893ab3a9dcbd2999c0e94b0">CapitalRNA</a> (char c)</td></tr>
-<tr class="separator:ad005c0731893ab3a9dcbd2999c0e94b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a99eaa047ff6fbdbd50eebc18f50200d3"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a99eaa047ff6fbdbd50eebc18f50200d3">GetCapitalRNA</a> (string &amp;seq)</td></tr>
-<tr class="separator:a99eaa047ff6fbdbd50eebc18f50200d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a543c910e164955cf99c688e663ea635b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a543c910e164955cf99c688e663ea635b">GetCompCapitalRNA</a> (string &amp;seq)</td></tr>
-<tr class="separator:a543c910e164955cf99c688e663ea635b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a578776a94af9ba29938589644da168d0"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a578776a94af9ba29938589644da168d0">RNATransform</a> (<a class="el" href="class_rfold_1_1_arg.html">Rfold::Arg</a> &amp;arg, string &amp;seq)</td></tr>
 <tr class="separator:a578776a94af9ba29938589644da168d0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa6b8fef9df5669c7b7481d4d2a65126a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#aa6b8fef9df5669c7b7481d4d2a65126a">RNATransform</a> (<a class="el" href="class_rfold_1_1_arg.html">Rfold::Arg</a> &amp;arg)</td></tr>
 <tr class="separator:aa6b8fef9df5669c7b7481d4d2a65126a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1dcf8aaa42fc2e6f5a697569fdaa64b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#ae1dcf8aaa42fc2e6f5a697569fdaa64b">NameTransform</a> (string &amp;name)</td></tr>
-<tr class="separator:ae1dcf8aaa42fc2e6f5a697569fdaa64b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8688e8b3aa76e76bab41b44c09d7da7c"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#a8688e8b3aa76e76bab41b44c09d7da7c">NameTransform</a> (string &amp;name)</td></tr>
+<tr class="separator:a8688e8b3aa76e76bab41b44c09d7da7c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:acf40fb6fffb4f0ff7450ca88d4b827e5"><td class="memItemLeft" align="right" valign="top">bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#acf40fb6fffb4f0ff7450ca88d4b827e5">InitCondition</a> (<a class="el" href="class_rfold_1_1_arg.html">Rfold::Arg</a> &amp;arg)</td></tr>
 <tr class="separator:acf40fb6fffb4f0ff7450ca88d4b827e5"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab6332131e3a1ec970498febd8c52626"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="main_8cc.html#aab6332131e3a1ec970498febd8c52626">CalcOneSeq</a> (<a class="el" href="class_rfold_1_1_arg.html">Rfold::Arg</a> &amp;arg)</td></tr>
@@ -142,17 +136,31 @@ Functions</h2></td></tr>
 <tr class="separator:a3c04138a5bfe5d72780bb7e82a18e627"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Macro Definition Documentation</h2>
+<a class="anchor" id="ac7e33dbae8e615e4876459a347aa0d96"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">#define MINDIRLEN&#160;&#160;&#160;(8)</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00009">9</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+
+</div>
+</div>
 <a class="anchor" id="a39d0de5f53bbf5622cd6af16d647fbe5"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">#define OPTION&#160;&#160;&#160;(17)</td>
+          <td class="memname">#define OPTION&#160;&#160;&#160;(23)</td>
         </tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00007">7</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00008">8</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -171,7 +179,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00269">269</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00251">251</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -189,25 +197,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00303">303</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="ad005c0731893ab3a9dcbd2999c0e94b0"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char CapitalRNA </td>
-          <td>(</td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00191">191</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00291">291</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -225,61 +215,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00331">331</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a93621528e506ed7dc118e0254cda2ca3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">char ComplementRNA </td>
-          <td>(</td>
-          <td class="paramtype">char&#160;</td>
-          <td class="paramname"><em>c</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00171">171</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a99eaa047ff6fbdbd50eebc18f50200d3"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GetCapitalRNA </td>
-          <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
-          <td class="paramname"><em>seq</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00207">207</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
-
-</div>
-</div>
-<a class="anchor" id="a543c910e164955cf99c688e663ea635b"></a>
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">void GetCompCapitalRNA </td>
-          <td>(</td>
-          <td class="paramtype">string &amp;&#160;</td>
-          <td class="paramname"><em>seq</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00214">214</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00321">321</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -297,7 +233,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00149">149</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00179">179</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -315,7 +251,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00161">161</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00191">191</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -333,7 +269,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00245">245</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00226">226</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -361,16 +297,16 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00346">346</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00336">336</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
-<a class="anchor" id="ae1dcf8aaa42fc2e6f5a697569fdaa64b"></a>
+<a class="anchor" id="a8688e8b3aa76e76bab41b44c09d7da7c"></a>
 <div class="memitem">
 <div class="memproto">
       <table class="memname">
         <tr>
-          <td class="memname">void NameTransform </td>
+          <td class="memname">bool NameTransform </td>
           <td>(</td>
           <td class="paramtype">string &amp;&#160;</td>
           <td class="paramname"><em>name</em></td><td>)</td>
@@ -379,7 +315,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00235">235</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00215">215</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -396,7 +332,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00068">68</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00079">79</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -413,7 +349,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00010">10</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00013">13</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -441,7 +377,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00222">222</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00202">202</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -459,7 +395,7 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00231">231</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00211">211</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
@@ -493,14 +429,14 @@ Functions</h2></td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>Definition at line <a class="el" href="main_8cc_source.html#l00102">102</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
+<p>Definition at line <a class="el" href="main_8cc_source.html#l00125">125</a> of file <a class="el" href="main_8cc_source.html">main.cc</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 11 2015 17:16:47 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 24 2015 17:38:01 for My Project by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.8
 </small></address>

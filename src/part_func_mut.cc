@@ -4,17 +4,21 @@ namespace Rfold {
 
 void ParasoR::SetOriginalDouter(Vec& adouter, Vec& bdouter)
 {
-    SetRawRangedMatrix(_start);
-    adouter = alpha.outer;
-    bdouter = beta.outer;
+    if (adouter.size() == 0 || bdouter.size() == 0) {
+        SetRawRangedMatrix(true);
+        adouter = alpha.outer;
+        bdouter = beta.outer;
+    }
 }
 
 void ParasoR::CopyOriginalOuter(Vec& adouter, Vec& bdouter)
 {
     alpha.outer = adouter;
     alpha.iend = alpha.istart+alpha.outer.size()-1;
+    alpha.olength = alpha.iend-alpha.istart;
     beta.outer = bdouter;
     beta.iend = beta.istart+beta.outer.size()-1;
+    beta.olength = beta.iend-beta.istart;
 }
 
 void ParasoR::SlidingMatrixForMut(LEN x, int mtype)
@@ -60,21 +64,31 @@ bool ParasoR::SlidingSequence(LEN x, int c, int mtype)
         beta.Insert(x);
         return seq.Insert(x, base(c), c);
     }
-    return true;
+    return false;
 }
 
 
 void ParasoR::Recalculation(LEN x)
 {
-    for (LEN pos = LeftRange(x); pos <= RightRange(_end); pos++) {
+    for (LEN pos = LeftRange(x); pos <= min(_end+_constraint*CONST-1, seq.length); pos++) {
         CalcInside(pos);
-        if (pos >= x-1 && pos > 0)
-            Outer(alpha, pos) = ReCalcDouterInside(pos);
+        if (pos >= x-1 && pos-1 >= 0) {
+            if (ddebug) {
+                cout << "in" << pos << " " << Outer(alpha, pos-1) << " " << ReCalcDouterInside(pos) << endl;
+                assert(fabs(Outer(alpha, pos-1)-ReCalcDouterInside(pos)) < 0.001);
+            }
+            Outer(alpha, pos-1) = ReCalcDouterInside(pos);
+        }
     }
-    for (LEN pos = RightRange(x+1); pos >= LeftRange(x); pos--) {
+    for (LEN pos = RightRange(x+1); pos >= max(static_cast<LEN>(0), _start-_constraint*CONST+1); pos--) {
         CalcInsideFromRight(pos);
-        if (pos <= x+1 && pos < seq.length)
+        if (pos <= x+1 && pos < seq.length) {
+            if (ddebug) {
+                cout << "out" << pos << " " << Outer(beta, pos) << " " << ReCalcDouterOutside(pos) << endl;
+                assert(fabs(Outer(beta, pos)-ReCalcDouterOutside(pos)) < 0.001);
+            }
             Outer(beta, pos) = ReCalcDouterOutside(pos);
+        }
     }
 }
 
@@ -90,20 +104,22 @@ DOUBLE ParasoR::MaxDiff(const Vec& ori, const Vec& mut)
 string ParasoR::GetDiffFile(int mtype, bool acc)
 {
     ostringstream os;
-    os << TMP << name;
+    os << STMP << name;
     if (mtype == Arg::Mut::Sub)
-        os << "_mut_";
+        os << "_mut";
     else if (mtype == Arg::Mut::Del)
-        os << "_del_";
+        os << "_del";
     else
-        os << "_ins_";
+        os << "_ins";
     if (acc) os << "_acc_";
     else os << "_stem_";
     os << id << "_" << chunk << "_" << _constraint;
     return os.str();
 }
 
-void ParasoR::CutOffVector(int mtype, Vec& sbppv, LEN pos) {}
+void ParasoR::CutOffVector(int mtype, Vec& sbppv, LEN pos) {
+    sbppv = bppv;
+}
 
 
 void ParasoR::EditVector(int mtype, Vec& ori, Vec& mut, LEN pos)
@@ -115,66 +131,87 @@ void ParasoR::EditVector(int mtype, Vec& ori, Vec& mut, LEN pos)
     }
 }
 
-void ParasoR::WriteDiffBin(LEN pos, int base, DOUBLE diff, DOUBLE corr, string& file, bool app)
+void ParasoR::WriteDiffFile(LEN pos, int base, DOUBLE diff, DOUBLE corr, string& file, bool app, bool bin)
 {
     ofstream ofs;
-    if (app) ofs.open(file.c_str(), ios::binary|ios::app);
-    else ofs.open(file.c_str(), ios::binary|ios::trunc);
-    int h = 1;
-    if (!app) ofs.write((char*)&h, sizeof(int));
-    ofs.write((char*)&pos, sizeof(LEN));
-    ofs.write((char*)&base, sizeof(int));
-    ofs.write((char*)&diff, sizeof(DOUBLE));
-    ofs.write((char*)&corr, sizeof(DOUBLE));
+    if (bin) {
+        if (app) ofs.open(file.c_str(), ios::binary|ios::app);
+        else ofs.open(file.c_str(), ios::binary|ios::trunc);
+        int h = 1;
+        if (!app) ofs.write((char*)&h, sizeof(int));
+        ofs.write((char*)&pos, sizeof(LEN));
+        ofs.write((char*)&base, sizeof(int));
+        ofs.write((char*)&diff, sizeof(DOUBLE));
+        ofs.write((char*)&corr, sizeof(DOUBLE));
+    } else {
+        if (app) ofs.open(file.c_str(), ios::app);
+        else {
+            ofs.open(file.c_str(), ios::trunc);
+            ofs << "pos\ttype\tmax_diff\tcorrelation\n";
+        }
+        ofs << pos << "\t" << base << "\t" << diff << "\t" << corr << endl;
+    }
 }
 
-void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool acc, bool app)
+void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool acc, bool app, bool mout_flag, string& mout)
 {
     assert(ori.size() == mut.size());
     EditVector(mtype, ori, mut, pos);
     DOUBLE diff = MaxDiff(ori, mut);
     DOUBLE corr = Correlation(ori, mut);
-    if (binary) {
-        string file = GetDiffFile(mtype, acc);
-        WriteDiffBin(pos, base, diff, corr, file, app);
-    } else {
+    if ((mout_flag && mout == "") || !binary) {
+        if (!app) cout << "pos\ttype\tmax_diff\tcorrelation\n";
         cout << pos << "\t" << base << "\t" << diff << "\t" << corr << endl;
+    } else if (mout_flag) {
+        WriteDiffFile(pos, base, diff, corr, mout, app, false);
+    } else {
+        string file = GetDiffFile(mtype, acc);
+        WriteDiffFile(pos, base, diff, corr, file, app, true);
     }
 }
 
 void ParasoR::ChangeBase(LEN pos, Arg& arg, bool& app)
 {
-    Vec mbppv, sbppv;
+    Vec sbppv;
     CutOffVector(arg.mtype, sbppv, pos);
-    for (int j = 0; j < 4; j++) {
-        char temp = (arg.mtype != Arg::Mut::Ins) ? seq.substr(pos, 1)[0] : '0';
-        if (!SlidingSequence(pos, j, arg.mtype)) continue;
+    for (int j = 1; j <= 4; j++) {
+        Vec mbppv;
+        char temp = (arg.mtype != Arg::Mut::Ins) ? seq.seqget(pos) : 0;
+        bool flag = SlidingSequence(pos, j, arg.mtype);
         Recalculation(pos);
-        (arg.acc_flag) ? CalcRangeAcc(mbppv, max(0, arg.window), pos, arg.mtype) : CalcRangeStem(mbppv, pos, arg.mtype);
+        (arg.acc_flag) ? CalcRangeAcc(mbppv, max(0, arg.window), _start, _end, arg.mtype) : CalcRangeStem(mbppv, _start, _end, arg.mtype);
+        if (!flag) continue;
         if (arg.eSDC_flag) {
             ;// WriteeSDC();
         } else {
-            WriteDiff(arg.mtype, pos, j, bppv, mbppv, arg.acc_flag, app);
+            WriteDiff(arg.mtype, pos, j, bppv, mbppv, arg.acc_flag, app, arg.mout_flag, arg.mout);
             app = true;
         }
         ComeBackChange(pos, arg.mtype, temp);
     }
 }
-
+/**
+ * Mutates a base from arg.start to arg.end and computes stem probability from _start to _end.
+ */
 void ParasoR::MutatedStem(Arg& arg)
 {
     bool app = false;
-    LEN right = arg.end;
-    if (arg.mtype == Arg::Mut::Ins && arg.end == seq.length) right++;
-    SetRange(LeftRange(arg.start), RightRange(arg.end));
+    LEN left = max(static_cast<LEN>(1), arg.start-_constraint), right = min(arg.end+_constraint, seq.length);
+    if (arg.mtype == Arg::Mut::Ins && right == seq.length) right++;
+    _start = left; _end = right; // The range of stem;
     ReadStemVec(bppv, arg.acc_flag);
     Vec adouter, bdouter;
-    SetOriginalDouter(adouter, bdouter);
-    for (LEN i = arg.start; i <= right; i++) {
+    if (arg.mtype != Arg::Mut::Sub) {
+        cout << "Now implemented..." << endl;
+        return;
+    }
+    for (LEN i = max(static_cast<LEN>(1), arg.start); i <= arg.end; i++) {
+        SetOriginalDouter(adouter, bdouter);
         CopyOriginalOuter(adouter, bdouter);
         SlidingMatrixForMut(i, arg.mtype);
         ChangeBase(i, arg, app);
     }
+    if (!noout && !arg.mout_flag) cout << "#-Wriiten " << GetDiffFile(arg.mtype, arg.acc_flag) << endl;
 }
 
 }

@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (22)
+#define OPTION (23)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -24,6 +24,7 @@ void PrintHelpOption()
          << "-c\tprint correlation coefficient of distance (eucledian, eSDC)\n"
          << "-r\tuse complementary sequence\n\n"
          << "-m [S or D or I or nan]\tcalculate mutated probability around single point Substitution or Deletion or Insertion from start to end\n"
+         << "--mout [outfile or nan]\toutput a result of mutatiing simulation to stdout or outfile\n"
          << "-s [num]\tstart point of base pairing probability (1~(sequence length-1)) \n"
          << "-e [num]\tend point of base pairing probability\n\t\tif you assign only a start position for one sequence, it'll be the sequence length.\n"
          << "-i [num]\tthe number of chunk id  0~(#chunk-1)\n\t\t(if you assign #chunk, it'll make connected file in the same way as connect option.)\n"
@@ -99,14 +100,15 @@ struct option* option()
     options[18].name = "motif";
     options[19].name = "remote";
     options[20].name = "transcribed";
-    options[21].name = "help";
+    options[21].name = "mout";
+    options[22].name = "help";
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 21:
+            case 15: case 16: case 17: case 18: case 20: case 22:
                 options[i].has_arg = 0;
                 break;
-            case 8: case 10:
+            case 8: case 10: case 21:
                 options[i].has_arg = optional_argument;
                 break;
             default:
@@ -164,6 +166,9 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
         case 18: arg.prof_flag = true; break;
         case 19: arg.init_calc = 0; arg.input = string(optarg); break;
         case 20: arg.init_calc = 0; break;
+        case 21:
+            if (optarg) arg.mout = string(optarg);
+            arg.mout_flag = true; break;
         default:
             PrintHelpOption();
             return false;

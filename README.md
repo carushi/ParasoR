@@ -3,19 +3,20 @@
 <img src="https://sites.google.com/site/cawatchm/software/parasor/logo.png" width="400">
 
 ## Features 
-ParasoR can compute these features for RNA sequences even if longer than genome-sequence.
+ParasoR can compute these features for RNA sequences even if they are longer than human genome sequences.
 
 * Base pairing probability (bpp)
 * Stem probability
 * Accessibility
 * RNA profile (probability and motif sequence)
-* Local γ-centroid structure (bpp >= 1/(1+γ)) with the color code of stem probability.
+* Local γ-centroid structure (in not parallel) or structures with base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
 <img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
 * Local γ-centroid structure with the color code of RNA profile. 
 	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
 <img src="https://sites.google.com/site/cawatchm/software/parasor/prof.png" width="450">
 
+In addition, ParasoR simulates structure arrangements caused by a single point mutation.
 
 ## Requirements
 

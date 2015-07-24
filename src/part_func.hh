@@ -61,6 +61,7 @@ public:
         output = "";
         name = "";
         ene = "";
+        mout = "";
         start = -1;
         end = -1;
         length = 0;
@@ -89,6 +90,7 @@ public:
         init_file = false;
         text = false;
         image = false;
+        mout_flag = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -99,6 +101,7 @@ public:
     string output;
     string name;
     string ene;
+    string mout;
     LEN start;
     LEN end;
     LEN length;
@@ -127,6 +130,7 @@ public:
     bool debug;
     bool text;
     bool image;
+    bool mout_flag;
 
 };
 
@@ -212,7 +216,7 @@ private:
     void PrintMat(bool);
     void InitMatrix(LEN, LEN);
     void Init(bool full = false, bool connect = false);
-    void InitBpp(bool full = false);
+    void InitBpp(bool full = false, bool set = true);
     void SetSequence(const string&, int, LEN);
     void SetSequence(const string&, bool = true);
     void RemoveTempFiles(bool, int = 0);
@@ -313,8 +317,8 @@ private:
     void GetImage(string, LEN, LEN, Vec, int = 1);
     void CalcBpp(bool = false, DOUBLE = -1.0, bool = false);
     void CalcMEA(bool = true, bool = false, bool = false, bool = false);
-    void CalcRangeStem(Vec&, LEN, int);
-    void CalcRangeAcc(Vec&, int, LEN, int);
+    void CalcRangeStem(Vec&, LEN, LEN, int);
+    void CalcRangeAcc(Vec&, int, LEN, LEN, int);
 
     void TabToNewLine(string&);
     bool ReadStemToSingleFile(string&, string&, bool, string);
@@ -338,8 +342,8 @@ private:
     string GetDiffFile(int, bool);
     void CutOffVector(int, Vec&, LEN);
     void EditVector(int, Vec&, Vec&, LEN);
-    void WriteDiffBin(LEN, int, DOUBLE, DOUBLE, string&, bool);
-    void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool);
+    void WriteDiffFile(LEN, int, DOUBLE, DOUBLE, string&, bool, bool);
+    void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool, bool, string&);
     void ChangeBase(LEN, Arg&, bool&);
     void MutatedStem(Arg&);
 
@@ -502,10 +506,10 @@ public:
             return true;
         }
     }
-    void SetIndex(LEN start, LEN end, bool delta)
+    void SetIndex(LEN start, LEN end, bool delta, bool set = true)
     {
-        alpha.SetIndex(start, end, delta);
-        beta.SetIndex(start, end, delta);
+        alpha.SetIndex(start, end, delta, set);
+        beta.SetIndex(start, end, delta, set);
     }
     void InitVec(Mat& data, LEN pos) {
         data[pos].assign(data[pos].size(), -INF);
@@ -516,10 +520,10 @@ public:
     }
     static char base(int c) {
         switch(c) {
-            case 0: return 'A';
-            case 1: return 'C';
-            case 2: return 'G';
-            case 3: return 'U';
+            case 1: return 'A';
+            case 2: return 'C';
+            case 3: return 'G';
+            case 4: return 'U';
             default: return 'N';
         }
     }

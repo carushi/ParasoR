@@ -27,9 +27,19 @@ static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+
 \item 
 static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_a59afd89fc8f4ec5e7fa0ef0a3e56f302}{Log\+Hairpin\+Energy} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} i, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} j, const \hyperlink{class_rfold_1_1_parameter_1_1_sequence}{Sequence} \&seq)
 \item 
-static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_a84c12e24c819863c0a7de43605f07053}{Log\+Bulge} (int u, int type, int type2)
+static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_aa686da03e1df8a16f72153e7cbd8399e}{Log\+Bulge} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} u, int type, int type2)
 \item 
 static \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_a1c0e2f8427cf288a00fc615429933918}{Log\+Loop\+Energy} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} i, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} j, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} p, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} q, const \hyperlink{class_rfold_1_1_parameter_1_1_sequence}{Sequence} \&seq)
+\item 
+static char \hyperlink{namespace_rfold_1_1_parameter_a8042581cc300f83be2272d1ad1edd8d0}{Complement\+R\+N\+A} (char c)
+\item 
+static char \hyperlink{namespace_rfold_1_1_parameter_a9ecf67fadc41759309b73ccc9c3d7009}{Capital\+R\+N\+A} (char c)
+\item 
+static void \hyperlink{namespace_rfold_1_1_parameter_adc3e395c2db7c0097c3790922e221f18}{Get\+Capital\+R\+N\+A} (string \&seq)
+\item 
+static void \hyperlink{namespace_rfold_1_1_parameter_a064f7e3feb0336cd945b2679563f27a9}{Get\+Comp\+Capital\+R\+N\+A} (string \&seq)
+\item 
+static void \hyperlink{namespace_rfold_1_1_parameter_ae260f7c90b29ae24ffbc4589c9fc0c76}{Erase\+Windows\+Newline} (string \&seq)
 \item 
 static bool \hyperlink{namespace_rfold_1_1_parameter_ac79332af130ad1da3bb3bbd6008bca00}{Is\+Pair} (int type)
 \item 
@@ -80,9 +90,9 @@ static int \hyperlink{namespace_rfold_1_1_parameter_aec0b5515ac41c13814b1af83a84
 \item 
 \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_a880a22df5673fc8ed0dba9c1d0e7a36e}{logninio} \mbox{[}\hyperlink{energy__const_8hh_ad1bd6eabac419670ddd3c9ed82145988}{M\+A\+X\+L\+O\+O\+P}+1\mbox{]}
 \item 
-bool \hyperlink{namespace_rfold_1_1_parameter_a34bb77f761084f77aeb4768d23fac3a1}{initialized}
+bool \hyperlink{namespace_rfold_1_1_parameter_a34bb77f761084f77aeb4768d23fac3a1}{initialized} = false
 \item 
-bool \hyperlink{namespace_rfold_1_1_parameter_a634f9d3c0bb311c6f2fe39b7f32796d2}{inittermau}
+bool \hyperlink{namespace_rfold_1_1_parameter_a634f9d3c0bb311c6f2fe39b7f32796d2}{inittermau} = false
 \item 
 \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} \hyperlink{namespace_rfold_1_1_parameter_aaffae10e935dbf949ce31229a2573784}{log\+M\+Lintern}
 \item 
@@ -124,7 +134,18 @@ type of base pair between 'i' and 'j'.
 \end{DoxyReturn}
 
 
-Definition at line 29 of file sequence.\+hh.
+Definition at line 98 of file sequence.\+hh.
+
+\hypertarget{namespace_rfold_1_1_parameter_a9ecf67fadc41759309b73ccc9c3d7009}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Capital\+R\+N\+A@{Capital\+R\+N\+A}}
+\index{Capital\+R\+N\+A@{Capital\+R\+N\+A}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
+\subsubsection[{Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}static char Rfold\+::\+Parameter\+::\+Capital\+R\+N\+A (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_a9ecf67fadc41759309b73ccc9c3d7009}
+
+
+Definition at line 56 of file sequence.\+hh.
 
 \hypertarget{namespace_rfold_1_1_parameter_a5d691fc3fd4d8c3633b25eb48ab151d0}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Change\+Energy\+Param@{Change\+Energy\+Param}}
 \index{Change\+Energy\+Param@{Change\+Energy\+Param}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
@@ -136,6 +157,50 @@ Definition at line 29 of file sequence.\+hh.
 
 
 Definition at line 87 of file param.\+hh.
+
+\hypertarget{namespace_rfold_1_1_parameter_a8042581cc300f83be2272d1ad1edd8d0}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Complement\+R\+N\+A@{Complement\+R\+N\+A}}
+\index{Complement\+R\+N\+A@{Complement\+R\+N\+A}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
+\subsubsection[{Complement\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}static char Rfold\+::\+Parameter\+::\+Complement\+R\+N\+A (
+\begin{DoxyParamCaption}
+\item[{char}]{c}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_a8042581cc300f83be2272d1ad1edd8d0}
+
+
+Definition at line 20 of file sequence.\+hh.
+
+\hypertarget{namespace_rfold_1_1_parameter_ae260f7c90b29ae24ffbc4589c9fc0c76}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Erase\+Windows\+Newline@{Erase\+Windows\+Newline}}
+\index{Erase\+Windows\+Newline@{Erase\+Windows\+Newline}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
+\subsubsection[{Erase\+Windows\+Newline}]{\setlength{\rightskip}{0pt plus 5cm}static void Rfold\+::\+Parameter\+::\+Erase\+Windows\+Newline (
+\begin{DoxyParamCaption}
+\item[{string \&}]{seq}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_ae260f7c90b29ae24ffbc4589c9fc0c76}
+
+
+Definition at line 82 of file sequence.\+hh.
+
+\hypertarget{namespace_rfold_1_1_parameter_adc3e395c2db7c0097c3790922e221f18}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Get\+Capital\+R\+N\+A@{Get\+Capital\+R\+N\+A}}
+\index{Get\+Capital\+R\+N\+A@{Get\+Capital\+R\+N\+A}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
+\subsubsection[{Get\+Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}static void Rfold\+::\+Parameter\+::\+Get\+Capital\+R\+N\+A (
+\begin{DoxyParamCaption}
+\item[{string \&}]{seq}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_adc3e395c2db7c0097c3790922e221f18}
+
+
+Definition at line 68 of file sequence.\+hh.
+
+\hypertarget{namespace_rfold_1_1_parameter_a064f7e3feb0336cd945b2679563f27a9}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Get\+Comp\+Capital\+R\+N\+A@{Get\+Comp\+Capital\+R\+N\+A}}
+\index{Get\+Comp\+Capital\+R\+N\+A@{Get\+Comp\+Capital\+R\+N\+A}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
+\subsubsection[{Get\+Comp\+Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}static void Rfold\+::\+Parameter\+::\+Get\+Comp\+Capital\+R\+N\+A (
+\begin{DoxyParamCaption}
+\item[{string \&}]{seq}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_a064f7e3feb0336cd945b2679563f27a9}
+
+
+Definition at line 75 of file sequence.\+hh.
 
 \hypertarget{namespace_rfold_1_1_parameter_a3c977c57f1a40be353e62f7292eff9e4}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Init\+Energy\+Param@{Init\+Energy\+Param}}
 \index{Init\+Energy\+Param@{Init\+Energy\+Param}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
@@ -182,17 +247,17 @@ Whether 'type' of base pair is possible.
 \end{DoxyReturn}
 
 
-Definition at line 22 of file sequence.\+hh.
+Definition at line 91 of file sequence.\+hh.
 
-\hypertarget{namespace_rfold_1_1_parameter_a84c12e24c819863c0a7de43605f07053}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Log\+Bulge@{Log\+Bulge}}
+\hypertarget{namespace_rfold_1_1_parameter_aa686da03e1df8a16f72153e7cbd8399e}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Log\+Bulge@{Log\+Bulge}}
 \index{Log\+Bulge@{Log\+Bulge}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
 \subsubsection[{Log\+Bulge}]{\setlength{\rightskip}{0pt plus 5cm}static {\bf D\+O\+U\+B\+L\+E} Rfold\+::\+Parameter\+::\+Log\+Bulge (
 \begin{DoxyParamCaption}
-\item[{int}]{u, }
+\item[{{\bf L\+E\+N}}]{u, }
 \item[{int}]{type, }
 \item[{int}]{type2}
 \end{DoxyParamCaption}
-)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_a84c12e24c819863c0a7de43605f07053}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_rfold_1_1_parameter_aa686da03e1df8a16f72153e7cbd8399e}
 
 \begin{DoxyParams}{Parameters}
 {\em u} & Length of bulge. \\
@@ -269,7 +334,7 @@ Reversed type of base pair between 'i' and 'j'.
 \end{DoxyReturn}
 
 
-Definition at line 36 of file sequence.\+hh.
+Definition at line 105 of file sequence.\+hh.
 
 \hypertarget{namespace_rfold_1_1_parameter_a308e1549312d4c50c9701331ef6acf7e}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!Set\+Temperature@{Set\+Temperature}}
 \index{Set\+Temperature@{Set\+Temperature}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
@@ -331,14 +396,14 @@ Definition at line 38 of file param.\+cc.
 
 \hypertarget{namespace_rfold_1_1_parameter_a34bb77f761084f77aeb4768d23fac3a1}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!initialized@{initialized}}
 \index{initialized@{initialized}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
-\subsubsection[{initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::initialized}}\label{namespace_rfold_1_1_parameter_a34bb77f761084f77aeb4768d23fac3a1}
+\subsubsection[{initialized}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::initialized = false}}\label{namespace_rfold_1_1_parameter_a34bb77f761084f77aeb4768d23fac3a1}
 
 
 Definition at line 41 of file param.\+cc.
 
 \hypertarget{namespace_rfold_1_1_parameter_a634f9d3c0bb311c6f2fe39b7f32796d2}{\index{Rfold\+::\+Parameter@{Rfold\+::\+Parameter}!inittermau@{inittermau}}
 \index{inittermau@{inittermau}!Rfold\+::\+Parameter@{Rfold\+::\+Parameter}}
-\subsubsection[{inittermau}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::inittermau}}\label{namespace_rfold_1_1_parameter_a634f9d3c0bb311c6f2fe39b7f32796d2}
+\subsubsection[{inittermau}]{\setlength{\rightskip}{0pt plus 5cm}bool Rfold\+::\+Parameter\+::inittermau = false}}\label{namespace_rfold_1_1_parameter_a634f9d3c0bb311c6f2fe39b7f32796d2}
 
 
 Definition at line 42 of file param.\+cc.

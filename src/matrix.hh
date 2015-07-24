@@ -106,6 +106,10 @@ public:
      : _inside(inside), _constraint(constraint), length(length) {
         Initialize();
     }
+    Matrix(LEN length, int constraint, bool inside, Vec& touter) {
+        Initialize();
+        outer = touter;
+    }
     virtual ~Matrix(){}
     void operator=(const Matrix& right) {
         outer = right.outer;
@@ -133,7 +137,7 @@ public:
         olength--;
     }
     void Print(const string&);
-    void SetIndex(LEN s, LEN e, bool delta = true) {
+    void SetIndex(LEN s, LEN e, bool delta = true, bool set = true) {
         istart = s;
         iend = e;
         olength = iend-istart;
@@ -141,7 +145,7 @@ public:
             cerr << "start, end: " << s << " " << e << endl;
         if (delta) {
             douter = Mat(olength+1, Vec(_constraint+1, 0));
-        }  else {
+        }  else if (set) {
             outer = Vec(olength+1, 0);
         }
     }

@@ -1013,7 +1013,7 @@ void ParasoR::Init(bool full, bool connect)
     SetIndex(_start, _end, true);
 }
 
-void ParasoR::InitBpp(bool full)
+void ParasoR::InitBpp(bool full, bool set)
 {
     if (!alpha.isSet() || !beta.isSet()) {
         if (full) InitMatrix(_end-_start+1, _constraint);
@@ -1021,10 +1021,10 @@ void ParasoR::InitBpp(bool full)
     }
     LEN left = max(_start-CONST*_constraint, static_cast<LEN>(0));
     LEN right = min(_end+CONST*_constraint, seq.length);
-    if (!full && cut) {
+    if (!full && cut && set) {
         seq.CutSequence(left, right);
     }
-    SetIndex(left, right, false);
+    SetIndex(left, right, false, set);
 }
 
 void ParasoR::SetSequence(const string& filename, int seqID, LEN length)
@@ -1148,29 +1148,28 @@ void ParasoR::main(Arg& arg, bool shrink)
         rfold.SetBasicParam(arg, false);
     else
         rfold.SetBasicParam(arg, shrink);
-    if (arg.mtype < 0) {
         if (arg.end < 0) {
             arg.end = max(arg.length, static_cast<LEN>(arg.str.length()));
             if (arg.start < 0) arg.start = 0;
         }
-        if (!noout) cout << "#-Calculate from " << arg.start << " to " << arg.end << endl;
-        if (arg.end > arg.start) {
-            rfold.SetBpRange(arg.start, arg.end);
-            rfold.cut = true;
-            if (arg.mea_flag) {
-                rfold.CalcMEA(true, arg.image, arg.prof_flag);
-            } else if (arg.prof_flag) {
-                rfold.CalcProf(arg.acc_flag);
-            } else if (arg.acc_flag) {
-                rfold.SetWindow(max(2, arg.window));
-                rfold.CalcAcc();
-            } else if (arg.stem_flag) {
-                rfold.CalcStem();
-            } else
-                rfold.CalcBpp(true, arg.minp);
+    if (!noout) cout << "#-Calculate from " << arg.start << " to " << arg.end << endl;
+    if (arg.end > arg.start) {
+        rfold.SetBpRange(arg.start, arg.end);
+        rfold.cut = true;
+        if (arg.mtype >= 0) {
+            rfold.MutatedStem(arg);
+        } else if (arg.mea_flag) {
+            rfold.CalcMEA(true, arg.image, arg.prof_flag);
+        } else if (arg.prof_flag) {
+            rfold.CalcProf(arg.acc_flag);
+        } else if (arg.acc_flag) {
+            rfold.SetWindow(max(2, arg.window));
+            rfold.CalcAcc();
+        } else if (arg.stem_flag) {
+            rfold.CalcStem();
+        } else {
+            rfold.CalcBpp(true, arg.minp);
         }
-    } else {
-        rfold.MutatedStem(arg);
     }
 
 }

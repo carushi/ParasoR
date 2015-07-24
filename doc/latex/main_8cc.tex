@@ -1,15 +1,17 @@
-\hypertarget{main_8cc}{\section{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/main.cc File Reference}
-\label{main_8cc}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/main.\+cc@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/src/main.\+cc}}
+\hypertarget{main_8cc}{\section{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/git/\+Paraso\+R/src/main.cc File Reference}
+\label{main_8cc}\index{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/git/\+Paraso\+R/src/main.\+cc@{/\+Users/cawa/\+Research/\+Genomewide\+R\+N\+A/git/\+Paraso\+R/src/main.\+cc}}
 }
 {\ttfamily \#include $<$iostream$>$}\\*
 {\ttfamily \#include $<$getopt.\+h$>$}\\*
 {\ttfamily \#include $<$cstdlib$>$}\\*
-{\ttfamily \#include $<$cctype$>$}\\*
+{\ttfamily \#include $<$sys/stat.\+h$>$}\\*
 {\ttfamily \#include \char`\"{}part\+\_\+func.\+hh\char`\"{}}\\*
 \subsection*{Macros}
 \begin{DoxyCompactItemize}
 \item 
-\#define \hyperlink{main_8cc_a39d0de5f53bbf5622cd6af16d647fbe5}{O\+P\+T\+I\+O\+N}~(17)
+\#define \hyperlink{main_8cc_a39d0de5f53bbf5622cd6af16d647fbe5}{O\+P\+T\+I\+O\+N}~(23)
+\item 
+\#define \hyperlink{main_8cc_ac7e33dbae8e615e4876459a347aa0d96}{M\+I\+N\+D\+I\+R\+L\+E\+N}~(8)
 \end{DoxyCompactItemize}
 \subsection*{Functions}
 \begin{DoxyCompactItemize}
@@ -24,19 +26,11 @@ int \hyperlink{main_8cc_a0a3ebc3eb0a420c7db311a53cb448613}{Get\+Mut\+Type} (cons
 \item 
 string \hyperlink{main_8cc_a147697aa5125bc7342336a4beba2a295}{Get\+Sample\+Str} (int num)
 \item 
-char \hyperlink{main_8cc_a93621528e506ed7dc118e0254cda2ca3}{Complement\+R\+N\+A} (char c)
-\item 
-char \hyperlink{main_8cc_ad005c0731893ab3a9dcbd2999c0e94b0}{Capital\+R\+N\+A} (char c)
-\item 
-void \hyperlink{main_8cc_a99eaa047ff6fbdbd50eebc18f50200d3}{Get\+Capital\+R\+N\+A} (string \&seq)
-\item 
-void \hyperlink{main_8cc_a543c910e164955cf99c688e663ea635b}{Get\+Comp\+Capital\+R\+N\+A} (string \&seq)
-\item 
 void \hyperlink{main_8cc_a578776a94af9ba29938589644da168d0}{R\+N\+A\+Transform} (\hyperlink{class_rfold_1_1_arg}{Rfold\+::\+Arg} \&arg, string \&seq)
 \item 
 void \hyperlink{main_8cc_aa6b8fef9df5669c7b7481d4d2a65126a}{R\+N\+A\+Transform} (\hyperlink{class_rfold_1_1_arg}{Rfold\+::\+Arg} \&arg)
 \item 
-void \hyperlink{main_8cc_ae1dcf8aaa42fc2e6f5a697569fdaa64b}{Name\+Transform} (string \&name)
+bool \hyperlink{main_8cc_a8688e8b3aa76e76bab41b44c09d7da7c}{Name\+Transform} (string \&name)
 \item 
 bool \hyperlink{main_8cc_acf40fb6fffb4f0ff7450ca88d4b827e5}{Init\+Condition} (\hyperlink{class_rfold_1_1_arg}{Rfold\+::\+Arg} \&arg)
 \item 
@@ -51,12 +45,19 @@ int \hyperlink{main_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{main} (int argc, char
 
 
 \subsection{Macro Definition Documentation}
+\hypertarget{main_8cc_ac7e33dbae8e615e4876459a347aa0d96}{\index{main.\+cc@{main.\+cc}!M\+I\+N\+D\+I\+R\+L\+E\+N@{M\+I\+N\+D\+I\+R\+L\+E\+N}}
+\index{M\+I\+N\+D\+I\+R\+L\+E\+N@{M\+I\+N\+D\+I\+R\+L\+E\+N}!main.\+cc@{main.\+cc}}
+\subsubsection[{M\+I\+N\+D\+I\+R\+L\+E\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define M\+I\+N\+D\+I\+R\+L\+E\+N~(8)}}\label{main_8cc_ac7e33dbae8e615e4876459a347aa0d96}
+
+
+Definition at line 9 of file main.\+cc.
+
 \hypertarget{main_8cc_a39d0de5f53bbf5622cd6af16d647fbe5}{\index{main.\+cc@{main.\+cc}!O\+P\+T\+I\+O\+N@{O\+P\+T\+I\+O\+N}}
 \index{O\+P\+T\+I\+O\+N@{O\+P\+T\+I\+O\+N}!main.\+cc@{main.\+cc}}
-\subsubsection[{O\+P\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+P\+T\+I\+O\+N~(17)}}\label{main_8cc_a39d0de5f53bbf5622cd6af16d647fbe5}
+\subsubsection[{O\+P\+T\+I\+O\+N}]{\setlength{\rightskip}{0pt plus 5cm}\#define O\+P\+T\+I\+O\+N~(23)}}\label{main_8cc_a39d0de5f53bbf5622cd6af16d647fbe5}
 
 
-Definition at line 7 of file main.\+cc.
+Definition at line 8 of file main.\+cc.
 
 
 
@@ -70,7 +71,7 @@ Definition at line 7 of file main.\+cc.
 )}}\label{main_8cc_aab6332131e3a1ec970498febd8c52626}
 
 
-Definition at line 269 of file main.\+cc.
+Definition at line 251 of file main.\+cc.
 
 \hypertarget{main_8cc_add8781d43bceee139022449476dd2177}{\index{main.\+cc@{main.\+cc}!Calc\+Struc\+Fasta@{Calc\+Struc\+Fasta}}
 \index{Calc\+Struc\+Fasta@{Calc\+Struc\+Fasta}!main.\+cc@{main.\+cc}}
@@ -81,18 +82,7 @@ Definition at line 269 of file main.\+cc.
 )}}\label{main_8cc_add8781d43bceee139022449476dd2177}
 
 
-Definition at line 303 of file main.\+cc.
-
-\hypertarget{main_8cc_ad005c0731893ab3a9dcbd2999c0e94b0}{\index{main.\+cc@{main.\+cc}!Capital\+R\+N\+A@{Capital\+R\+N\+A}}
-\index{Capital\+R\+N\+A@{Capital\+R\+N\+A}!main.\+cc@{main.\+cc}}
-\subsubsection[{Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}char Capital\+R\+N\+A (
-\begin{DoxyParamCaption}
-\item[{char}]{c}
-\end{DoxyParamCaption}
-)}}\label{main_8cc_ad005c0731893ab3a9dcbd2999c0e94b0}
-
-
-Definition at line 191 of file main.\+cc.
+Definition at line 291 of file main.\+cc.
 
 \hypertarget{main_8cc_a18b64c3a1c258fcf1cfd70b61e1b1296}{\index{main.\+cc@{main.\+cc}!Check\+Condition@{Check\+Condition}}
 \index{Check\+Condition@{Check\+Condition}!main.\+cc@{main.\+cc}}
@@ -103,40 +93,7 @@ Definition at line 191 of file main.\+cc.
 )}}\label{main_8cc_a18b64c3a1c258fcf1cfd70b61e1b1296}
 
 
-Definition at line 331 of file main.\+cc.
-
-\hypertarget{main_8cc_a93621528e506ed7dc118e0254cda2ca3}{\index{main.\+cc@{main.\+cc}!Complement\+R\+N\+A@{Complement\+R\+N\+A}}
-\index{Complement\+R\+N\+A@{Complement\+R\+N\+A}!main.\+cc@{main.\+cc}}
-\subsubsection[{Complement\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}char Complement\+R\+N\+A (
-\begin{DoxyParamCaption}
-\item[{char}]{c}
-\end{DoxyParamCaption}
-)}}\label{main_8cc_a93621528e506ed7dc118e0254cda2ca3}
-
-
-Definition at line 171 of file main.\+cc.
-
-\hypertarget{main_8cc_a99eaa047ff6fbdbd50eebc18f50200d3}{\index{main.\+cc@{main.\+cc}!Get\+Capital\+R\+N\+A@{Get\+Capital\+R\+N\+A}}
-\index{Get\+Capital\+R\+N\+A@{Get\+Capital\+R\+N\+A}!main.\+cc@{main.\+cc}}
-\subsubsection[{Get\+Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}void Get\+Capital\+R\+N\+A (
-\begin{DoxyParamCaption}
-\item[{string \&}]{seq}
-\end{DoxyParamCaption}
-)}}\label{main_8cc_a99eaa047ff6fbdbd50eebc18f50200d3}
-
-
-Definition at line 207 of file main.\+cc.
-
-\hypertarget{main_8cc_a543c910e164955cf99c688e663ea635b}{\index{main.\+cc@{main.\+cc}!Get\+Comp\+Capital\+R\+N\+A@{Get\+Comp\+Capital\+R\+N\+A}}
-\index{Get\+Comp\+Capital\+R\+N\+A@{Get\+Comp\+Capital\+R\+N\+A}!main.\+cc@{main.\+cc}}
-\subsubsection[{Get\+Comp\+Capital\+R\+N\+A}]{\setlength{\rightskip}{0pt plus 5cm}void Get\+Comp\+Capital\+R\+N\+A (
-\begin{DoxyParamCaption}
-\item[{string \&}]{seq}
-\end{DoxyParamCaption}
-)}}\label{main_8cc_a543c910e164955cf99c688e663ea635b}
-
-
-Definition at line 214 of file main.\+cc.
+Definition at line 321 of file main.\+cc.
 
 \hypertarget{main_8cc_a0a3ebc3eb0a420c7db311a53cb448613}{\index{main.\+cc@{main.\+cc}!Get\+Mut\+Type@{Get\+Mut\+Type}}
 \index{Get\+Mut\+Type@{Get\+Mut\+Type}!main.\+cc@{main.\+cc}}
@@ -147,7 +104,7 @@ Definition at line 214 of file main.\+cc.
 )}}\label{main_8cc_a0a3ebc3eb0a420c7db311a53cb448613}
 
 
-Definition at line 149 of file main.\+cc.
+Definition at line 179 of file main.\+cc.
 
 \hypertarget{main_8cc_a147697aa5125bc7342336a4beba2a295}{\index{main.\+cc@{main.\+cc}!Get\+Sample\+Str@{Get\+Sample\+Str}}
 \index{Get\+Sample\+Str@{Get\+Sample\+Str}!main.\+cc@{main.\+cc}}
@@ -158,7 +115,7 @@ Definition at line 149 of file main.\+cc.
 )}}\label{main_8cc_a147697aa5125bc7342336a4beba2a295}
 
 
-Definition at line 161 of file main.\+cc.
+Definition at line 191 of file main.\+cc.
 
 \hypertarget{main_8cc_acf40fb6fffb4f0ff7450ca88d4b827e5}{\index{main.\+cc@{main.\+cc}!Init\+Condition@{Init\+Condition}}
 \index{Init\+Condition@{Init\+Condition}!main.\+cc@{main.\+cc}}
@@ -169,7 +126,7 @@ Definition at line 161 of file main.\+cc.
 )}}\label{main_8cc_acf40fb6fffb4f0ff7450ca88d4b827e5}
 
 
-Definition at line 245 of file main.\+cc.
+Definition at line 226 of file main.\+cc.
 
 \hypertarget{main_8cc_a3c04138a5bfe5d72780bb7e82a18e627}{\index{main.\+cc@{main.\+cc}!main@{main}}
 \index{main@{main}!main.\+cc@{main.\+cc}}
@@ -181,18 +138,18 @@ Definition at line 245 of file main.\+cc.
 )}}\label{main_8cc_a3c04138a5bfe5d72780bb7e82a18e627}
 
 
-Definition at line 346 of file main.\+cc.
+Definition at line 336 of file main.\+cc.
 
-\hypertarget{main_8cc_ae1dcf8aaa42fc2e6f5a697569fdaa64b}{\index{main.\+cc@{main.\+cc}!Name\+Transform@{Name\+Transform}}
+\hypertarget{main_8cc_a8688e8b3aa76e76bab41b44c09d7da7c}{\index{main.\+cc@{main.\+cc}!Name\+Transform@{Name\+Transform}}
 \index{Name\+Transform@{Name\+Transform}!main.\+cc@{main.\+cc}}
-\subsubsection[{Name\+Transform}]{\setlength{\rightskip}{0pt plus 5cm}void Name\+Transform (
+\subsubsection[{Name\+Transform}]{\setlength{\rightskip}{0pt plus 5cm}bool Name\+Transform (
 \begin{DoxyParamCaption}
 \item[{string \&}]{name}
 \end{DoxyParamCaption}
-)}}\label{main_8cc_ae1dcf8aaa42fc2e6f5a697569fdaa64b}
+)}}\label{main_8cc_a8688e8b3aa76e76bab41b44c09d7da7c}
 
 
-Definition at line 235 of file main.\+cc.
+Definition at line 215 of file main.\+cc.
 
 \hypertarget{main_8cc_aff201295235478815ad5ffaf2e6b3b9e}{\index{main.\+cc@{main.\+cc}!option@{option}}
 \index{option@{option}!main.\+cc@{main.\+cc}}
@@ -203,7 +160,7 @@ Definition at line 235 of file main.\+cc.
 )}}\label{main_8cc_aff201295235478815ad5ffaf2e6b3b9e}
 
 
-Definition at line 68 of file main.\+cc.
+Definition at line 79 of file main.\+cc.
 
 \hypertarget{main_8cc_a9dcf20989ce5506312b60fe95185cb6c}{\index{main.\+cc@{main.\+cc}!Print\+Help\+Option@{Print\+Help\+Option}}
 \index{Print\+Help\+Option@{Print\+Help\+Option}!main.\+cc@{main.\+cc}}
@@ -214,7 +171,7 @@ Definition at line 68 of file main.\+cc.
 )}}\label{main_8cc_a9dcf20989ce5506312b60fe95185cb6c}
 
 
-Definition at line 10 of file main.\+cc.
+Definition at line 13 of file main.\+cc.
 
 \hypertarget{main_8cc_a578776a94af9ba29938589644da168d0}{\index{main.\+cc@{main.\+cc}!R\+N\+A\+Transform@{R\+N\+A\+Transform}}
 \index{R\+N\+A\+Transform@{R\+N\+A\+Transform}!main.\+cc@{main.\+cc}}
@@ -226,7 +183,7 @@ Definition at line 10 of file main.\+cc.
 )}}\label{main_8cc_a578776a94af9ba29938589644da168d0}
 
 
-Definition at line 222 of file main.\+cc.
+Definition at line 202 of file main.\+cc.
 
 \hypertarget{main_8cc_aa6b8fef9df5669c7b7481d4d2a65126a}{\index{main.\+cc@{main.\+cc}!R\+N\+A\+Transform@{R\+N\+A\+Transform}}
 \index{R\+N\+A\+Transform@{R\+N\+A\+Transform}!main.\+cc@{main.\+cc}}
@@ -237,7 +194,7 @@ Definition at line 222 of file main.\+cc.
 )}}\label{main_8cc_aa6b8fef9df5669c7b7481d4d2a65126a}
 
 
-Definition at line 231 of file main.\+cc.
+Definition at line 211 of file main.\+cc.
 
 \hypertarget{main_8cc_a61d725bcaf80927b39a5834598455e57}{\index{main.\+cc@{main.\+cc}!Set\+Arg@{Set\+Arg}}
 \index{Set\+Arg@{Set\+Arg}!main.\+cc@{main.\+cc}}
@@ -250,5 +207,5 @@ Definition at line 231 of file main.\+cc.
 )}}\label{main_8cc_a61d725bcaf80927b39a5834598455e57}
 
 
-Definition at line 102 of file main.\+cc.
+Definition at line 125 of file main.\+cc.
 

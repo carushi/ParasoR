@@ -2,8 +2,9 @@ var searchData=
 [
   ['gamma',['gamma',['../class_rfold_1_1_arg.html#a54717ae319eecf4154dba39e42094b60',1,'Rfold::Arg']]],
   ['gasconst',['GASCONST',['../energy__const_8hh.html#ab1e4a8d82f24ed5db01dde5f25269cf1',1,'energy_const.hh']]],
-  ['getcapitalrna',['GetCapitalRNA',['../main_8cc.html#a99eaa047ff6fbdbd50eebc18f50200d3',1,'main.cc']]],
-  ['getcompcapitalrna',['GetCompCapitalRNA',['../main_8cc.html#a543c910e164955cf99c688e663ea635b',1,'main.cc']]],
+  ['getcapitalrna',['GetCapitalRNA',['../namespace_rfold_1_1_parameter.html#adc3e395c2db7c0097c3790922e221f18',1,'Rfold::Parameter']]],
+  ['getcentroidstructure',['GetCentroidStructure',['../namespace_centroid.html#a8acbc5a0352efc745aa7463bc0072314',1,'Centroid']]],
+  ['getcompcapitalrna',['GetCompCapitalRNA',['../namespace_rfold_1_1_parameter.html#a064f7e3feb0336cd945b2679563f27a9',1,'Rfold::Parameter']]],
   ['getdo',['GetDo',['../matrix_8hh.html#a8421428b8784209efa9f6ff99468e7b3',1,'matrix.hh']]],
   ['getmeabpp',['GetMEABpp',['../namespace_centroid.html#a4bed069b4230a7f988bf8ed45b96a605',1,'Centroid']]],
   ['getmeastructure',['GetMEAStructure',['../namespace_centroid.html#a2472e4e4f8b057695c4dc82a1296a750',1,'Centroid']]],

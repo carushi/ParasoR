@@ -6,6 +6,12 @@
 \item 
 static string \hyperlink{namespace_centroid_a2472e4e4f8b057695c4dc82a1296a750}{Get\+M\+E\+A\+Structure} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma)
 \item 
+static bool \hyperlink{namespace_centroid_a1a72933cf1eb8e2db11025b2596a01a4}{Is\+Same} (\hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} a, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} b)
+\item 
+static void \hyperlink{namespace_centroid_a23c4bcb9b477ed0b23bda10a19cf8794}{Set\+Structure} (\hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} i, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} j, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} start, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&m, string \&str, \hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma)
+\item 
+static string \hyperlink{namespace_centroid_a8acbc5a0352efc745aa7463bc0072314}{Get\+Centroid\+Structure} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} start, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma)
+\item 
 static void \hyperlink{namespace_centroid_a1536a120dbc969d6a6702ae758427555}{Get\+Stem\+Prob} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{namespace_rfold_aaf02f2c0c40c1dd572dbdd8bc1bde67d}{Rfold\+::\+Vec} \&stem)
 \item 
 static void \hyperlink{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}{Get\+M\+E\+A\+Bpp} (\hyperlink{namespace_rfold_a6392dbfbc164230455fdcdb1a0ff53d7}{Rfold\+::\+Mat} \&bppm, \hyperlink{energy__const_8hh_a05b49c662c073f89e86804f7856622a0}{L\+E\+N} end, \hyperlink{energy__const_8hh_a8747af38b86aa2bbcda2f1b1aa0888c2}{D\+O\+U\+B\+L\+E} gamma, vector$<$ int $>$ \&cbpp)
@@ -13,6 +19,32 @@ static void \hyperlink{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}{Get
 
 
 \subsection{Function Documentation}
+\hypertarget{namespace_centroid_a8acbc5a0352efc745aa7463bc0072314}{\index{Centroid@{Centroid}!Get\+Centroid\+Structure@{Get\+Centroid\+Structure}}
+\index{Get\+Centroid\+Structure@{Get\+Centroid\+Structure}!Centroid@{Centroid}}
+\subsubsection[{Get\+Centroid\+Structure}]{\setlength{\rightskip}{0pt plus 5cm}static string Centroid\+::\+Get\+Centroid\+Structure (
+\begin{DoxyParamCaption}
+\item[{{\bf Rfold\+::\+Mat} \&}]{bppm, }
+\item[{{\bf L\+E\+N}}]{start, }
+\item[{{\bf L\+E\+N}}]{end, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{gamma}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a8acbc5a0352efc745aa7463bc0072314}
+\hyperlink{namespace_centroid}{Centroid} structure prediction. 
+\begin{DoxyParams}{Parameters}
+{\em start,end} & sequence start and end. \\
+\hline
+{\em bppm} & bpp table. \\
+\hline
+{\em gamma} & centroid parameter. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+gamma centroid structure. 
+\end{DoxyReturn}
+
+
+Definition at line 79 of file centroid.\+hh.
+
 \hypertarget{namespace_centroid_a4bed069b4230a7f988bf8ed45b96a605}{\index{Centroid@{Centroid}!Get\+M\+E\+A\+Bpp@{Get\+M\+E\+A\+Bpp}}
 \index{Get\+M\+E\+A\+Bpp@{Get\+M\+E\+A\+Bpp}!Centroid@{Centroid}}
 \subsubsection[{Get\+M\+E\+A\+Bpp}]{\setlength{\rightskip}{0pt plus 5cm}static void Centroid\+::\+Get\+M\+E\+A\+Bpp (
@@ -36,7 +68,7 @@ Gets base pairing probability of M\+E\+A structure.
 \end{DoxyParams}
 
 
-Definition at line 63 of file centroid.\+hh.
+Definition at line 128 of file centroid.\+hh.
 
 \hypertarget{namespace_centroid_a2472e4e4f8b057695c4dc82a1296a750}{\index{Centroid@{Centroid}!Get\+M\+E\+A\+Structure@{Get\+M\+E\+A\+Structure}}
 \index{Get\+M\+E\+A\+Structure@{Get\+M\+E\+A\+Structure}!Centroid@{Centroid}}
@@ -83,5 +115,48 @@ Produces stem probability vector from base pairing probability matrix.
 \end{DoxyParams}
 
 
-Definition at line 44 of file centroid.\+hh.
+Definition at line 109 of file centroid.\+hh.
+
+\hypertarget{namespace_centroid_a1a72933cf1eb8e2db11025b2596a01a4}{\index{Centroid@{Centroid}!Is\+Same@{Is\+Same}}
+\index{Is\+Same@{Is\+Same}!Centroid@{Centroid}}
+\subsubsection[{Is\+Same}]{\setlength{\rightskip}{0pt plus 5cm}static bool Centroid\+::\+Is\+Same (
+\begin{DoxyParamCaption}
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{a, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{b}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a1a72933cf1eb8e2db11025b2596a01a4}
+
+
+Definition at line 38 of file centroid.\+hh.
+
+\hypertarget{namespace_centroid_a23c4bcb9b477ed0b23bda10a19cf8794}{\index{Centroid@{Centroid}!Set\+Structure@{Set\+Structure}}
+\index{Set\+Structure@{Set\+Structure}!Centroid@{Centroid}}
+\subsubsection[{Set\+Structure}]{\setlength{\rightskip}{0pt plus 5cm}static void Centroid\+::\+Set\+Structure (
+\begin{DoxyParamCaption}
+\item[{{\bf L\+E\+N}}]{i, }
+\item[{{\bf L\+E\+N}}]{j, }
+\item[{{\bf L\+E\+N}}]{start, }
+\item[{{\bf L\+E\+N}}]{end, }
+\item[{{\bf Rfold\+::\+Mat} \&}]{m, }
+\item[{string \&}]{str, }
+\item[{{\bf Rfold\+::\+Mat} \&}]{bppm, }
+\item[{{\bf D\+O\+U\+B\+L\+E}}]{gamma}
+\end{DoxyParamCaption}
+)\hspace{0.3cm}{\ttfamily [static]}}}\label{namespace_centroid_a23c4bcb9b477ed0b23bda10a19cf8794}
+Set () to str at centroid base pair position. 
+\begin{DoxyParams}{Parameters}
+{\em i,j} & range. \\
+\hline
+{\em start,end} & sequence start and end. \\
+\hline
+{\em m} & dp table. \\
+\hline
+{\em bppm} & bpp table. \\
+\hline
+{\em gamma} & centroid parameter. \\
+\hline
+\end{DoxyParams}
+
+
+Definition at line 51 of file centroid.\+hh.
 

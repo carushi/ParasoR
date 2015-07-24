@@ -225,7 +225,7 @@ public:
      * Delete a base at 'x'th position on original sequence.
      */
     bool Delete(LEN x) {
-        x = x+1; // slide for $;
+        x = x; // slide for $;
         str = str.substr(0, x-_shift-1)+str.substr(x-_shift+1);
         sequence.erase(sequence.begin()+x-_shift);
         return true;
@@ -235,7 +235,7 @@ public:
      * @return whether a base is changed.
      */
     bool Sub(LEN x, char c, char i) {
-        x = x+1; // slide for $;
+        x = x; // slide for $;
         if (str[x-_shift] == c) return false;
         str[x-_shift] = c;
         sequence[x-_shift] = i;
@@ -260,12 +260,12 @@ public:
                 CutVector(start, end+1);
                 CutString(start, end+1);
                 _shift = start;
-                cout << "-Cut sequence ----" << start << "-----" << end << "----" << length << endl;
+                cout << "#-Cut sequence ----" << start << "-----" << end << "----" << length << endl;
             }
         } else {
             ReadPartialSeq(start, end+1);
             SetStrToChar();
-            cout << "-Read sequence ----" << start << "-----" << end << "----" << length << endl;
+            cout << "#-Read sequence ----" << start << "-----" << end << "----" << length << endl;
         }
         cout << "# " << str.substr(0, 50);
         if (str.length() > 50) cout << "...";
@@ -282,6 +282,12 @@ public:
      */
     int sliderbp(LEN i, LEN j) const {
         return rtype[bp(i-_shift, j-_shift, sequence)];
+    }
+    void printSeq() const {
+        cout << "#" << _shift << " " << sequence.size() << endl;
+        for (LEN i = _shift; i < sequence.size(); i++)
+            cout << seqget(i) << " ";
+        cout << endl;
     }
 };
 

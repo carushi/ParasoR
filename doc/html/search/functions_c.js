@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['rangechunkid',['RangeChunkId',['../class_rfold_1_1_paraso_r.html#ac14656436548df4306ef387bda5a0152',1,'Rfold::ParasoR']]],
   ['rbp',['rbp',['../namespace_rfold_1_1_parameter.html#aec0b5515ac41c13814b1af83a843b408',1,'Rfold::Parameter']]],
   ['removetempfilessavemem',['RemoveTempFilesSaveMem',['../class_rfold_1_1_paraso_r.html#a8ac6ab3e1b6a90b60cf06e34529f1380',1,'Rfold::ParasoR']]],
   ['rnacolorplot',['RNAColorPlot',['../class_rfold_1_1_plot.html#ae3a7528ac8bb72bd7f85012d079d3c3a',1,'Rfold::Plot']]],

@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['logbulge',['LogBulge',['../namespace_rfold_1_1_parameter.html#a84c12e24c819863c0a7de43605f07053',1,'Rfold::Parameter']]],
+  ['logbulge',['LogBulge',['../namespace_rfold_1_1_parameter.html#aa686da03e1df8a16f72153e7cbd8399e',1,'Rfold::Parameter']]],
   ['logenergy',['LogEnergy',['../num__operator_8hh.html#a590275b84bd71f97ca6c2dc854d90d7f',1,'num_operator.hh']]],
   ['loghairpinenergy',['LogHairpinEnergy',['../namespace_rfold_1_1_parameter.html#a59afd89fc8f4ec5e7fa0ef0a3e56f302',1,'Rfold::Parameter']]],
   ['logloopenergy',['LogLoopEnergy',['../namespace_rfold_1_1_parameter.html#a1c0e2f8427cf288a00fc615429933918',1,'Rfold::Parameter']]],

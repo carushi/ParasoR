@@ -11,26 +11,26 @@ DOUBLE ParasoR::GetPairingStruct(LEN i, LEN j, DOUBLE talpha, DOUBLE tbeta)
 
 DOUBLE ParasoR::ReCalcDouterInside(LEN j)
 {
-    if (j < 0 || j > seq.length) return 0.0;
+    if (j <= 1 || j > seq.length) return 0.0;
     DOUBLE dalpha = 0;
     DOUBLE newDouter = -INF;
     for (LEN k = 1; k <= _constraint+1 && k <= j; k++) {
         DOUBLE tdalpha = Logsum(GetStemDelta(j, j-k, true), -dalpha);
         newDouter = Logsumexp(newDouter, tdalpha);
-        dalpha = Logsum(dalpha, Outer(alpha, j-k-1));
+        if (j-k-1 >= 0) dalpha = Logsum(dalpha, Outer(alpha, j-k-1));
     }
     return newDouter;
 }
 
 DOUBLE ParasoR::ReCalcDouterOutside(LEN j)
 {
-    if (j < 0 || j > seq.length) return 0.0;
+    if (j < 0 || j > seq.length-1) return 0.0;
     DOUBLE dbeta = 0;
     DOUBLE newDouter = -INF;
     for (LEN k = 1; k <= _constraint+1 && j+k <= seq.length; k++) {
         DOUBLE tdbeta = Logsum(GetStemDelta(j, j+k, false), -dbeta);
         newDouter = Logsumexp(newDouter, tdbeta);
-        dbeta = Logsum(dbeta, Outer(beta, j+k));
+        if (j+k <= seq.length) dbeta = Logsum(dbeta, Outer(beta, j+k));
     }
     return newDouter;
 }
@@ -290,9 +290,8 @@ void ParasoR::ReadStemVec(Vec& vec, bool acc)
 {
     LEN s = _start;
     LEN e = _end;
-    vec.resize(e-s);
-    (binary) ? ReadBinStem(vec, GetStemFile(acc), s+1, e)
-             : ReadStem(vec, GetStemFile(acc), s+1, e);
+    (binary) ? ReadBinStem(vec, GetStemFile(acc), s, e)
+             : ReadStem(vec, GetStemFile(acc), s, e);
 }
 
 void ParasoR::InitRowMat(Matrix& mat, LEN pos)
@@ -374,7 +373,7 @@ void ParasoR::CalcForward(LEN pos, DOUBLE uxx)
 
 void ParasoR::SetRawRangedMatrix(bool set)
 {
-    InitBpp();
+    InitBpp(false, set);
     if (!set) return;
     if (binary) {
         if (!ReadBinConnectedDouter(true) || !ReadBinConnectedDouter(false))
@@ -388,14 +387,16 @@ void ParasoR::SetRawRangedMatrix(bool set)
             cout << "#-Finish reading connected douters" << endl;
     }
     if (ddebug) {
+        cout << "#--inside\n";
         PrintVec(alpha.outer, true);
+        cout << "#--outside\n";
         PrintVec(beta.outer, true);
     }
 }
 
 DOUBLE ParasoR::SetRangedMatrix(LEN start, bool set)
 {
-    if (!noout) cout << "#-SetMatrix..." << endl;
+    if (!noout && set) cout << "#-SetMatrix..." << endl;
     SetRawRangedMatrix(set);
     PreCalcInside(min(seq.length-1, start+1));
     DOUBLE uxx = ReproduceLocalOuter(min(seq.length-1, start+1)); // CalcInside(~pos+_constraint);
@@ -437,7 +438,6 @@ void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out)
     } else if (out == Out::MOTIF) {
         GetProfs(i, prom);
         auto it = prom.begin();
-        // cout << "* " << i << " : ";
         cout << substructure(std::distance(it, max_element(it, it+TYPE)));
         if (i == seq.length) cout << endl;
     }
@@ -486,7 +486,7 @@ void ParasoR::CheckDouter(LEN start, LEN end, DOUBLE uxx)
     LEN bstart = start+1;
     LEN right = RightBpRange(end);
     Vec P = Vec(end-start, 0.0);
-    for (LEN i = max(static_cast<LEN>(1), start+1); i <= min(seq.length, end+_constraint); ++i)
+    for (LEN i = max(static_cast<LEN>(1), bstart); i <= min(seq.length, end+_constraint); ++i)
     {
         DOUBLE diff1 = Outer(alpha, i-1)-ReCalcDouterInside(i);
         DOUBLE diff2 = (i-_constraint > 0) ? Outer(beta, i-_constraint)-ReCalcDouterOutside(i-_constraint) : 0.0;
@@ -514,12 +514,12 @@ void ParasoR::CalcSlidingWindowStem(Probs& P, LEN start, LEN end, bool set)
     if (ddebug)
         CheckDouter(start, end, uxx);
     SetProbs(P);
-    if (!noout) cout << "#--size:" << right-bstart+1 << endl;
+    if (!noout && set) cout << "#--calculating size:" << right-bstart+1 << endl;
     for (LEN i = bstart-1; bstart-i <= _constraint && i >= 1; i--) {
         StoreAreaBppSlide(i, right, P);
     }
     for (LEN pos = bstart; pos <= end; pos++) {
-        if (!noout && (pos%10000 == 0 || pos == bstart)) {
+        if (!noout && (pos%10000 == 9999)) {
             cout << "#--calculating-- " << pos << endl;
         }
         CalcForward(pos, uxx);
@@ -674,8 +674,8 @@ void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem, int elem)
     ostringstream oss;
     oss << STMP << name << "_" << ((elem == PROF_NUM) ? "prof_" : "stem_") << _start << "_se=" << start << "_" << end << "_gamma=" << gamma << ".ps";
     cout << "#-Drawing to " << oss.str() << endl;
-    cout << "seq: " << seq.substr(start+_start+1, end-start+1) << endl;
-    cout << "str: " << str.substr(start, end-start+1) << endl;
+    cout << "# local seq: " << seq.substr(start+_start+1, end-start+1) << endl;
+    cout << "# local str: " << str.substr(start, end-start+1) << endl;
     Plot::RNAColorPlot(seq.substr(start+_start+1, end-start+1), str.substr(start, end-start+1), oss.str(), stem);
 }
 
@@ -732,10 +732,15 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
     if (!calculated)
         CalcBpp();
     LEN bstart = _start+1;
-    if (!noout) cout << "#-Gamma " << gamma << endl;
-    string str = Centroid::GetMEAStructure(bppm, _end-_start, gamma);
+    bool centroid = (_start == static_cast<LEN>(0) && _end == seq.length);
+    if (!noout) {
+        if (centroid) cout << "#-Centroid structure (gamma = " << gamma << ")" << endl;
+        else cout << "#-Structures having bpp (1/(1+" << gamma << "))" << endl;
+    }
+    string str =  (centroid) ? Centroid::GetCentroidStructure(bppm, _start, _end, gamma)
+    : Centroid::GetMEAStructure(bppm, _end-_start, gamma);
     if (out) {
-        cout << str << endl;
+        cout << "#structure " << str << endl;
     }
     if (image) {
         vector<int> cbpp;
@@ -752,25 +757,25 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
     }
 }
 
-void ParasoR::CalcRangeStem(Vec& stem, LEN pos, int mtype)
+void ParasoR::CalcRangeStem(Vec& stem, LEN start, LEN end, int mtype)
 {
     if (mtype == Arg::Mut::Del) {
-        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
+        CalcSlidingWindowStem(stem, start, end, false);
     } else if (mtype == Arg::Mut::Ins) {
-        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-2), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowStem(stem, start, end, false);
     } else {
-        CalcSlidingWindowStem(stem, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowStem(stem, start, end, false);
     }
 }
 
-void ParasoR::CalcRangeAcc(Vec& stem, int window, LEN pos, int mtype)
+void ParasoR::CalcRangeAcc(Vec& stem, int window, LEN start, LEN end, int mtype)
 {
     if (mtype == Arg::Mut::Del) {
-        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint-1), false);
+        CalcSlidingWindowAcc(stem, window, start, end, false);
     } else if (mtype == Arg::Mut::Ins) {
-        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-2), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowAcc(stem, window, start, end, false);
     } else {
-        CalcSlidingWindowAcc(stem, window, max(static_cast<LEN>(0), pos-_constraint-1), min(seq.length, pos+_constraint), false);
+        CalcSlidingWindowAcc(stem, window, start, end, false);
     }
 }
 
@@ -983,7 +988,7 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
     CalcOuter();
     Vec prebpp = Vec(_constraint+1, 0);
     _start = 0;
-    cout << std::setprecision(20);
+    cout << std::setprecision(10);
     cout << "#--Z: " << alpha.outer[seq.length] << endl;
     if (out == Out::ACC)
         cout << "#--range : accessibility (kcal/mol)" << endl;

@@ -8,5 +8,6 @@ var searchData=
   ['isau',['IsAU',['../namespace_rfold_1_1_parameter.html#a82faf0dc317bb70000edd3f34bc467b9',1,'Rfold::Parameter']]],
   ['isclosegu',['IsCloseGU',['../namespace_rfold_1_1_parameter.html#a0ed77a73e79acb5e23fbb8f0a93e915f',1,'Rfold::Parameter']]],
   ['ispair',['IsPair',['../namespace_rfold_1_1_parameter.html#ac79332af130ad1da3bb3bbd6008bca00',1,'Rfold::Parameter']]],
+  ['issame',['IsSame',['../namespace_centroid.html#a1a72933cf1eb8e2db11025b2596a01a4',1,'Centroid']]],
   ['isset',['isSet',['../class_rfold_1_1_matrix.html#a351c76b452fc81c326a97b8607196ac7',1,'Rfold::Matrix']]]
 ];

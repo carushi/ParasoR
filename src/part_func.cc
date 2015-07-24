@@ -235,7 +235,7 @@ void ParasoR::CalcInDeltaOuter(LEN j)
 void ParasoR::CalcChunkInside(bool outer)
 {
     if (ddebug) cout << "inside" << endl;
-    for (LEN j = max(_start-_constraint, static_cast<LEN>(1)); j <= _end; j++) {
+    for (LEN j = max(_start-_constraint, static_cast<LEN>(0)); j <= _end; j++) {
         if (ddebug) cout << j << endl;
         CalcInside(j);
         if (outer && j >= _start+1) CalcInDeltaOuter(j);
@@ -504,8 +504,13 @@ bool ParasoR::ConnectDo(bool keep_flag, bool inside)
         int tid = (inside) ? i : chunk-1-i;
         Mat douter;
         string file = GetTempFileList(inside, tid);
-        flag = (binary) ? ReadBinDouterInside(douter, file, first_douter)
-                : ReadDouterInside(douter, file, first_douter);
+        if (inside) {
+            flag = (binary) ? ReadBinDouterInside(douter, file, first_douter)
+                    : ReadDouterInside(douter, file, first_douter);
+        } else {
+            flag = (binary) ? ReadBinDouterOutside(douter, file, first_douter)
+                    : ReadDouterOutside(douter, file, first_douter);
+        }
         if (!flag) {
             if (!noout) cout << "File format error" << endl;
             return false;
@@ -514,6 +519,10 @@ bool ParasoR::ConnectDo(bool keep_flag, bool inside)
             ConnectInDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
             first_douter = douter[static_cast<LEN>(douter.size()-1)];
         } else {
+            // cout << "a" << endl;
+            // PrintVec(douter[0]);
+            // PrintVec(douter[1]);
+            // cout << "b" << endl;
             ConnectOutDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
             first_douter = douter[0];
         }

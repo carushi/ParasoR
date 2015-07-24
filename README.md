@@ -10,6 +10,7 @@ ParasoR can compute these features for RNA sequences even if they are longer tha
 * Accessibility
 * RNA profile (probability and motif sequence)
 * Local γ-centroid structure (in not parallel) or structures with base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
+
 <img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
 * Local γ-centroid structure with the color code of RNA profile. 
 	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
@@ -22,7 +23,7 @@ In addition, ParasoR simulates structure arrangements caused by a single point m
 
 * c++11
 
-We already tested ParasoR running by Apple LLVM version 6.0, GCC 4.5.3, and 4.8.1. 
+We already tested ParasoR running with Apple LLVM version 6.0, GCC 4.5.3, and 4.8.1. 
 
 ## How to install
 

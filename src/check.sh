@@ -1,8 +1,8 @@
 #!/bin/sh
 # This shellscript is called from ''make test'' command.
 set -euo pipefail
-constraint=$1
-chunk=$2
+constraint=${1-50}
+chunk=${2-2}
 
 make -j
 ./ParasoR --pre --constraint $constraint --stem -r > ../doc/pre_r.txt
@@ -24,5 +24,5 @@ do
     ./ParasoR --save_memory --constraint $constraint -i $i -k $chunk  >> ../doc/stem_mem.txt
 done
 ./ParasoR --constraint $constraint --stem   >> ../doc/stem_mem.txt
-./ParasoR --constraint $constraint --stem --struct --image
-./ParasoR --constraint $constraint -p -a --struct --image
+./ParasoR --constraint $constraint --stem --struct --image > ../doc/struct.txt
+./ParasoR --constraint $constraint --prof --struct --image >> ../doc/struct.txt

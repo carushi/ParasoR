@@ -147,7 +147,7 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             if (optarg) arg.minp = atof(optarg);
             arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
-        case 9: arg.text = true;
+        case 9: arg.text = true; break;
         case 10:
             if (optarg) arg.gamma = atof(optarg);
             arg.mea_flag = true;

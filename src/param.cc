@@ -40,6 +40,7 @@ std::string Hexaloops;
 DOUBLE lxc37 = 107.856;
 bool initialized = false;
 bool inittermau = false;
+bool new_param = false;
 
 
 }

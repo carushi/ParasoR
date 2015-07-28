@@ -136,7 +136,7 @@ public:
 
 class ParasoR {
 private:
-    enum Out {STEM, ACC, PROF, MEA, BPP, MOTIF};
+    enum Out {STEM, ACC, PROF, BPPIM, BPP, MOTIF, PROFIM};
     enum File {Part, Shrunk, Whole};
     DOUBLE gamma;
 

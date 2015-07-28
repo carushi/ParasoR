@@ -58,6 +58,9 @@ struct Base {
             case 'C': case 'c': return 2;
             case 'G': case 'g': return 3;
             case 'T': case 'U': case 't': case 'u': return 4;
+            case 'X': return 5;
+            case 'K': return 6;
+            case 'I': return 7;
             case '$': case 'N': return 0;
             default: return 0;
         }

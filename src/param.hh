@@ -40,6 +40,7 @@ extern DOUBLE logdangle5[8][5];
 extern DOUBLE logdangle3[8][5];
 extern DOUBLE logninio[MAXLOOP+1];
 extern bool initialized;
+extern bool new_param;
 extern bool inittermau;
 extern DOUBLE logMLintern;
 extern DOUBLE logMLclosing;
@@ -52,6 +53,7 @@ extern std::string Hexaloops;
 
 static const bool no_closingGU = false;
 static const bool tetra = true;
+
 
 inline bool IsAU(const int type) {
     return (type > 2);
@@ -70,7 +72,7 @@ static void PrintSummary()
 {
     cout << "#Hairpin score:\t" << ExpEnergy(loghairpin[3]) << " " << ExpEnergy(loghairpin[4]) << " ...\n";
     cout << "#Bulge score:\t" << ExpEnergy(logbulge[0]) << " " << ExpEnergy(logbulge[1]) << " ...\n";
-    cout << "#Internal score:\t" << ExpEnergy(loginternal[2]) << " " << ExpEnergy(loginternal[3]) << " ...\n";
+    cout << "#Internal score:\t" << ExpEnergy(loginternal[2]) << " " << ExpEnergy(loginternal[3]) << " " << ExpEnergy(loginternal[4]) << " ...\n";
     cout << "#Tri:\t" << ExpEnergy(Triloop[0]) << " " << ExpEnergy(Triloop[1]) << " ...\n";
     cout << "#Tetra:\t" << ExpEnergy(Tetraloop[0]) << " " << ExpEnergy(Tetraloop[1]) << " ...\n";
     cout << "#TermAU:\t" << ExpEnergy(logTermAU) << "\n";
@@ -136,15 +138,22 @@ static void InitEnergyParam()
 static DOUBLE SumExtML(int type, LEN five, LEN three, bool ext, const Sequence& seq)
 {
     DOUBLE temp = 0.0;
-    if (five > 0 && three <= seq.length) {
+    if (five > 0 && three <= seq.length && !new_param) {
         if (ext) temp = Logsum(temp, logmismatchExt[type][seq.seqget(five)][seq.seqget(three)]);
         else temp = Logsum(temp, logmismatchM[type][seq.seqget(five)][seq.seqget(three)]);
         if (IsAU(type)) temp = Logsum(temp, logTermAU);
     } else {
-        if (five > 0) temp = Logsum(temp, logdangle5[type][seq.seqget(five)]);
-        if (three <= seq.length) temp = Logsum(temp, logdangle3[type][seq.seqget(three)]);
+        if (five > static_cast<LEN>(0)) {
+            temp = Logsum(temp, logdangle5[type][seq.seqget(five)]);
+            // cout << "five" << temp << endl;
+        }
+        if (three <= seq.length) {
+            temp = Logsum(temp, logdangle3[type][seq.seqget(three)]);
+            // cout << "three" << temp << endl;
+        }
         if (IsAU(type)) temp = Logsum(temp, logTermAU);
     }
+    // cout << "ext" << ext << " " << type << " " << five << "-" << three << " " <<seq.seqget(five) << " " << seq.seqget(three) << " " << temp << endl;
     return temp;
 }
 

@@ -36,6 +36,7 @@ extern std::string Hexaloops;
 
 extern const bool no_closingGU;
 extern const bool tetra;
+extern bool new_param;
 extern DOUBLE lxc37;
 
 void Convert::GetWords(string& str, vector<string>& words)
@@ -52,7 +53,7 @@ int Convert::param_type(string& str)
     GetWords(str, words);
     if (words.size() <= 1) return -1;
 	string id = words[1];
-	if (id == "stack") return Stack;
+	if (id == "stack" || id == "stack_energies") return Stack;
 	else if (id == "hairpin") return Hairpin;
 	else if (id == "bulge") return Bulge;
 	else if (id == "interior" || id == "internal_loop") return Interior;
@@ -62,9 +63,9 @@ int Convert::param_type(string& str)
     else if (id == "mismatch_interior_1n") return Mis1n;
     else if (id == "mismatch_interior_23") return MisI23;
     else if (id == "mismatch_multi") return MisM;
-    else if (id == "int11") return Int11;
-    else if (id == "int21") return Int21;
-    else if (id == "int22") return Int22;
+    else if (id == "int11" || id == "int11_energies") return Int11;
+    else if (id == "int21" || id == "int21_energies") return Int21;
+    else if (id == "int22" || id == "int22_energies") return Int22;
     else if (id == "dangle5") return Dan5;
     else if (id == "dangle3") return Dan3;
     else if (id == "ML_params") return ML;
@@ -346,18 +347,21 @@ bool Convert::ConvertParamFile(string& file)
     string str;
     ReadOnlyMisc(file);
     ifs.open(file.c_str());
-    bool flag = false;
+    new_param = false;
     while (getline(ifs, str)) {
-        flag = (flag | (str.find("## RNAfold parameter") != string::npos));
+        new_param = (new_param | (str.find("## RNAfold parameter") != string::npos));
     	int num = param_type(str);
     	if (num == Stack) {
-            Read2Dim(&(logstack[0][0]), 7, 7, 1, 1);
+            if (new_param) Read2Dim(&(logstack[0][0]), 7, 7, 0, 0);
+            else Read2Dim(&(logstack[0][0]), 7, 7, 1, 1);
         } else if (num == MisH) {
-    		Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 1, 0, 0);
+            if (new_param) Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 0, 0, 0);
+            else Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == MisI) {
-    		Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 1, 0, 0);
+            if (new_param) Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 0, 0, 0);
+            else Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == Mis1n) {
-    		Read3Dim(&(logmismatch1nI[0][0][0]), 7, 5, 5, 1, 0, 0);
+            Read3Dim(&(logmismatch1nI[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == MisI23) {
     		Read3Dim(&(logmismatch23I[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == MisM) {
@@ -365,9 +369,11 @@ bool Convert::ConvertParamFile(string& file)
         } else if (num == MisE) {
             Read3DimSmooth(&(logmismatchExt[0][0][0]), 8, 5, 5, 1, 0, 0);
         } else if (num == Dan5) {
-            Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 1, 0);
+            if (new_param) Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 0, 0);
+            else Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 1, 0);
         } else if (num == Dan3) {
-    		Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 1, 0);
+            if (new_param) Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 0, 0);
+            else Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 1, 0);
         } else if (num == Int11) {
     		Read4Dim(&(logint11[0][0][0][0]), 8, 8, 5, 5,
     								1, 1, 0, 0);
@@ -375,9 +381,15 @@ bool Convert::ConvertParamFile(string& file)
     		Read5Dim(&(logint21[0][0][0][0][0]), 8, 8, 5, 5, 5,
 					    			1, 1, 0, 0, 0);
         } else if (num == Int22) {
-    		Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
-					    			1, 1, 1, 1, 1, 1,
-					    			1, 1, 0, 0, 0, 0);
+            if (new_param) {
+                Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
+                                        1, 1, 1, 1, 1, 1,
+                                        0, 0, 0, 0, 0, 0);
+            } else {
+         		Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
+    					    			1, 1, 1, 1, 1, 1,
+    					    			1, 1, 0, 0, 0, 0);
+            }
         } else if (num == Hairpin) {
     		Read1Dim(&(loghairpin[0]), MAXLOOP+1, 0);
         } else if (num == Bulge) {
@@ -397,10 +409,10 @@ bool Convert::ConvertParamFile(string& file)
         } else if (num == Hexa) {
     		ReadString(&(Hexaloop[0]), Hexaloops);
         } else
-    		;
+            ;
     }
     ifs.close();
-    return flag;
+    return new_param;
 }
 
 }

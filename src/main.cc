@@ -24,7 +24,7 @@ void PrintHelpOption()
          << "-c\tprint correlation coefficient of distance (eucledian, eSDC)\n"
          << "-r\tuse complementary sequence\n\n"
          << "-m [S or D or I or nan]\tcalculate mutated probability around single point Substitution or Deletion or Insertion from start to end\n"
-         << "--mout [outfile or nan]\toutput a result of mutatiing simulation to stdout or outfile\n"
+         << "--mout [outfile or nan]\toutput a result of mutatiing simulation to stdout or outfile\n\n"
          << "-s [num]\tstart point of base pairing probability (1~(sequence length-1)) \n"
          << "-e [num]\tend point of base pairing probability\n\t\tif you assign only a start position for one sequence, it'll be the sequence length.\n"
          << "-i [num]\tthe number of chunk id  0~(#chunk-1)\n\t\t(if you assign #chunk, it'll make connected file in the same way as connect option.)\n"
@@ -70,8 +70,8 @@ void PrintHelpOption()
          << "\t\t./ParasoR --name test -f [sequence] --pre --bpp\t\t// base pairing probability;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --stem\t\t// stem probability;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre -a\t\t// accessibility;\n"
-         << "\t\t./ParasoR --name test -f [sequence] --pre -p\t\t// profile;\n"
-         << "\t\t./ParasoR --name test -f [sequence] --pre -a -p\t\t// profile string;\n"
+         << "\t\t./ParasoR --name test -f [sequence] --pre --prof\t\t// profile;\n"
+         << "\t\t./ParasoR --name test -f [sequence] --pre --motif\t\t// profile string;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --struct --image\t// centroid struct image;\n"
          << endl;
 }

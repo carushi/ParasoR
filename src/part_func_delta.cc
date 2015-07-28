@@ -682,7 +682,7 @@ void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem, int elem)
 bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
 {
     Plot plot;
-    LEN MAXLEN = 600;
+    LEN MAXLEN = 1000;
     vector<int>::reverse_iterator st = find_if(cbpp.rbegin(), cbpp.rend(), [&str](int x) -> bool {
         return x < 0;
     });
@@ -975,10 +975,13 @@ void ParasoR::CalcBppAtOnce(int out, DOUBLE thres)
         CalcForward(pos);
         StoreBppSlide(pos, seq.length, bppm);
     }
-    if (out == Out::MEA)
+    if (out == Out::BPPIM)
         CalcMEA(true, true, false, true);
+    else if (out == Out::PROFIM)
+        CalcMEA(true, true, true, true);
     else if (out == Out::BPP)
         CalcBpp(true, thres, true);
+
 }
 
 void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
@@ -1000,7 +1003,7 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
     }
     PreCalcInside(1);
     PreCalcOutside(1);
-    if (out == Out::MEA || out == Out::BPP)
+    if (out == Out::BPP || out == Out::BPPIM || out == Out::PROFIM)
         CalcBppAtOnce(out, thres);
     else {
         for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {

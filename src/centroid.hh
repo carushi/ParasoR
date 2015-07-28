@@ -50,11 +50,12 @@ static bool IsSame(DOUBLE a, DOUBLE b) {
  */
 static void SetStructure(LEN i, LEN j, LEN start, LEN end, Rfold::Mat& m, string& str, Rfold::Mat& bppm, DOUBLE gamma)
 {
-    while (i < j-TURN) {
+    while (TURN < j-i) {
         if (IsSame(m[i][j], m[i+1][j])) i++;
         else if (IsSame(m[i][j], m[i][j-1])) j--;
         else if (i+1 < j-1 && IsSame(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[j-1][j-i]-1.)) {
-            i++; j--; str[i-1] = '('; str[j-1] = ')';
+            str[i-1] = '('; str[j-1] = ')';
+            i++; j--;
         } else {
             for (LEN k = i+1; k+1 < j; k++) {
                 if (IsSame(m[i][j], m[i][k]+m[k+1][j])) {
@@ -83,11 +84,17 @@ static string GetCentroidStructure(Rfold::Mat& bppm, LEN start, LEN end, DOUBLE 
     string str;
     str.assign(end, '.');
     Rfold::Mat m = Rfold::Mat(end+1, Rfold::Vec(end+1, 0));
+    // for (LEN i = 0; i < bppm.size(); i++) {
+    //     for (LEN j = 0; j < bppm[i].size(); j++) {
+    //         bppm[i][j] = max(0., bppm[i][j]);
+    //     }
+    //     Rfold::PrintVec(bppm[i]);
+    // }
     for (LEN j = start; j <= end; j++) {
         for (LEN i = j-1; i >= 1; i--) {
-            if (i+1 <= j) m[i][j] = max(m[i][j], m[i+1][j]);
-            if (j-1 >= i) m[i][j] = max(m[i][j], m[i][j-1]);
-            if (TURN+i+1 <= j-1 && j-i < constraint) {
+            if (i+1 < j) m[i][j] = max(m[i][j], m[i+1][j]);
+            if (j-1 > i) m[i][j] = max(m[i][j], m[i][j-1]);
+            if (j-i > TURN && j-i <= constraint && i > 0 && j <= end) {
                 if (i < j) m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[j-1][j-i]-1.);
                 else m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[i-1][i-j]-1.);
             }
@@ -96,7 +103,9 @@ static string GetCentroidStructure(Rfold::Mat& bppm, LEN start, LEN end, DOUBLE 
             }
         }
     }
-    SetStructure(start, end, start, end, m, str, bppm, gamma);
+    // for (LEN i = 0; i < m.size(); i++)
+    //     Rfold::PrintVec(m[i]);
+    SetStructure(1, end, start, end, m, str, bppm, gamma);
     return str;
 }
 

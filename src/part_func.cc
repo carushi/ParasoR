@@ -1063,14 +1063,14 @@ void ParasoR::RemoveTempFilesSaveMem(bool inside)
                 file = GetTempFileList(inside, i);
             remove(file.c_str());
             if (!noout && i == 0)
-                cout << "Remove " << file << " and others..." << endl;
+                cout << "#-Remove " << file << " and others..." << endl;
         }
     }
 }
 
 void ParasoR::RemoveTempFiles(bool inside, int prefix)
 {
-    cout << "Remove Temp files." << endl;
+    cout << "#-Remove Temp files." << endl;
     string file;
     for (int i = 0; i < chunk; i++) {
         if (memory) {
@@ -1083,7 +1083,7 @@ void ParasoR::RemoveTempFiles(bool inside, int prefix)
 
 void ParasoR::RemoveStem(bool acc, bool prof)
 {
-    cout << "Remove Stem files" << endl;
+    cout << "#-Remove Stem files" << endl;
     for (int i = 0; i < chunk; i++) {
         ostringstream os;
         id = i;
@@ -1133,14 +1133,15 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
     rfold.SetBasicParam(arg, shrink);
     rfold.SetRange(1, arg.str.length());
     if (arg.prof_flag) {
-        if (arg.acc_flag)
-            rfold.CalcAllAtOnce(Out::PROF);
-        else
+        if (arg.acc_flag) {
+            if (arg.mea_flag) rfold.CalcAllAtOnce(Out::PROFIM, arg.gamma);
+            else rfold.CalcAllAtOnce(Out::PROF);
+        } else
             rfold.CalcAllAtOnce(Out::MOTIF);
     } else if (arg.acc_flag) {
         rfold.CalcAllAtOnce(Out::ACC);
     } else if (arg.mea_flag) {
-        rfold.CalcAllAtOnce(Out::MEA, arg.gamma);
+        rfold.CalcAllAtOnce(Out::BPPIM, arg.gamma);
     } else if (arg.stem_flag) {
         rfold.CalcAllAtOnce(Out::STEM);
     } else {

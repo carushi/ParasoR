@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (23)
+#define OPTION (24)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -32,7 +32,7 @@ void PrintHelpOption()
          << "-f [sequence]\tdirect input of sequence\n\n"
          << "-T [temperature]\tchange temperature\n"
          //<< "-d\tfor debug\n"
-         << "-t\tkeep temporary douter files after connecting (only available with connect option)\n\n"
+         << "-t\tkeep temporary douter files after connecting (only valid with connect option)\n\n"
          << "--constraint [num]\tset the maximal span to num\n"
          << "--input [filename]\tdeal filename as sequence file input\n"
          // << "--outerinput [filename]\tdeal filename as douter file input\n"
@@ -46,6 +46,7 @@ void PrintHelpOption()
          << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
          << "--stem\tcalculate stem probability\n"
          << "--text\ttext storage mode with low accuracy\n"
+         << "--stdout\ttext output mode (only valid with stemdb option)\n"
          << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
          << "--init_file\tremove temp files for connect procedure (only valid with --connect and --save_memory option)\n"
          << "--pre\tnot parallel computing\n"
@@ -101,11 +102,12 @@ struct option* option()
     options[19].name = "remote";
     options[20].name = "transcribed";
     options[21].name = "mout";
-    options[22].name = "help";
+    options[22].name = "stdout";
+    options[23].name = "help";
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -169,6 +171,7 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
         case 21:
             if (optarg) arg.mout = string(optarg);
             arg.mout_flag = true; break;
+        case 22: arg.outtext = true; break;
         default:
             PrintHelpOption();
             return false;

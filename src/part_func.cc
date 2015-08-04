@@ -669,7 +669,7 @@ DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
         cout << "stemend " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stemend << endl;
         cout << "dpp " << i << " " << j << " " << temp << endl;
         cout << "Catch error: caused by the irregular outer file." << endl;
-        abort();
+        exit(1);
     }
     return temp;
  }
@@ -686,7 +686,7 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
         cout << "#---- " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << endl;
         cout << "dpp " << exp(Logsumexp(stack, stemend)) << endl;
         cout << "Catch error: caused by outer file." << endl;
-        abort();
+        exit(1);
     }
     return exp(Logsumexp(stack, stemend));
 }
@@ -1134,18 +1134,18 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
     rfold.SetRange(1, arg.str.length());
     if (arg.prof_flag) {
         if (arg.acc_flag) {
-            if (arg.mea_flag) rfold.CalcAllAtOnce(Out::PROFIM, arg.gamma);
+            if (arg.mea_flag) rfold.CalcAllAtOnce(Out::PROFIM, arg.image, arg.gamma);
             else rfold.CalcAllAtOnce(Out::PROF);
         } else
             rfold.CalcAllAtOnce(Out::MOTIF);
     } else if (arg.acc_flag) {
         rfold.CalcAllAtOnce(Out::ACC);
     } else if (arg.mea_flag) {
-        rfold.CalcAllAtOnce(Out::BPPIM, arg.gamma);
+        rfold.CalcAllAtOnce(Out::BPPIM, arg.image, arg.gamma);
     } else if (arg.stem_flag) {
         rfold.CalcAllAtOnce(Out::STEM);
     } else {
-        rfold.CalcAllAtOnce(Out::BPP, arg.minp);
+        rfold.CalcAllAtOnce(Out::BPP, arg.image, arg.minp);
     }
 }
 

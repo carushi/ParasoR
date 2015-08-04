@@ -89,6 +89,7 @@ public:
         save_memory = false;
         init_file = false;
         text = false;
+        outtext = false;
         image = false;
         mout_flag = false;
     }
@@ -129,6 +130,7 @@ public:
     bool init_file;
     bool debug;
     bool text;
+    bool outtext;
     bool image;
     bool mout_flag;
 
@@ -249,7 +251,7 @@ private:
     void AddCumProf(Vec& cump, LEN pos, Vec& prof);
     void GetProfsLinearRight(LEN pos, Vec& prof, LEN bstart, LEN end);
     void GetProfsLinear(LEN, Vec&, LEN, LEN, DOUBLE);
-    void GetProfs(LEN, Vec&, LEN = 1, DOUBLE = 0.);
+    void GetProfs(LEN, Vec&, LEN = 1, DOUBLE = 0., bool = false);
 
     /* part_func_delta */
 
@@ -291,7 +293,7 @@ private:
     DOUBLE SetRangedMatrix(LEN, bool set = false);
     void StoreBppSlide(LEN, LEN, Mat&);
     void StoreBppSlide(LEN, LEN, Vec&);
-    void StoreAccProfSlide(LEN, LEN, int);
+    void StoreAccProfSlide(LEN, LEN, int, bool = false);
     void StoreAreaBppSlide(LEN, LEN, Mat&);
     void StoreAreaBppSlide(LEN, LEN, Vec&);
     // void CalcSlidingWindowBpp();
@@ -311,7 +313,7 @@ private:
     void CalcAcc(bool = false);
     void CalcProf(Vec& P);
     void CalcProf(vector<char>& P);
-    void CalcProf(bool = false);
+    void CalcProf(bool = false, bool = false);
     void DrawImage(vector<int>&, Vec&, string&, int = 1);
     bool GetWholeImage(string, vector<int>&, Vec&, int = 1);
     void GetImage(string, LEN, LEN, Vec, int = 1);
@@ -328,8 +330,8 @@ private:
     void CalcInsideOuter(LEN);
     void CalcOutsideOuter(LEN);
     void CalcOuter();
-    void CalcBppAtOnce(int out, DOUBLE thres);
-    void CalcAllAtOnce(int, DOUBLE = 0.0);
+    void CalcBppAtOnce(int out, bool image, DOUBLE thres);
+    void CalcAllAtOnce(int, bool = false, DOUBLE = 0.0, bool = false);
 
     void SetOriginalDouter(Vec&, Vec&);
     void CopyOriginalOuter(Vec&, Vec&);
@@ -475,13 +477,6 @@ public:
         SetGamma(arg.gamma);
         SetMemory(arg.save_memory);
     }
-    // int RangeChunkId(int pos) {
-    //     LEN unit = (seq.length/chunk);
-    //     return pos/unit;
-    // }
-    // int Shift(int startid) {
-    //     return (seq.length/chunk) * (startid);
-    // }
     void SetRange(LEN start, LEN end) {
         _start = max(static_cast<LEN>(1), start);
         _end = min(seq.length, static_cast<LEN>(end));
@@ -500,7 +495,7 @@ public:
             if (range) {
                 _start = (seq.length/tchunk) * (tid);
                 _end = (tid+1 == tchunk) ? seq.length : (seq.length/tchunk) * (tid+1);
-                if (!noout) cout << "--(s, t) " << _start << " " << _end << endl;
+                if (!noout) cout << "#--(s, t) " << _start << " " << _end << endl;
             }
             Init();
             return true;

@@ -65,7 +65,7 @@ static void SetStructure(LEN i, LEN j, LEN start, LEN end, Rfold::Mat& m, string
                 }
             }
             cout << "Error: No match during traceback." << endl;
-            abort();
+            exit(1);
         }
     }
 }
@@ -84,19 +84,18 @@ static string GetCentroidStructure(Rfold::Mat& bppm, LEN start, LEN end, DOUBLE 
     string str;
     str.assign(end, '.');
     Rfold::Mat m = Rfold::Mat(end+1, Rfold::Vec(end+1, 0));
-    // for (LEN i = 0; i < bppm.size(); i++) {
-    //     for (LEN j = 0; j < bppm[i].size(); j++) {
-    //         bppm[i][j] = max(0., bppm[i][j]);
-    //     }
+    // for (LEN i = 0; i < bppm.size(); i++)
     //     Rfold::PrintVec(bppm[i]);
-    // }
     for (LEN j = start; j <= end; j++) {
         for (LEN i = j-1; i >= 1; i--) {
             if (i+1 < j) m[i][j] = max(m[i][j], m[i+1][j]);
             if (j-1 > i) m[i][j] = max(m[i][j], m[i][j-1]);
             if (j-i > TURN && j-i <= constraint && i > 0 && j <= end) {
-                if (i < j) m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[j-1][j-i]-1.);
-                else m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[i-1][i-j]-1.);
+                if (i < j) {
+                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[j-1][j-i]-1.);
+                } else {
+                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[i-1][i-j]-1.);
+                }
             }
             for (LEN k = i+1; k < j; k++) {
                 m[i][j] = max(m[i][j], m[i][k]+m[k+1][j]);
@@ -105,7 +104,7 @@ static string GetCentroidStructure(Rfold::Mat& bppm, LEN start, LEN end, DOUBLE 
     }
     // for (LEN i = 0; i < m.size(); i++)
     //     Rfold::PrintVec(m[i]);
-    SetStructure(1, end, start, end, m, str, bppm, gamma);
+    SetStructure(start, end, start, end, m, str, bppm, gamma);
     return str;
 }
 
@@ -144,6 +143,27 @@ static void GetMEABpp(Rfold::Mat& bppm, LEN end, DOUBLE gamma, vector<int>& cbpp
                 if (j-dist >= 0) cbpp[j-dist] = j;
                 if (j < end) cbpp[j] = j-dist;
             }
+        }
+    }
+}
+
+/**
+ * Gets base pairing probability of string.
+ * @param str structure in bracket style.
+ * @param cbpp empty vector for storing base pairing probability of MEA structure.
+ */
+static void GetStringBpp(string& str, vector<int>& cbpp)
+{
+    cbpp = vector<int>(str.length(), 0);
+    for (int i = 0; i < str.length(); i++) cbpp[i] = i;
+    vector<int> stack;
+    for (int i = 0; i < str.length(); i++) {
+        if (str[i] == '(') stack.push_back(i);
+        else if (str[i] == ')') {
+            if (stack.size() == 0) exit(0);
+            cbpp[i] = stack[stack.size()-1];
+            cbpp[stack[stack.size()-1]] = i;
+            stack.erase(stack.begin()+stack.size()-1);
         }
     }
 }

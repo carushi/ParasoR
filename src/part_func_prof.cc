@@ -279,7 +279,7 @@ void ParasoR::GetProfsLinear(LEN pos, Vec& prof, LEN bstart, LEN end, DOUBLE uxx
     }
 }
 
-void ParasoR::GetProfs(LEN pos, Vec& prof, LEN bstart, DOUBLE uij)
+void ParasoR::GetProfs(LEN pos, Vec& prof, LEN bstart, DOUBLE uij, bool store)
 {
     if (delta) {
         Vec temp;
@@ -287,7 +287,7 @@ void ParasoR::GetProfs(LEN pos, Vec& prof, LEN bstart, DOUBLE uij)
         AddCumProf(temp, pos-bstart, prof);
     }
     else {
-        prof = Vec();
+        if (!store) prof = Vec();
         profile(pos, prof);
     }
 }

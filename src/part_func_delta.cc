@@ -423,18 +423,20 @@ void ParasoR::StoreBppSlide(LEN i, LEN right, Vec& prebpp)
     }
 }
 
-void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out)
+void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out, bool store)
 {
     if (out == Out::ACC) {
         if (i+static_cast<LEN>(_window) <= seq.length) {
             cout << "* " << i << "-" << i+static_cast<LEN>(_window) << " : " << acc(i, i+static_cast<LEN>(_window)) << endl;
         }
-    } else if (out == Out::PROF) {
-        GetProfs(i, prom);
-        cout << "* " << i << " : ";
-        for (Vec::iterator it = prom.begin(); it != prom.end(); it++)
-            cout << *it << ",";
-        cout << endl;
+    } else if (out == Out::PROF || out == Out::PROFIM) {
+        GetProfs(i, prom, 0, 0.0, store);
+        if (out == Out::PROF) {
+            cout << "* " << i << " : ";
+            for (LEN j = static_cast<LEN>(prom.size()-TYPE); j < static_cast<LEN>(prom.size()); j++)
+                cout << prom[j] << ",";
+            cout << endl;
+        }
     } else if (out == Out::MOTIF) {
         GetProfs(i, prom);
         auto it = prom.begin();
@@ -546,7 +548,7 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
     }
     if (!noout)
         cout << "#--calculated size " << P.size() << " ("  << start
-            << "~" << end << ", " << region << ")" << endl;
+            << "~" << end << ", " << region+1 << ")" << endl;
 }
 
 
@@ -637,16 +639,16 @@ void ParasoR::CalcProf(vector<char>& P) {
     CalcSlidingWindowProf(P, _start, _end, true);
 }
 
-void ParasoR::CalcProf(bool value)
+void ParasoR::CalcProf(bool value, bool store)
 {
     if (value) {
         Vec P;
         CalcProf(P);
-        if (chunk > 0) {
+        if (store && chunk > 0) {
             if (!noout)
                 cout << "#-Writing to " << GetDividedStemFile(true, true) << endl;
             StoreStem(GetDividedStemFile(true, true), P, true);
-        } else if (chunk > 0 && chunk == id) {
+        } else if (chunk > 0 && chunk == id && store) {
             StoreStem(GetStemFile(true, true), P, true);
         } else {
             cout << "#--pos : Bulge,Outer,Hairpin,Multi,Stem,Interior," << endl;
@@ -691,8 +693,12 @@ bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
     });
     LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
     LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
-    if (right-left > MAXLEN || right <= left)    return false;
-    GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
+    if ((_start == static_cast<LEN>(0) && _end == seq.length)) {
+        GetImage(str, _start, _end-1, stem, elem);
+    } else {
+        if (right-left > MAXLEN || right <= left) return false;
+        GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
+    }
     return true;
 }
 
@@ -739,20 +745,17 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
     }
     string str =  (centroid) ? Centroid::GetCentroidStructure(bppm, _start, _end, gamma)
     : Centroid::GetMEAStructure(bppm, _end-_start, gamma);
-    if (out) {
-        cout << "#structure " << str << endl;
-    }
+    if (out) cout << "#structure " << str << endl;
     if (image) {
         vector<int> cbpp;
-        Centroid::GetMEABpp(bppm, _end-_start, gamma, cbpp);
+        (centroid) ? Centroid::GetStringBpp(str, cbpp)
+        : Centroid::GetMEABpp(bppm, _end-_start, gamma, cbpp);
         if (!prof) {
             Vec stem;
             Centroid::GetStemProb(bppm, _end-_start, stem);
             DrawImage(cbpp, stem, str);
         } else {
-            Vec P;
-            CalcProf(P);
-            DrawImage(cbpp, P, str, 6);
+            DrawImage(cbpp, prom, str, 6);
         }
     }
 }
@@ -911,12 +914,12 @@ void ParasoR::Stemdb(Arg& arg, bool shrink)
         rfold.ConcatStemdb(arg.acc_flag, arg.prof_flag);
     } else if (rfold.SetChunkId(arg.id, arg.chunk)) {
         if (arg.acc_flag && !arg.prof_flag) {
-            rfold.CalcAcc(true);
+            rfold.CalcAcc(!arg.outtext);
         } else if (arg.mea_flag) {
             rfold.CalcMEA(true, arg.image, arg.prof_flag);
         } else if (arg.prof_flag) {
-            rfold.CalcProf(arg.acc_flag);
-        } else rfold.CalcStem(true);
+            rfold.CalcProf(arg.acc_flag, !arg.outtext);
+        } else rfold.CalcStem(!arg.outtext);
     } else {
         cerr << "too many chunk for this sequence len: " << rfold.seq.length << endl;
     }
@@ -968,7 +971,7 @@ void ParasoR::CalcOuter()
     }
 }
 
-void ParasoR::CalcBppAtOnce(int out, DOUBLE thres)
+void ParasoR::CalcBppAtOnce(int out, bool image, DOUBLE thres)
 {
     SetProbs(bppm);
     for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {
@@ -976,15 +979,15 @@ void ParasoR::CalcBppAtOnce(int out, DOUBLE thres)
         StoreBppSlide(pos, seq.length, bppm);
     }
     if (out == Out::BPPIM)
-        CalcMEA(true, true, false, true);
+        CalcMEA(true, image, false, true);
     else if (out == Out::PROFIM)
-        CalcMEA(true, true, true, true);
+        CalcMEA(true, image, true, true);
     else if (out == Out::BPP)
         CalcBpp(true, thres, true);
 
 }
 
-void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
+void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
 {
     delta = false;
     InitBpp(false);
@@ -1003,8 +1006,8 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
     }
     PreCalcInside(1);
     PreCalcOutside(1);
-    if (out == Out::BPP || out == Out::BPPIM || out == Out::PROFIM)
-        CalcBppAtOnce(out, thres);
+    if (out == Out::BPP || out == Out::BPPIM)
+        CalcBppAtOnce(out, image, thres);
     else {
         for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {
             CalcForward(pos);
@@ -1015,10 +1018,12 @@ void ParasoR::CalcAllAtOnce(int out, DOUBLE thres)
                 }
                 prebpp[pos%(_constraint+1)] = 0.0;
             } else {
-                StoreAccProfSlide(pos, seq.length, out);
+                StoreAccProfSlide(pos, seq.length, out, out == Out::PROFIM);
             }
         }
     }
+    if (out == Out::PROFIM)
+        CalcBppAtOnce(out, image, thres);
 }
 
 

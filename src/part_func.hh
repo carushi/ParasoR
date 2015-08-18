@@ -92,6 +92,7 @@ public:
         outtext = false;
         image = false;
         mout_flag = false;
+        cd = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -133,6 +134,7 @@ public:
     bool outtext;
     bool image;
     bool mout_flag;
+    bool cd;
 
 };
 

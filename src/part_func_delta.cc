@@ -427,12 +427,12 @@ void ParasoR::StoreAccProfSlide(LEN i, LEN right, int out, bool store)
 {
     if (out == Out::ACC) {
         if (i+static_cast<LEN>(_window) <= seq.length) {
-            cout << "* " << i << "-" << i+static_cast<LEN>(_window) << " : " << acc(i, i+static_cast<LEN>(_window)) << endl;
+            cout << "*\t" << i << "-" << i+static_cast<LEN>(_window) << "\t:\t" << acc(i, i+static_cast<LEN>(_window)) << endl;
         }
     } else if (out == Out::PROF || out == Out::PROFIM) {
         GetProfs(i, prom, 0, 0.0, store);
         if (out == Out::PROF) {
-            cout << "* " << i << " : ";
+            cout << "*\t" << i << "\t:\t";
             for (LEN j = static_cast<LEN>(prom.size()-TYPE); j < static_cast<LEN>(prom.size()); j++)
                 cout << prom[j] << ",";
             cout << endl;
@@ -603,7 +603,7 @@ void ParasoR::CalcStem(bool store)
         //cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
         cout.setf(std::ios_base::scientific);
         for (LEN i = 0; i <= _end-(_start+1); i++)
-            cout << "* " << setprecision(20) << seq.strget(i+(_start+1)) << " " << i+(_start+1) << " " << P[i] << endl;
+            cout << "*\t" << setprecision(20) << seq.strget(i+(_start+1)) << "\t" << i+(_start+1) << " " << P[i] << endl;
     }
 }
 
@@ -628,7 +628,7 @@ void ParasoR::CalcAcc(bool store)
         cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
         LEN acc_start = ((_start)/_window + ((_start)%_window > 0 ? 1 : 0))*_window;
         for (LEN i = 0; i < P.size(); i++)
-            cout << "* " << acc_start+(i*_window)+1 << "~" << acc_start+((i+1)*_window) << " " << P[i] << endl;
+            cout << "*\t" << acc_start+(i*_window)+1 << "~" << acc_start+((i+1)*_window) << "\t" << P[i] << endl;
     }
 }
 
@@ -728,7 +728,7 @@ void ParasoR::CalcBpp(bool output, DOUBLE minp, bool calculated)
     for (LEN j = 0; j < bppm.size(); j++) {
         for (LEN dist = 0; dist < bppm[j].size(); dist++) {
             if (bppm[j][dist] < minp)  continue;
-            if (j-dist >= 0 || j < seq.length) cout << "* " << j+bstart-dist << " " << j+bstart  << " " << bppm[j][dist] << endl;
+            if (j-dist >= 0 || j < seq.length) cout << "*\t" << j+bstart-dist << "\t" << j+bstart  << "\t" << bppm[j][dist] << endl;
         }
     }
 }
@@ -1014,7 +1014,7 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
             if (out == Out::STEM) {
                 StoreBppSlide(pos, seq.length, prebpp);
                 if (pos%JUMP == 0) {
-                    cout << "* " << seq.strget(pos) << " : " << prebpp[pos%(_constraint+1)] << endl;
+                    cout << "*\t" << seq.strget(pos) << "\t:\t" << prebpp[pos%(_constraint+1)] << endl;
                 }
                 prebpp[pos%(_constraint+1)] = 0.0;
             } else {

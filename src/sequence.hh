@@ -226,8 +226,9 @@ public:
      */
     bool Delete(LEN x) {
         x = x; // slide for $;
-        str = str.substr(0, x-_shift-1)+str.substr(x-_shift+1);
+        str = str.substr(0, x-_shift)+str.substr(x-_shift+1);
         sequence.erase(sequence.begin()+x-_shift);
+        length -= static_cast<LEN>(1);
         return true;
     }
     /**
@@ -245,9 +246,10 @@ public:
      * Insert 'c' before 'x'th position on original sequence.
      */
     bool Insert(LEN x, char c, char i) {
-        x = x+1; // slide for $;
+        x = x; // slide for $;
         str.insert(str.begin()+x-_shift, c);
         sequence.insert(sequence.begin()+x-_shift, i);
+        length += static_cast<LEN>(1);
         return true;
     }
     /**

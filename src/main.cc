@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (24)
+#define OPTION (25)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -18,9 +18,10 @@ void PrintHelpOption()
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"
          << "You can achieve calculation of base pairing probability or accessibility for sequences having any length by ParasoR.\n\n";
     cout << "-------Option List------\n";
-    cout << "-acc\t(-a)\tuse accessibility \n\t(default: stem probability)\n"
+    cout << "--acc\t(-a)\tuse accessibility \n\t(default: stem probability)\n"
          << "--prof\t(-p -a)\tuse profile vectors\n"
          << "--motif\t(-p)\tprint a motif sequence\n"
+         << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
          << "-c\tprint correlation coefficient of distance (eucledian, eSDC)\n"
          << "-r\tuse complementary sequence\n\n"
          << "-m [S or D or I or nan]\tcalculate mutated probability around single point Substitution or Deletion or Insertion from start to end\n"
@@ -37,13 +38,13 @@ void PrintHelpOption()
          << "--input [filename]\tdeal filename as sequence file input\n"
          // << "--outerinput [filename]\tdeal filename as douter file input\n"
          << "--name [name]\tprefix of db filename\n"
+         << "--cd\t!!!warning!!! use another directory via a relative path. (Please confirm existence of outer and prob directory.)\n"
          << "--divide\tcalculate divided douters and make temporal douter files (default)\n"
          << "--connect\tconnect douters and make douter_inside & outside file\n"
          << "--stemdb\toutput stem probability database\n"
          << "--struct (or --struct=gamma)\toutput a centroid structure with gamma centroid estimator (whose base pairs having bpp (>= 1/(gamma+1) and length is less than 600 nt) \n"
          << "--image\t\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--energy [.par file]\talso possible to use \"Turner2004\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n"
-         << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
          << "--stem\tcalculate stem probability\n"
          << "--text\ttext storage mode with low accuracy\n"
          << "--stdout\ttext output mode (only valid with stemdb option)\n"
@@ -103,11 +104,12 @@ struct option* option()
     options[20].name = "transcribed";
     options[21].name = "mout";
     options[22].name = "stdout";
-    options[23].name = "help";
+    options[23].name = "cd";
+    options[24].name = "help";
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22: case 23:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -172,6 +174,7 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             if (optarg) arg.mout = string(optarg);
             arg.mout_flag = true; break;
         case 22: arg.outtext = true; break;
+        case 23: arg.cd = true; break;
         default:
             PrintHelpOption();
             return false;
@@ -215,21 +218,23 @@ void RNATransform(Rfold::Arg& arg) {
     RNATransform(arg, arg.str);
 }
 
-bool NameTransform(string& name) {
+bool NameTransform(string& name, bool cd) {
     string rep = "";
     if (name.length() == 0) return true;
-    for (string::size_type pos = name.find("/"); pos != string::npos; pos = name.find("/", rep.length()+pos))
-        name.replace(pos, 1, rep);
-    for (string::size_type pos = name.find("\\"); pos != string::npos; pos = name.find("\\", rep.length()+pos))
-        name.replace(pos, 1, rep);
-    cout << "#--file prefix: " << name << endl;
+    if (!cd) {
+        for (string::size_type pos = name.find("/"); pos != string::npos; pos = name.find("/", rep.length()+pos))
+            name.replace(pos, 1, rep);
+        for (string::size_type pos = name.find("\\"); pos != string::npos; pos = name.find("\\", rep.length()+pos))
+            name.replace(pos, 1, rep);
+    }
+    cout << "#-Check file prefix: " << name << endl;
     return true;
 }
 
 bool InitCondition(Rfold::Arg& arg)
 {
     RNATransform(arg);
-    if (!NameTransform(arg.name))
+    if (!NameTransform(arg.name, arg.cd))
         return false;
     if (arg.save_memory && arg.compl_flag) {
         cerr << "Don't use --save_memory and -r option at same time." << endl;
@@ -330,6 +335,7 @@ void CheckCondition(Rfold::Arg& arg)
         CalcOneSeq(arg);
     } else {
         arg.str = GetSampleStr(0);
+        cout << "#-Test with an example sequence: " << arg.str << endl;
         if (arg.start >= 0 && arg.end < 0) arg.end = (int)arg.str.length();
         arg.name = "Sample0_";
         CalcOneSeq(arg);
@@ -370,7 +376,7 @@ int main(int argc, char** argv)
             }
         }
         delete[] options;
-        cout << "#--working directory: " << HOMEDIR << endl;
+        cout << "#-Check working directory: " << HOMEDIR << endl;
         struct stat buf;
         if (stat(HOMEDIR, &buf) != 0 || strlen(HOMEDIR) < MINDIRLEN) {
             cerr << "Cannot find working directory or may contain incorrect (too short) path.\n"

@@ -751,11 +751,11 @@ void ParasoR::OutputStemProb(bool _acc)
         for (LEN j = max(static_cast<LEN>(1), i-_constraint); j <= min(seq.length, i+_constraint); j++) {
             if (!_acc && j == i) continue;
             DOUBLE value = ((_acc) ? acc(i, j) : bpp(i, j));
-            if (_acc) { cout << "* " << i << " " << j << " " << value << endl; continue; }
+            if (_acc) { cout << "*\t" << i << "\t" << j << "\t" << value << endl; continue; }
             P[0] -= value;
             (j < i) ? P[2] += value : P[1] += value;
         }
-        if (!_acc) cout << "* " << seq.strget(i) << " " << i << " " << P[1] << " " << P[2] << endl;
+        if (!_acc) cout << "*\t" << seq.strget(i) << "\t" << i << "\t" << P[1] << "\t" << P[2] << endl;
     }
 }
 

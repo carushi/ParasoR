@@ -131,7 +131,7 @@ void ParasoR::EditVector(int mtype, Vec& ori, Vec& mut, LEN pos)
     }
 }
 
-void ParasoR::WriteDiffFile(LEN pos, int base, DOUBLE diff, DOUBLE corr, string& file, bool app, bool bin)
+void ParasoR::WriteDiffFile(LEN pos, int base, DOUBLE diff, DOUBLE corr, DOUBLE wcorr, string& file, bool app, bool bin)
 {
     ofstream ofs;
     if (bin) {
@@ -143,35 +143,39 @@ void ParasoR::WriteDiffFile(LEN pos, int base, DOUBLE diff, DOUBLE corr, string&
         ofs.write((char*)&base, sizeof(int));
         ofs.write((char*)&diff, sizeof(DOUBLE));
         ofs.write((char*)&corr, sizeof(DOUBLE));
+        ofs.write((char*)&wcorr, sizeof(DOUBLE));
     } else {
         if (app) ofs.open(file.c_str(), ios::app);
         else {
             ofs.open(file.c_str(), ios::trunc);
-            ofs << "pos\ttype\tmax_diff\tcorrelation\n";
+            ofs << "pos\ttype\tmax_diff\tcorrelation\tcorrelation(win)\n";
         }
-        ofs << pos << "\t" << base << "\t" << diff << "\t" << corr << endl;
+        ofs << pos << "\t" << base << "\t" << diff << "\t" << corr << "\t" << wcorr << endl;
     }
 }
 
-void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool acc, bool app, bool mout_flag, string& mout)
+Vec ParasoR::GetSubstrVec(const Vec& vec, LEN pos, int window)
 {
-    // cout << ori.size() << " " << mut.size() << endl;
-    // PrintVec(ori);
-    // PrintVec(mut);
+    LEN s = max(static_cast<LEN>(0), pos-_start-static_cast<LEN>(window/2));
+    LEN e = min(static_cast<LEN>(vec.size()), pos-_start+static_cast<LEN>(window-window/2));
+    return Vec(vec.begin()+s, vec.begin()+e);
+}
+
+void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool acc, bool app, bool mout_flag, string& mout, int window)
+{
     EditVector(mtype, ori, mut, pos);
     assert(ori.size() == mut.size());
-    // PrintVec(ori);
-    // PrintVec(mut);
     DOUBLE diff = MaxDiff(ori, mut);
     DOUBLE corr = Correlation(ori, mut);
+    DOUBLE wcorr = Correlation(GetSubstrVec(ori, pos, window), GetSubstrVec(mut, pos, window));
     if ((mout_flag && mout == "") || !binary) {
-        if (!app)   cout << "pos\ttype\tmax_diff\tcorrelation\n";
-        cout << pos << "\t" << base << "\t" << diff << "\t" << corr << endl;
+        if (!app)   cout << "pos\ttype\tmax_diff\tcorrelation\tcorrelation(win)\n";
+        cout << pos << "\t" << base << "\t" << diff << "\t" << corr << "\t" << wcorr << endl;
     } else if (mout_flag) {
-        WriteDiffFile(pos, base, diff, corr, mout, app, false);
+        WriteDiffFile(pos, base, diff, corr, wcorr, mout, app, false);
     } else {
         string file = GetDiffFile(mtype, acc);
-        WriteDiffFile(pos, base, diff, corr, file, app, true);
+        WriteDiffFile(pos, base, diff, corr, wcorr, file, app, true);
     }
 }
 
@@ -188,7 +192,7 @@ void ParasoR::ChangeBase(LEN pos, Arg& arg, bool& app)
         if (arg.eSDC_flag) {
             ;// WriteeSDC();
         } else {
-            WriteDiff(arg.mtype, pos, j, bppv, mbppv, arg.acc_flag, app, arg.mout_flag, arg.mout);
+            WriteDiff(arg.mtype, pos, j, bppv, mbppv, arg.acc_flag, app, arg.mout_flag, arg.mout, arg.window);
             app = true;
         }
         ComeBackChange(pos, arg.mtype, temp);

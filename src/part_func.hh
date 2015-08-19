@@ -346,8 +346,9 @@ private:
     string GetDiffFile(int, bool);
     void CutOffVector(int, Vec&, LEN);
     void EditVector(int, Vec&, Vec&, LEN);
-    void WriteDiffFile(LEN, int, DOUBLE, DOUBLE, string&, bool, bool);
-    void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool, bool, string&);
+    Vec GetSubstrVec(const Vec&, LEN, int);
+    void WriteDiffFile(LEN, int, DOUBLE, DOUBLE, DOUBLE, string&, bool, bool);
+    void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool, bool, string&, int);
     void ChangeBase(LEN, Arg&, bool&);
     void MutatedStem(Arg&);
 

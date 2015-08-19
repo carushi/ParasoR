@@ -91,7 +91,8 @@ static void ChangeEnergyParam(string name = "")
     bool doubt = false;
     string file;
     if (name.length() == 0 || name == "Turner2004" || name[0] == 'T')
-        file = HOMEDIR+string("energy_param/rna_turner2004.par");
+        file = HOMEDIR+string("energy_param/rna_turner2004_new.par");
+        // file = HOMEDIR+string("energy_param/rna_turner2004.par");
     else if (name == "Andronescu" || name[0] == 'A')
         file = HOMEDIR+string("energy_param/rna_andronescu2007.par");
     else if (name == "Turner1999")

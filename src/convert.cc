@@ -36,7 +36,7 @@ extern std::string Hexaloops;
 
 extern const bool no_closingGU;
 extern const bool tetra;
-extern bool new_param;
+extern bool old_param;
 extern DOUBLE lxc37;
 
 void Convert::GetWords(string& str, vector<string>& words)
@@ -347,18 +347,19 @@ bool Convert::ConvertParamFile(string& file)
     string str;
     ReadOnlyMisc(file);
     ifs.open(file.c_str());
-    new_param = false;
+    old_param = true;
+    if (getline(ifs, str) && str.find("## RNAfold parameter file v2.0") != string::npos)
+        old_param = false;
     while (getline(ifs, str)) {
-        new_param = (new_param | (str.find("## RNAfold parameter") != string::npos));
     	int num = param_type(str);
     	if (num == Stack) {
-            if (new_param) Read2Dim(&(logstack[0][0]), 7, 7, 0, 0);
+            if (old_param) Read2Dim(&(logstack[0][0]), 7, 7, 0, 0);
             else Read2Dim(&(logstack[0][0]), 7, 7, 1, 1);
         } else if (num == MisH) {
-            if (new_param) Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 0, 0, 0);
+            if (old_param) Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 0, 0, 0);
             else Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == MisI) {
-            if (new_param) Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 0, 0, 0);
+            if (old_param) Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 0, 0, 0);
             else Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 1, 0, 0);
         } else if (num == Mis1n) {
             Read3Dim(&(logmismatch1nI[0][0][0]), 7, 5, 5, 1, 0, 0);
@@ -369,10 +370,10 @@ bool Convert::ConvertParamFile(string& file)
         } else if (num == MisE) {
             Read3DimSmooth(&(logmismatchExt[0][0][0]), 8, 5, 5, 1, 0, 0);
         } else if (num == Dan5) {
-            if (new_param) Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 0, 0);
+            if (old_param) Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 0, 0);
             else Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 1, 0);
         } else if (num == Dan3) {
-            if (new_param) Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 0, 0);
+            if (old_param) Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 0, 0);
             else Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 1, 0);
         } else if (num == Int11) {
     		Read4Dim(&(logint11[0][0][0][0]), 8, 8, 5, 5,
@@ -381,7 +382,7 @@ bool Convert::ConvertParamFile(string& file)
     		Read5Dim(&(logint21[0][0][0][0][0]), 8, 8, 5, 5, 5,
 					    			1, 1, 0, 0, 0);
         } else if (num == Int22) {
-            if (new_param) {
+            if (old_param) {
                 Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
                                         1, 1, 1, 1, 1, 1,
                                         0, 0, 0, 0, 0, 0);
@@ -412,7 +413,7 @@ bool Convert::ConvertParamFile(string& file)
             ;
     }
     ifs.close();
-    return new_param;
+    return true;
 }
 
 }

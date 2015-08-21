@@ -69,7 +69,7 @@ cat ../doc/stem.txt
 # stem probability based on ParasoR algorithm
 ```
 
-For more sample, please visit our <a href="https://github.com/carushi/ParasoR/wiki/ParasoR-wiki">wiki</a>.
+For more sample, please visit our <a href="https://github.com/carushi/ParasoR/wiki">wiki</a>.
 
 ## Reference
 

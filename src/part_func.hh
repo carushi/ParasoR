@@ -93,6 +93,7 @@ public:
         image = false;
         mout_flag = false;
         cd = false;
+        boundary = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -135,6 +136,7 @@ public:
     bool image;
     bool mout_flag;
     bool cd;
+    bool boundary;
 
 };
 
@@ -203,8 +205,8 @@ private:
     void OutputBppCond(bool);
 
     string GetDoFile(bool);
-    string GetStemFile(bool, bool = false);
-    string GetDividedStemFile(bool, bool = false);
+    string GetStemFile(bool, bool = false, bool = false);
+    string GetDividedStemFile(bool, bool = false, bool = false);
     string GetIDFileList(string, int tid);
     string GetShrunkFileList(int, bool, int tid = -1);
     string GetTempFileList(bool, int tid = -1);
@@ -298,10 +300,10 @@ private:
     void StoreAccProfSlide(LEN, LEN, int, bool = false);
     void StoreAreaBppSlide(LEN, LEN, Mat&);
     void StoreAreaBppSlide(LEN, LEN, Vec&);
-    // void CalcSlidingWindowBpp();
     void CheckDouter(LEN, LEN, DOUBLE);
     void SetProbs(Mat&);
     void SetProbs(Vec&);
+    void CalcSlidingWindowBoundary(Vec&, LEN, LEN, bool set = true);
     template <class Probs>
     void CalcSlidingWindowStem(Probs&, LEN, LEN, bool set = true);
     void CalcSlidingWindowAcc(Vec&, int, LEN, LEN, bool set = true);
@@ -309,8 +311,8 @@ private:
     template <class Substructure>
     void CalcSlidingWindowProf(Substructure&, LEN, LEN, bool set = true);
     void CalcStem(Mat&);
-    void CalcStem(Vec&);
-    void CalcStem(bool = false);
+    void CalcStem(Vec&, bool = false);
+    void CalcStem(bool = false, bool = false);
     void CalcAcc(Vec&, int);
     void CalcAcc(bool = false);
     void CalcProf(Vec& P);

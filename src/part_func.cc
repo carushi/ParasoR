@@ -791,13 +791,15 @@ string ParasoR::GetDoFile(bool inside)
     return os.str();
 }
 
-string ParasoR::GetStemFile(bool acc, bool prof)
+string ParasoR::GetStemFile(bool acc, bool prof, bool boundary)
 {
     ostringstream os;
     if (acc && prof) {
         os << STMP << name << "prof_" << _window << "_" << _constraint;
     } else if (acc) {
         os << STMP << name << "acc_" << _window << "_" << _constraint;
+    } else if (boundary) {
+        os << STMP << name << "bound_" << _constraint;
     } else {
         os << STMP << name << "stem_" << _constraint;
     }
@@ -805,13 +807,15 @@ string ParasoR::GetStemFile(bool acc, bool prof)
     return os.str();
 }
 
-string ParasoR::GetDividedStemFile(bool acc, bool prof)
+string ParasoR::GetDividedStemFile(bool acc, bool prof, bool boundary)
 {
     ostringstream os;
     if (acc && prof) {
         os << STMP << name << "profd_" << id << "_" << chunk << "_" << _window << "_" << _constraint;
     } else if (acc) {
         os << STMP << name << "accd_" << id << "_" << chunk << "_" << _window << "_" << _constraint;
+    } else if (boundary) {
+        os << STMP << name << "bound_" << id << "_" << chunk << "_" << _constraint;
     } else {
         os << STMP << name << "stemd_" << id << "_" << chunk << "_" << _constraint;
     }
@@ -1176,7 +1180,7 @@ void ParasoR::main(Arg& arg, bool shrink)
             rfold.SetWindow(max(2, arg.window));
             rfold.CalcAcc();
         } else if (arg.stem_flag) {
-            rfold.CalcStem();
+            rfold.CalcStem(false, arg.boundary);
         } else {
             rfold.CalcBpp(true, arg.minp);
         }

@@ -148,6 +148,7 @@ void ParasoR::WriteDiffFile(LEN pos, int base, DOUBLE diff, DOUBLE corr, DOUBLE 
         if (app) ofs.open(file.c_str(), ios::app);
         else {
             ofs.open(file.c_str(), ios::trunc);
+            ofs.setf(std::ios_base::fixed, std::ios_base::floatfield);
             ofs << "pos\ttype\tmax_diff\tcorrelation\tcorrelation(win)\n";
         }
         ofs << pos << "\t" << base << "\t" << diff << "\t" << corr << "\t" << wcorr << endl;
@@ -169,6 +170,7 @@ void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool ac
     DOUBLE corr = Correlation(ori, mut);
     DOUBLE wcorr = Correlation(GetSubstrVec(ori, pos, window), GetSubstrVec(mut, pos, window));
     if ((mout_flag && mout == "") || !binary) {
+        cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
         if (!app)   cout << "pos\ttype\tmax_diff\tcorrelation\tcorrelation(win)\n";
         cout << pos << "\t" << base << "\t" << diff << "\t" << corr << "\t" << wcorr << endl;
     } else if (mout_flag) {

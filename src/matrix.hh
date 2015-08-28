@@ -48,8 +48,11 @@ using std::distance;
 using std::swap;
 
 
-typedef vector<DOUBLE> Vec;
-typedef vector<Vec> Mat;
+// typedef vector<DOUBLE> Vec;
+// typedef vector<Vec> Mat;
+
+using Vec = vector<DOUBLE>;
+using Mat = vector<Vec>;
 
 struct Base {
     char operator()(char c) {

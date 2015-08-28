@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (25)
+#define OPTION (26)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -46,6 +46,7 @@ void PrintHelpOption()
          << "--image\t\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--energy [.par file]\talso possible to use \"Turner2004\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n"
          << "--stem\tcalculate stem probability\n"
+         << "--boundary\tcalculate a probability having no base pair with its right side at each position (only valid without pre option)\n"
          << "--text\ttext storage mode with low accuracy\n"
          << "--stdout\ttext output mode (only valid with stemdb option)\n"
          << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
@@ -105,11 +106,12 @@ struct option* option()
     options[21].name = "mout";
     options[22].name = "stdout";
     options[23].name = "cd";
-    options[24].name = "help";
+    options[24].name = "boundary";
+    options[25].name = "help";
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -159,7 +161,9 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             break;
         case 11: arg.image = true; break;
         case 12:
-            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
+                arg.init_calc = Rfold::Arg::Calc::Bpp;
+            // arg.init_calc = Rfold::Arg::Calc::Bpp;
             arg.stem_flag = true;
             break;
         case 13: arg.pre_flag = true; break;
@@ -175,6 +179,11 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             arg.mout_flag = true; break;
         case 22: arg.outtext = true; break;
         case 23: arg.cd = true; break;
+        case 24:
+            arg.boundary = true;
+            if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
+                arg.init_calc = Rfold::Arg::Calc::Bpp;
+            arg.stem_flag = true; break;
         default:
             PrintHelpOption();
             return false;
@@ -309,14 +318,14 @@ void CalcStrucFasta(Rfold::Arg& arg)
             CalcOneSeq(arg);
             arg.name = tname+str.substr(1);
             if (arg.save_memory) {
-                arg.length = 0;
+                arg.length = static_cast<LEN>(0);
                 arg.seqID++;
             } else {
                 arg.str = "";
             }
         } else {
             if (arg.save_memory) {
-                arg.length += str.length();
+                arg.length += static_cast<LEN>(str.length());
             } else {
                 arg.str += str;
             }

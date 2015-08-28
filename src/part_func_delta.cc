@@ -464,25 +464,6 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Vec& prebpp)
     }
 }
 
-
-// void ParasoR::CalcSlidingWindowBpp()
-// {
-//     LEN right = RightBpRange(_end);
-//     LEN bstart = _start+1;
-//     DOUBLE uxx = SetRangedMatrix(_start);
-//     bppm = Mat(right-bstart+1, Vec(_constraint+1, -INF));
-//     if (!noout) cout << "#--size:" << right-bstart+1 << endl;
-//     for (LEN i = bstart-1; bstart-i <= _constraint && i >= 1; i--) {
-//         StoreBppSlide(i, right, bppm);
-//     }
-//     for (LEN pos = bstart+1; pos <= _end; pos++) {
-//         if (!noout && (pos%10000 == 0 || pos == bstart)) cout << "#--calculating-- " << pos << endl;
-//         CalcForward(pos, uxx);
-//         StoreBppSlide(pos, right, bppm);
-//         uxx = SlideLocalOuter(pos, uxx);
-//     }
-// }
-
 void ParasoR::CheckDouter(LEN start, LEN end, DOUBLE uxx)
 {
     LEN bstart = start+1;
@@ -505,6 +486,25 @@ void ParasoR::SetProbs(Mat& P) {
 }
 void ParasoR::SetProbs(Vec& P) {
     P = Vec(_end-_start, 0.0);
+}
+
+void ParasoR::CalcSlidingWindowBoundary(Vec& P, LEN start, LEN end, bool set)
+{
+    LEN right = RightBpRange(end);
+    LEN bstart = start+1;
+    DOUBLE uxx = SetRangedMatrix(start, set);
+    if (ddebug)
+        CheckDouter(start, end, uxx);
+    SetProbs(P);
+    if (!noout && set) cout << "#--calculating size:" << right-bstart+1 << endl;
+    for (LEN pos = bstart; pos <= end; pos++) {
+        P[pos-bstart] = exp(uxx);
+        if (!noout && (pos%10000 == 9999)) {
+            cout << "#--calculating-- " << pos << endl;
+        }
+        CalcForward(pos, uxx);
+        uxx = SlideLocalOuter(pos, uxx);
+    }
 }
 
 template <class Probs>
@@ -583,27 +583,32 @@ void ParasoR::CalcStem(Mat& P) {
     CalcSlidingWindowStem(P, _start, _end, true);
 }
 
-void ParasoR::CalcStem(Vec& P) {
-    CalcSlidingWindowStem(P, _start, _end, true);
+void ParasoR::CalcStem(Vec& P, bool boundary) {
+    if (boundary) CalcSlidingWindowBoundary(P, _start, _end, true);
+    else CalcSlidingWindowStem(P, _start, _end, true);
 }
 
-void ParasoR::CalcStem(bool store)
+void ParasoR::CalcStem(bool store, bool boundary)
 {
     Vec P;
-    CalcStem(P);
+    CalcStem(P, boundary);
     if (store && chunk > 0) {
         if (chunk == id)
-            StoreStem(GetStemFile(false), P, false);
+            StoreStem(GetStemFile(false, false, boundary), P, false);
         else {
             if (!noout)
-                cout << "#-Writing to " << GetDividedStemFile(false) << endl;
-            StoreStem(GetDividedStemFile(false), P, false);
+                cout << "#-Writing to " << GetDividedStemFile(false, false, boundary) << endl;
+            StoreStem(GetDividedStemFile(false, false, boundary), P, false);
         }
     } else {
         //cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
         cout.setf(std::ios_base::scientific);
+        if (boundary)
+            cout << "#--*\tbase\tpos\tboundary prob\n";
+        else
+            cout << "#--*\tbase\tpos\tstem prob\n";
         for (LEN i = 0; i <= _end-(_start+1); i++)
-            cout << "*\t" << setprecision(20) << seq.strget(i+(_start+1)) << "\t" << i+(_start+1) << " " << P[i] << endl;
+            cout << "*\t" << setprecision(20) << seq.strget(i+(_start+1)) << "\t" << i+(_start+1) << "\t" << P[i] << endl;
     }
 }
 
@@ -919,7 +924,7 @@ void ParasoR::Stemdb(Arg& arg, bool shrink)
             rfold.CalcMEA(true, arg.image, arg.prof_flag);
         } else if (arg.prof_flag) {
             rfold.CalcProf(arg.acc_flag, !arg.outtext);
-        } else rfold.CalcStem(!arg.outtext);
+        } else rfold.CalcStem(!arg.outtext, arg.boundary);
     } else {
         cerr << "too many chunk for this sequence len: " << rfold.seq.length << endl;
     }

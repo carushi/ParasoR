@@ -690,17 +690,18 @@ bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
 {
     Plot plot;
     LEN MAXLEN = 1000;
-    vector<int>::reverse_iterator st = find_if(cbpp.rbegin(), cbpp.rend(), [&str](int x) -> bool {
-        return x < 0;
-    });
-    vector<int>::iterator et = find_if(cbpp.begin(), cbpp.end(), [&str](int x) -> bool {
-        return x >= (int)str.length();
-    });
-    LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
-    LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
     if ((_start == static_cast<LEN>(0) && _end == seq.length)) {
         GetImage(str, _start, _end-1, stem, elem);
+        return _end-_start < MAXLEN;
     } else {
+        vector<int>::reverse_iterator st = find_if(cbpp.rbegin(), cbpp.rend(), [&str](int x) -> bool {
+            return x < 0;
+        });
+        vector<int>::iterator et = find_if(cbpp.begin(), cbpp.end(), [&str](int x) -> bool {
+            return x >= (int)str.length();
+        });
+        LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
+        LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
         if (right-left > MAXLEN || right <= left) return false;
         GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
     }
@@ -755,6 +756,7 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
         vector<int> cbpp;
         (centroid) ? Centroid::GetStringBpp(str, cbpp)
         : Centroid::GetMEABpp(bppm, _end-_start, gamma, cbpp);
+        PrintVec(cbpp);
         if (!prof) {
             Vec stem;
             Centroid::GetStemProb(bppm, _end-_start, stem);
@@ -979,6 +981,7 @@ void ParasoR::CalcOuter()
 void ParasoR::CalcBppAtOnce(int out, bool image, DOUBLE thres)
 {
     SetProbs(bppm);
+
     for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {
         CalcForward(pos);
         StoreBppSlide(pos, seq.length, bppm);
@@ -1027,8 +1030,11 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
             }
         }
     }
-    if (out == Out::PROFIM)
+    if (out == Out::PROFIM) {
+        PreCalcInside(1);
+        PreCalcOutside(1);
         CalcBppAtOnce(out, image, thres);
+    }
 }
 
 

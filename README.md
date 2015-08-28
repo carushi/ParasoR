@@ -54,9 +54,6 @@ make C++11=c++11 VAR=SHORT
 ```
 from a default, where 'std=c++11' option with 'double' precision.
 
-ParasoR needs directories for temporal files which are designated in advance such as outer/ and prob/. In these directories, there is a possibility that ParasoR removes unrelated files. Therefore, we would recommend that you not place any other files under the ParasoR directory.
-If you change the path of ParasoR directory, please recompile ParasoR.
-
 ## Example
 We prepare a shell script for test run in 'check.sh'.
 This script runs by commands as follows.

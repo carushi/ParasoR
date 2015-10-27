@@ -29,7 +29,8 @@ We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.8.1.
 
 ```
 git clone https://github.com/carushi/ParasoR
-cd ParasoR/src
+cd ParasoR
+./configure
 make
 # make install (optional)
 ```
@@ -59,7 +60,7 @@ We prepare a shell script for test run in 'check.sh'.
 This script runs by commands as follows.
 
 ```
-make test
+sh check.sh
 cat ../doc/pre.txt
 # stem probability based on previous algorithm (Rfold model)
 cat ../doc/stem.txt

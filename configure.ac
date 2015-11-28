@@ -11,7 +11,7 @@ AC_CONFIG_HEADERS([config.h])
 AC_PROG_AWK
 AC_PROG_CXX
 AC_LANG([C++])
-#AX_CXX_COMPILE_STDCXX_11([], [mandatory]) dosen't work.
+AX_CXX_COMPILE_STDCXX_11
 AC_PROG_MAKE_SET
 
 # Checks for libraries.

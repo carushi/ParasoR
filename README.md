@@ -21,7 +21,7 @@ In addition, ParasoR simulates structure arrangements caused by a single point m
 
 ## Requirements
 
-* c++11
+* C++11
 
 We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.8.1.
 
@@ -43,7 +43,7 @@ make
 make install (optional)
 ```
 
-As a default, 'std=c++11' and 'double' is valid.
+As a default, 'double' option is valid for the precision of floating point.
 
 You can also change an option for the precision of floating point like
 
@@ -53,7 +53,7 @@ make VAR=LONG
 make VAR=SHORT
 # use float.
 ```
-from a default, with 'double' precision.
+
 
 ## Example
 We prepare a shell script for test run in 'check.sh'.

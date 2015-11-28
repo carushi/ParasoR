@@ -1,9 +1,9 @@
 #!/bin/sh
+# This shellscript is called from ''make test'' command.
 set -euo pipefail
 constraint=${1-50}
 chunk=${2-2}
 
-make -j
 ./ParasoR --pre --constraint $constraint --stem -r > ../doc/pre_r.txt
 ./ParasoR --pre --constraint $constraint --stem > ../doc/pre.txt
 echo "" > ../doc/stem.txt

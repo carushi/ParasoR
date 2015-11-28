@@ -756,7 +756,6 @@ void ParasoR::CalcMEA(bool out, bool image, bool prof, bool calculated)
         vector<int> cbpp;
         (centroid) ? Centroid::GetStringBpp(str, cbpp)
         : Centroid::GetMEABpp(bppm, _end-_start, gamma, cbpp);
-        PrintVec(cbpp);
         if (!prof) {
             Vec stem;
             Centroid::GetStemProb(bppm, _end-_start, stem);
@@ -981,7 +980,6 @@ void ParasoR::CalcOuter()
 void ParasoR::CalcBppAtOnce(int out, bool image, DOUBLE thres)
 {
     SetProbs(bppm);
-
     for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {
         CalcForward(pos);
         StoreBppSlide(pos, seq.length, bppm);
@@ -1033,6 +1031,7 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
     if (out == Out::PROFIM) {
         PreCalcInside(1);
         PreCalcOutside(1);
+        cout << "this" << endl;
         CalcBppAtOnce(out, image, thres);
     }
 }

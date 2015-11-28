@@ -519,10 +519,6 @@ bool ParasoR::ConnectDo(bool keep_flag, bool inside)
             ConnectInDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
             first_douter = douter[static_cast<LEN>(douter.size()-1)];
         } else {
-            // cout << "a" << endl;
-            // PrintVec(douter[0]);
-            // PrintVec(douter[1]);
-            // cout << "b" << endl;
             ConnectOutDo(old_douter, douter, tid, GetDoFile(inside), i != 0);
             first_douter = douter[0];
         }
@@ -1173,6 +1169,8 @@ void ParasoR::main(Arg& arg, bool shrink)
         if (arg.mtype >= 0) {
             rfold.MutatedStem(arg);
         } else if (arg.mea_flag) {
+            if (arg.prof_flag)
+                rfold.CalcProf(arg.acc_flag);
             rfold.CalcMEA(true, arg.image, arg.prof_flag);
         } else if (arg.prof_flag) {
             rfold.CalcProf(arg.acc_flag);

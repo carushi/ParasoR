@@ -8,11 +8,11 @@ ParasoR can compute these features for RNA sequences even if they are longer tha
 * Base pairing probability (bpp)
 * Stem probability
 * Accessibility
-* RNA profile (probability and motif sequence)
-* γ-centroid structure (in not parallel) or structures with base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
+* Structure profiles (probability and motif sequence)
+* γ-centroid structure (in not parallel) or credible structures having base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
 
 <img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
-* γ-centroid structure with the color code of RNA profile.
+* γ-centroid structure or credible structures with the color code of structure profiles.
 	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
 <img src="https://sites.google.com/site/cawatchm/software/parasor/prof.png" width="450">
@@ -32,19 +32,12 @@ git clone https://github.com/carushi/ParasoR
 cd ParasoR
 ./configure
 make
-# make install (optional)
+make install
 ```
 
 Or download from "Download ZIP" button and unzip it.
 
-```
-./configure
-make
-make install (optional)
-```
-
 As a default, 'double' option is valid for the precision of floating point.
-
 You can also change an option for the precision of floating point like
 
 ```

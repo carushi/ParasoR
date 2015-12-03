@@ -689,7 +689,7 @@ void ParasoR::GetImage(string str, LEN start, LEN end, Vec stem, int elem)
 bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
 {
     Plot plot;
-    LEN MAXLEN = 1000;
+    LEN MAXLEN = 2000;
     if ((_start == static_cast<LEN>(0) && _end == seq.length)) {
         GetImage(str, _start, _end-1, stem, elem);
         return _end-_start < MAXLEN;

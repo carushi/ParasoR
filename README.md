@@ -1,4 +1,5 @@
 # ParasoR
+[![Build Status](https://drone.io/github.com/carushi/ParasoR/status.png)](https://drone.io/github.com/carushi/ParasoR/latest)
 
 <img src="https://sites.google.com/site/cawatchm/software/parasor/logo.png" width="400">
 
@@ -45,6 +46,13 @@ make VAR=LONG
 # use long double.
 make VAR=SHORT
 # use float.
+```
+
+If you have a trouble about automake setting, please type as below.
+
+```
+cd src
+make -f _Makefile
 ```
 
 

@@ -31,6 +31,9 @@ ParasoR
 .DS_Store
 *.sublime-workspace
 *.sublime-project
+doc/*.txt
+outer/*
+prob/*
 
 #Automake
 autom4te.cache/

@@ -61,11 +61,14 @@ We prepare a shell script for test run in 'check.sh'.
 This script runs by commands as follows.
 
 ```
+cd doc/
 sh check.sh
 cat ../doc/pre.txt
 # stem probability based on previous algorithm (Rfold model)
 cat ../doc/stem.txt
 # stem probability based on ParasoR algorithm
+python test.py
+# Output numerical error between the result of ParasoR with single core and multiple core
 ```
 
 For more sample, please visit our <a href="https://github.com/carushi/ParasoR/wiki">wiki</a>.

@@ -157,13 +157,13 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
         case 10:
             if (optarg) arg.gamma = atof(optarg);
             arg.mea_flag = true;
-            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
+                arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
         case 11: arg.image = true; break;
         case 12:
             if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
                 arg.init_calc = Rfold::Arg::Calc::Bpp;
-            // arg.init_calc = Rfold::Arg::Calc::Bpp;
             arg.stem_flag = true;
             break;
         case 13: arg.pre_flag = true; break;
@@ -246,7 +246,7 @@ bool InitCondition(Rfold::Arg& arg)
     if (!NameTransform(arg.name, arg.cd))
         return false;
     if (arg.save_memory && arg.compl_flag) {
-        cerr << "Don't use --save_memory and -r option at same time." << endl;
+        cerr << "Please do not use --save_memory and -r option at same time." << endl;
         return false;
     } else if (arg.id >= 0 && arg.init_calc == Rfold::Arg::Calc::Pre)
         arg.init_calc = Rfold::Arg::Calc::Divide;

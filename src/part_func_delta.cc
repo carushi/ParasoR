@@ -58,7 +58,7 @@ void ParasoR::PreCalcOutside(LEN x, DOUBLE uxx)
         for (LEN i = x; i > left; i--)
             uxx = RewindLocalOuter(i, uxx);
     }
-    if (ddebug) cout << "#--rewind: " << left << " " << uxx << endl;
+    // if (ddebug) cout << "#--rewind: " << left << " " << uxx << endl;
     for (LEN i = left; i < x; i++) {
         CalcOutside(i, uxx);
         uxx = SlideLocalOuter(i, uxx);
@@ -106,8 +106,8 @@ DOUBLE ParasoR::RewindLocalOuter(LEN pre, DOUBLE old) {
 }
 
 DOUBLE ParasoR::SlideLocalOuter(LEN x, DOUBLE old) {
-    if (ddebug)
-        cout << "#--slide " << x << " " << Outer(alpha, x) << " " << Outer(beta, x) << endl;
+    // if (ddebug)
+    //     cout << "#--slide " << x << " " << Outer(alpha, x) << " " << Outer(beta, x) << endl;
     return old+Outer(alpha, x)-Outer(beta, x);
 }
 
@@ -320,7 +320,7 @@ void ParasoR::InitColMat(Matrix& mat, LEN pos)
 void ParasoR::CalcInside(LEN tpos)
 {
     InitRowMat(alpha, tpos);
-    if (ddebug) cout << "#--inside left " << tpos << endl;
+    // if (ddebug) cout << "#--inside left " << tpos << endl;
     for (LEN i = tpos-TURN; i >= LeftRange(tpos); i--) {
         SetInsideMat(i, tpos);
     }
@@ -329,7 +329,7 @@ void ParasoR::CalcInside(LEN tpos)
 void ParasoR::CalcInsideFromRight(LEN tpos)
 {
     InitColMat(alpha, tpos);
-    if (ddebug) cout << "#--inside right " << tpos << endl;
+    // if (ddebug) cout << "#--inside right " << tpos << endl;
     for (LEN j = tpos+TURN; j <= RightRange(tpos); j++) {
         SetInsideMat(tpos, j);
     }
@@ -338,7 +338,7 @@ void ParasoR::CalcInsideFromRight(LEN tpos)
 void ParasoR::CalcOutside(LEN pos)
 {
     InitColMat(beta, pos);
-    if (ddebug) cout << "#--outside right " << pos << endl;
+    // if (ddebug) cout << "#--outside right " << pos << endl;
     for (LEN j = RightRange(pos); j >= pos+TURN; j--)
         SetOutsideMat(pos, j, 0);
 }
@@ -346,12 +346,12 @@ void ParasoR::CalcOutside(LEN pos)
 void ParasoR::CalcOutside(LEN pos, DOUBLE uxx)
 {
     InitColMat(beta, pos);
-    if (ddebug) cout << "#--uxx : " << "u" << pos << "_" << pos << " " << uxx << endl;
+    // if (ddebug) cout << "#--uxx : " << "u" << pos << "_" << pos << " " << uxx << endl;
     LEN right = RightRange(pos);
     DOUBLE uij = ExpandLocalOuter(uxx, pos, pos, right);
-    if (ddebug) cout << "#----expand : " << uxx << endl;
+    // if (ddebug) cout << "#----expand : " << uxx << endl;
     for (LEN j = right; j >= pos+TURN; j--) {
-        if (ddebug) cout << "#---u" << pos << "_" << j << ": " << uij << endl;
+        // if (ddebug) cout << "#---u" << pos << "_" << j << ": " << uij << endl;
         SetOutsideMat(pos, j, uij);
         uij = ShrinkLocalOuter(uij, j);
     }
@@ -409,7 +409,7 @@ void ParasoR::StoreBppSlide(LEN i, LEN right, Mat& bppm)
 {
     for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
         DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
-        if (ddebug) cout << "bpp: " << i << " " << j << " " << tbpp << endl;
+        // if (ddebug) cout << "bpp: " << i << " " << j << " " << tbpp << endl;
         BPPM(j, j-i, _start+1) = tbpp;
     }
 }
@@ -493,8 +493,8 @@ void ParasoR::CalcSlidingWindowBoundary(Vec& P, LEN start, LEN end, bool set)
     LEN right = RightBpRange(end);
     LEN bstart = start+1;
     DOUBLE uxx = SetRangedMatrix(start, set);
-    if (ddebug)
-        CheckDouter(start, end, uxx);
+    // if (ddebug)
+    //     CheckDouter(start, end, uxx);
     SetProbs(P);
     if (!noout && set) cout << "#--calculating size:" << right-bstart+1 << endl;
     for (LEN pos = bstart; pos <= end; pos++) {
@@ -513,8 +513,8 @@ void ParasoR::CalcSlidingWindowStem(Probs& P, LEN start, LEN end, bool set)
     LEN right = RightBpRange(end);
     LEN bstart = start+1;
     DOUBLE uxx = SetRangedMatrix(start, set);
-    if (ddebug)
-        CheckDouter(start, end, uxx);
+    // if (ddebug)
+    //     CheckDouter(start, end, uxx);
     SetProbs(P);
     if (!noout && set) cout << "#--calculating size:" << right-bstart+1 << endl;
     for (LEN i = bstart-1; bstart-i <= _constraint && i >= 1; i--) {
@@ -538,8 +538,8 @@ void ParasoR::CalcSlidingWindowAcc(Vec& P, int region, LEN start, LEN end, bool 
     for (LEN pos = bstart; pos <= end; pos++) {
         CalcForward(pos, uxx);
         DOUBLE uij = ExpandLocalOuter(uxx, pos, pos-1, pos+static_cast<LEN>(region));
-        if (ddebug)
-            cout << "#---au " << pos << " " << pos+static_cast<LEN>(region) << ": " << uij << endl;
+        // if (ddebug)
+        //     cout << "#---au " << pos << " " << pos+static_cast<LEN>(region) << ": " << uij << endl;
         if ((pos-1)%(static_cast<LEN>(region)+1) == 0) {
             P.push_back( (delta) ? accDelta(pos, min(seq.length, pos+static_cast<LEN>(region)), uij)
                                  : acc(pos, min(seq.length, pos+static_cast<LEN>(region))));
@@ -693,18 +693,17 @@ bool ParasoR::GetWholeImage(string str, vector<int>& cbpp, Vec& stem, int elem)
     if ((_start == static_cast<LEN>(0) && _end == seq.length)) {
         GetImage(str, _start, _end-1, stem, elem);
         return _end-_start < MAXLEN;
-    } else {
-        vector<int>::reverse_iterator st = find_if(cbpp.rbegin(), cbpp.rend(), [&str](int x) -> bool {
-            return x < 0;
-        });
-        vector<int>::iterator et = find_if(cbpp.begin(), cbpp.end(), [&str](int x) -> bool {
-            return x >= (int)str.length();
-        });
-        LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
-        LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
-        if (right-left > MAXLEN || right <= left) return false;
-        GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
     }
+    vector<int>::reverse_iterator st = find_if(cbpp.rbegin(), cbpp.rend(), [&str](int x) -> bool {
+        return x < 0;
+    });
+    vector<int>::iterator et = find_if(cbpp.begin(), cbpp.end(), [&str](int x) -> bool {
+        return x >= (int)str.length();
+    });
+    LEN left = (st != cbpp.rend()) ? str.length()-distance(cbpp.rbegin(), st) : 0;
+    LEN right = (et != cbpp.end()) ? distance(cbpp.begin(), et)-1 : str.length()-1;
+    if (right-left > MAXLEN || right <= left) return false;
+    GetImage(str, left, right, Vec(stem.begin()+left*elem, stem.begin()+(right+1)*elem), elem);
     return true;
 }
 
@@ -942,10 +941,10 @@ void ParasoR::CalcInsideOuter(LEN j)
         double temp = -INF;
         for (LEN k = LeftRange(j); k < j; k++) {
             temp = Logsumexp(temp, Logsum(Outer(alpha, k), Stem(alpha, k, j), SumExtML(seq.slidebp(k+1, j), k, j+1, true, seq)));
-            if (debug && !Is_INF(Stem(alpha, k, j))) {
-                cout << "outer: " << j << endl;
-                cout << Outer(alpha, k) << " " << Stem(alpha, k, j) << " " << SumExtML(seq.slidebp(k+1, j), k, j+1, true, seq) << endl;
-            }
+            // if (debug && !Is_INF(Stem(alpha, k, j))) {
+            //     cout << "outer: " << j << endl;
+            //     cout << Outer(alpha, k) << " " << Stem(alpha, k, j) << " " << SumExtML(seq.slidebp(k+1, j), k, j+1, true, seq) << endl;
+            // }
         }
         Outer(alpha, j) = Logsumexp(temp, Outer(alpha, j));
     }

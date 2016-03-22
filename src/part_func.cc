@@ -7,7 +7,6 @@ DOUBLE ParasoR::GetInStem(LEN i, LEN j)
     int bp1 = seq.slidebp(i+1, j);
     DOUBLE temp = -INF;
     if (IsPair(bp1)) {
-        if (debug) cout << seq.strget(i+1) << "-" << seq.strget(j) << endl;
         if (!Is_INF(Stem(alpha, i+1, j-1))) {
             temp = Logsumexp(temp, Logsum(Stem(alpha, i+1, j-1), LogLoopEnergy(i+1, j, i+2, j-1, seq)));
         }
@@ -186,11 +185,11 @@ DOUBLE ParasoR::CalcDalpha(LEN j, LEN i, int h, DOUBLE dalpha)
 {
     DOUBLE value = GetStemDelta(j, i, h, true);
     if (Is_INF(value)) return -INF;
-    if (ddebug) {
-        cout << value << " " << Stem(alpha, i, j) << " " << SumExtML(seq.slidebp(i+1, j), i, j+1, true, seq)
-        << " " << GetDo(alpha, i, h) << " " << dalpha << endl;
-        if (j-i != 1) cout << seq.strget(i+1) << " " << seq.strget(j) << endl;
-    }
+    // if (ddebug) {
+    //     cout << value << " " << Stem(alpha, i, j) << " " << SumExtML(seq.slidebp(i+1, j), i, j+1, true, seq)
+    //     << " " << GetDo(alpha, i, h) << " " << dalpha << endl;
+    //     if (j-i != 1) cout << seq.strget(i+1) << " " << seq.strget(j) << endl;
+    // }
     return Logsum(value, GetDo(alpha, i, h), -dalpha);
 }
 
@@ -198,11 +197,11 @@ DOUBLE ParasoR::CalcDbeta(LEN j, LEN i, int h, DOUBLE dbeta)
 {
     DOUBLE value = GetStemDelta(j, i, h, false);
     if (Is_INF(value)) return -INF;
-    if (ddebug) {
-        cout << value << " " << Stem(alpha, j, i) << " " << SumExtML(seq.slidebp(j+1, i), j, i+1, true, seq)
-        << " " << GetDo(beta, i, h) << " " << dbeta << endl;
-        if (i-j != 1) cout << seq.strget(j+1) << " " << seq.strget(i) << endl;
-    }
+    // if (ddebug) {
+    //     cout << value << " " << Stem(alpha, j, i) << " " << SumExtML(seq.slidebp(j+1, i), j, i+1, true, seq)
+    //     << " " << GetDo(beta, i, h) << " " << dbeta << endl;
+    //     if (i-j != 1) cout << seq.strget(j+1) << " " << seq.strget(i) << endl;
+    // }
     return Logsum(Logsum(value, GetDo(beta, i, h)), -dbeta);
 }
 
@@ -210,43 +209,43 @@ DOUBLE ParasoR::CalcDbeta(LEN j, LEN i, int h, DOUBLE dbeta)
 void ParasoR::CalcInDeltaOuter(LEN j)
 {
     cout.precision(15);
-    if (ddebug) cout << j << endl;
+    // if (ddebug) cout << j << endl;
     for (LEN h = 0; h <= _constraint; h++) {
-        if (ddebug) cout << "#------------" << h << endl;
+        // if (ddebug) cout << "#------------" << h << endl;
         DOUBLE dalpha = 0, temp = -INF;
         for (LEN k = 1; k <= _constraint+1 && j-k >= 0; k++) {
             dalpha = Logsum(dalpha, GetDo(alpha, j-k, 0));
             if (j-k == _start-h || j >= _start+1) {
                 DOUBLE tdalpha = CalcDalpha(j, j-k, h, dalpha);
                 temp = Logsumexp(temp, tdalpha);
-                if (ddebug) {
-                    if (j-k == _start-h)
-                        cout << "start-h " << tdalpha << " " << j-k << "=" << _start << "-" << h << endl;
-                    cout << "value " << tdalpha << " " << GetDo(alpha, j-k, h) << " " << Stem(alpha, j-k, j) << endl;
-                }
+                // if (ddebug) {
+                //     if (j-k == _start-h)
+                //         cout << "start-h " << tdalpha << " " << j-k << "=" << _start << "-" << h << endl;
+                //     cout << "value " << tdalpha << " " << GetDo(alpha, j-k, h) << " " << Stem(alpha, j-k, j) << endl;
+                // }
             }
-            if (ddebug && !Is_INF(temp)) cout << k << ": " << temp << " " << dalpha << endl;
+            // if (ddebug && !Is_INF(temp)) cout << k << ": " << temp << " " << dalpha << endl;
         }
         DOuter(alpha, j, h) = temp;
     }
-    if (ddebug) cout << endl;
+    // if (ddebug) cout << endl;
 }
 
 void ParasoR::CalcChunkInside(bool outer)
 {
-    if (ddebug) cout << "inside" << endl;
+    // if (ddebug) cout << "inside" << endl;
     for (LEN j = max(_start-_constraint, static_cast<LEN>(0)); j <= _end; j++) {
-        if (ddebug) cout << j << endl;
+        // if (ddebug) cout << j << endl;
         CalcInside(j);
         if (outer && j >= _start+1) CalcInDeltaOuter(j);
     }
-    if (ddebug) PrintMat(true);
+    // if (ddebug) PrintMat(true);
 }
 
 void ParasoR::CalcOutDeltaOuter(LEN j)
 {
      for (LEN h = 0; h < _constraint+1; h++) {
-        if (ddebug) cout << "#------------" << h << endl;
+        // if (ddebug) cout << "#------------" << h << endl;
         DOUBLE dbeta = 0;
         DOUBLE temp = -INF;
         for (LEN k = 1; j+k <= RightRange(j); k++) {
@@ -254,28 +253,28 @@ void ParasoR::CalcOutDeltaOuter(LEN j)
             if (j+k == _end+h || j+k <= _end-1) {
                 DOUBLE tdbeta = CalcDbeta(j, j+k, h, dbeta);
                 temp = Logsumexp(temp, tdbeta);
-                if (ddebug) {
-                    if (j+k == _end+h)
-                        cout << "end+h+1 " << tdbeta << " " << j+k << "=" << _end << "+" << h << "+" << endl;
-                    cout << "value " << tdbeta << " " << GetDo(alpha, j+k, h) << " " << Stem(alpha, j, j+k) << endl;
-                }
+                // if (ddebug) {
+                //     if (j+k == _end+h)
+                //         cout << "end+h+1 " << tdbeta << " " << j+k << "=" << _end << "+" << h << "+" << endl;
+                //     cout << "value " << tdbeta << " " << GetDo(alpha, j+k, h) << " " << Stem(alpha, j, j+k) << endl;
+                // }
             }
-            if (ddebug && !Is_INF(temp)) cout << k << ": " << temp << " " << dbeta << endl;
+            // if (ddebug && !Is_INF(temp)) cout << k << ": " << temp << " " << dbeta << endl;
         }
         DOuter(beta, j, h) = temp;
     }
-    if (ddebug) cout << endl;
+    // if (ddebug) cout << endl;
 }
 
 void ParasoR::CalcChunkOutside()
 {
-    if (ddebug) cout << "outside" << endl;
+    // if (ddebug) cout << "outside" << endl;
     for (LEN i = RightRange(_end); i >= _start; i--) {
-        if (ddebug) cout << "i: " << i << endl;
+        // if (ddebug) cout << "i: " << i << endl;
         CalcInsideFromRight(i);
         if (i <= _end-1) CalcOutDeltaOuter(i);
     }
-    if (ddebug) PrintMat(true);
+    // if (ddebug) PrintMat(true);
 }
 
 void ParasoR::CalcDeltaInOut(bool inside)
@@ -423,7 +422,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
         for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
-            if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
+            // if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
         }
         return value;
     } else {
@@ -431,7 +430,7 @@ DOUBLE ParasoR::GetDenominator(const Vec& douter, const Vec& sum_douter, bool in
         for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
             if (!Is_INF(sum_douter[h]))
             value = Logsumexp(value, douter[h]-sum_douter[h]);
-            if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
+            // if (ddebug) cout << "deno " << douter[h] << " " << sum_douter[h] << endl;
         }
         return value;
     }
@@ -442,14 +441,14 @@ DOUBLE ParasoR::GetNumerator(const Mat& douter, const Vec& sum_douter, LEN k, bo
     if (inside) {
         DOUBLE value = -INF;
         for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
-            if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k-1][0] << " " << sum_douter[h] << endl;
+            // if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k-1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k-1][0]-sum_douter[h]);
         }
         return value;
     } else {
         DOUBLE value = -INF;
         for (LEN h = 0; h <= _constraint && h < static_cast<LEN>(sum_douter.size()); h++) {
-            if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k+1][0] << " " << sum_douter[h] << endl;
+            // if (ddebug) cout << "*****" << douter[k][h] << " " << douter[k+1][0] << " " << sum_douter[h] << endl;
             value = Logsumexp(value, douter[k][h]+douter[k+1][0]-sum_douter[h]);
         }
         return value;
@@ -463,13 +462,13 @@ void ParasoR::ConnectInDo(Vec& old_douter, Mat& douter, int tid, string filename
     if (tid != 0)
         GetSumDouterList(old_douter, sum_douter, true);
     for (LEN i = 1; i < new_douter.size(); i++) {
-        if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
+        // if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i)<< endl;
         DOUBLE denominator = (i == 1 && start) ? douter[i-1][0] : //start position;
                                       GetDenominator(douter[i-1], sum_douter, true);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, true);
         new_douter[i] = numerator-denominator;
-        if (ddebug)
-            cout << new_douter[i] << " " << numerator << " " << denominator << endl;
+        // if (ddebug)
+        //     cout << new_douter[i] << " " << numerator << " " << denominator << endl;
     }
     StoreDouter(filename, new_douter, true, app);
     old_douter = new_douter;
@@ -482,13 +481,13 @@ void ParasoR::ConnectOutDo(Vec& old_douter, Mat& douter, int tid, string filenam
     if (tid != chunk-1)
         GetSumDouterList(old_douter, sum_douter, false);
     for (LEN i = douter.size()-2; i >= 0; i--) {
-        if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i+1) << endl;
+        // if (ddebug) cout << "#--------" << i << " " << seq.strget(seq.length/chunk*tid+i+1) << endl;
         DOUBLE denominator = (i == douter.size()-2 && start) ? douter[i+1][0] : // start position;
                              GetDenominator(douter[i+1], sum_douter, false);
         DOUBLE numerator = GetNumerator(douter, sum_douter, i, false);
         new_douter[i] = numerator-denominator;
-        if (ddebug)
-            cout << new_douter[i] << " " << numerator << " " << denominator << endl;
+        // if (ddebug)
+        //     cout << new_douter[i] << " " << numerator << " " << denominator << endl;
     }
     StoreDouter(filename, new_douter, false, app);
     old_douter = new_douter;

@@ -450,6 +450,9 @@ public:
     }
     void SetMemory(bool tmemory) {
         memory = tmemory;
+        if (static_cast<LEN>(_constraint) >= seq.length-1 || 3*static_cast<LEN>(_constraint) < seq.length) {
+            memory = false;
+        }
         cut = (cut || tmemory);
     }
     void SetWindow(int window, bool acc = false)

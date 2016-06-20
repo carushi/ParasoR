@@ -237,6 +237,18 @@ bool NameTransform(string& name, bool cd) {
             name.replace(pos, 1, rep);
     }
     cout << "#-Check file prefix: " << name << endl;
+    if (cd) {
+        string::size_type pos = name.find_last_of("/");
+        if (pos == string::npos) pos = name.find_last_of("\\");
+        if (pos == string::npos) return true;
+        string dir = HOMEDIR+name.substr(0, pos);
+        struct stat buf;
+        if (stat(dir.c_str(), &buf) != 0 || strlen(dir.c_str()) < MINDIRLEN) {
+            cerr << "Cannot find working directory or may contain incorrect (too short) path.\n"
+                << "Please make sure that the directory (" << dir << ") exists." << endl;
+            return false;
+        }
+    }
     return true;
 }
 
@@ -273,7 +285,7 @@ void CalcOneSeq(Rfold::Arg& arg)
         case Rfold::Arg::Calc::Divide:
             if (arg.id >= 0) {
                 cout << "# Dividing (id: " << arg.id  << "/" << arg.chunk << ")" << endl;
-                Rfold::ParasoR::DivideChunk(arg, false);
+                Rfold::ParasoR::DivideChunk(arg);
             }
             break;
         case Rfold::Arg::Calc::Pre:

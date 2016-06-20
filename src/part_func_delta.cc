@@ -157,6 +157,7 @@ int ParasoR::ReadPartConnectedDouter(bool inside, Vec& vec)
     string str;
     int tid = (inside) ? ((id == 0) ? id : id-1) : ((id == chunk-1) ? id : id+1);
     string filename = GetShrunkFileList(File::Part, inside, tid);
+    if (!noout) cout << "#" << filename << endl;
     ifstream ifs(filename.c_str());
     if (!ifs) return 0;
     if (!noout) cout << "#-Reading " << filename << endl;
@@ -879,6 +880,7 @@ void ParasoR::ConcatStemdb(bool acc, bool prof)
 void ParasoR::Connect(ParasoR& rfold, bool shrink, bool keep)
 {
     if (rfold.memory) {
+        if (!noout) cout << "#--Memory saving mode" << endl;
         if (!rfold.ConnectSavedFiles(keep))
             rfold.ConnectDoSaved(keep);
     } else {

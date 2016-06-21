@@ -12,7 +12,7 @@ using namespace std;
 
 void PrintHelpOption()
 {
-    cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.0.0\n"
+    cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.0.1\n"
          << "\twith Radiam method (RNA secondary structure analysis with deletion, insertion and substitution mutation).\n"
          << "This algorithm has been developed in github.com/carushi.\n"
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"

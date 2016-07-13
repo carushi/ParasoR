@@ -40,6 +40,8 @@ autom4te.cache/
 src/.deps/
 Makefile
 makefile
+src/makefile
+src/Makefile
 app.info
 config.h
 config.log

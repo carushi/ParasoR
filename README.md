@@ -48,13 +48,17 @@ make VAR=SHORT
 # use float.
 ```
 
-If you have a trouble about automake setting, please type as below.
+If you have a trouble about automake setting, please try to type as below.
 
 ```
 cd src
 make -f _Makefile
 ```
+or
 
+```
+ autoreconf -ivf
+```
 
 ## Example
 We prepare a shell script for test run in 'check.sh'.

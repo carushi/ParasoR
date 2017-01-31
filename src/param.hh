@@ -244,7 +244,7 @@ static DOUBLE LogLoopEnergy(LEN i, LEN j, LEN p, LEN q, const Sequence&  seq)
                 temp1 = logmismatchI[type][seq.seqget(i+1)][seq.seqget(j-1)];
                 temp2 = logmismatchI[type2][seq.seqget(q+1)][seq.seqget(p-1)];
             }
-            DOUBLE temp3 = logninio[abs(u1-u2)];
+            DOUBLE temp3 = logninio[std::abs(u1-u2)];
             z = Logsum(z, temp1, temp2, temp3);
         }
     }

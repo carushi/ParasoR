@@ -1,15 +1,15 @@
 #ifndef _ENERGY_CONST_HH
 #define _ENERGY_CONST_HH
-
+#include <limits>
 #if defined (LONG)
 #define DOUBLE long double
-#define INF (100000000000)
+#define INF (std::numeric_limits<long double>::max()/100.0)
 #elif defined (SHORT)
 #define DOUBLE float
-#define INF (100000)
+#define INF (std::numeric_limits<float>::max()/100.0)
 #else
 #define DOUBLE double
-#define INF (100000000000)
+#define INF (std::numeric_limits<double>::max()/100.0)
 #endif
 
 #define LEN long int

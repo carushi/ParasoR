@@ -92,9 +92,9 @@ static string GetCentroidStructure(Rfold::Mat& bppm, LEN start, LEN end, DOUBLE 
             if (j-1 > i) m[i][j] = max(m[i][j], m[i][j-1]);
             if (j-i > TURN && j-i <= constraint && i > 0 && j <= end) {
                 if (i < j) {
-                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[j-1][j-i]-1.);
+                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+static_cast<DOUBLE>(1.))*bppm[j-1][j-i]-static_cast<DOUBLE>(1.));
                 } else {
-                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+1.)*bppm[i-1][i-j]-1.);
+                    m[i][j] = max(m[i][j], m[i+1][j-1]+(gamma+static_cast<DOUBLE>(1.))*bppm[i-1][i-j]-static_cast<DOUBLE>(1.));
                 }
             }
             for (LEN k = i+1; k < j; k++) {

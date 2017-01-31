@@ -940,7 +940,7 @@ void ParasoR::CalcInsideOuter(LEN j)
     if (j == 0) Outer(alpha, 0) = 0.0;
     else {
         Outer(alpha, j) = Outer(alpha, j-1);
-        double temp = -INF;
+        DOUBLE temp = -INF;
         for (LEN k = LeftRange(j); k < j; k++) {
             temp = Logsumexp(temp, Logsum(Outer(alpha, k), Stem(alpha, k, j), SumExtML(seq.slidebp(k+1, j), k, j+1, true, seq)));
             // if (debug && !Is_INF(Stem(alpha, k, j))) {
@@ -958,7 +958,7 @@ void ParasoR::CalcOutsideOuter(LEN j)
     if (j == seq.length) Outer(beta, seq.length) = 0.0;
     else {
         Outer(beta, j) = Outer(beta, j+1);
-        double temp = -INF;
+        DOUBLE temp = -INF;
         for (LEN k = j+TURN; k <= RightRange(j); k++) {
             temp = Logsumexp(temp, Logsum(Stem(alpha, j, k), Outer(beta, k), SumExtML(seq.slidebp(j+1, k), j, k+1, true, seq)));
         }

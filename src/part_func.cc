@@ -653,10 +653,10 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
 DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
 {
     if (i > j) swap(i, j);
-    if (abs(i-j) < TURN) return 0.0;
+    if (std::abs(i-j) < TURN) return 0.0;
     DOUBLE stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
     DOUBLE stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
-    double temp = 0.0;
+    DOUBLE temp = 0.0;
     if (!Is_INF(stack)) temp += exp(Logsum(stack, -Outer(alpha, seq.length)));
     if (!Is_INF(stemend)) temp += exp(Logsum(stemend, -Outer(alpha, seq.length)));
     if (deb) {
@@ -672,7 +672,7 @@ DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
 DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
 {
     if (i > j) swap(i, j);
-    if (abs(i-j) < TURN) return 0.0;
+    if (std::abs(i-j) < TURN) return 0.0;
     DOUBLE stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
     DOUBLE stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
     if (deb && exp(Logsumexp(stack, stemend))-1.0 > 1e-6) {

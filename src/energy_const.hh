@@ -6,7 +6,7 @@
 #define INF (std::numeric_limits<long double>::max()/100.0)
 #elif defined (SHORT)
 #define DOUBLE float
-#define INF (std::numeric_limits<float>::max()/100.0)
+#define INF (std::numeric_limits<float>::max()/10.0)
 #else
 #define DOUBLE double
 #define INF (std::numeric_limits<double>::max()/100.0)

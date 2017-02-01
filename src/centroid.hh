@@ -10,6 +10,7 @@ using std::vector;
 using std::cout;
 using std::endl;
 using std::max;
+using std::abs;
 
 /**
  * Gets structure string in bracket style.
@@ -37,7 +38,7 @@ static string GetMEAStructure(Rfold::Mat& bppm, LEN end, DOUBLE gamma)
 
 static bool IsSame(DOUBLE a, DOUBLE b) {
     const DOUBLE EPS = 0.000001;
-    return fabs(a-b) < EPS;
+    return abs(a-b) < EPS;
 }
 
 /**

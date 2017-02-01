@@ -75,7 +75,7 @@ void ParasoR::Recalculation(LEN x)
         if (pos >= x-1 && pos-1 >= 0) {
             if (ddebug) {
                 cout << "in" << pos << " " << Outer(alpha, pos-1) << " " << ReCalcDouterInside(pos) << endl;
-                assert(fabs(Outer(alpha, pos-1)-ReCalcDouterInside(pos)) < 0.001);
+                assert(abs(Outer(alpha, pos-1)-ReCalcDouterInside(pos)) < 0.001);
             }
             Outer(alpha, pos-1) = ReCalcDouterInside(pos);
         }
@@ -85,7 +85,7 @@ void ParasoR::Recalculation(LEN x)
         if (pos <= x+1 && pos < seq.length) {
             if (ddebug) {
                 cout << "out" << pos << " " << Outer(beta, pos) << " " << ReCalcDouterOutside(pos) << endl;
-                assert(fabs(Outer(beta, pos)-ReCalcDouterOutside(pos)) < 0.001);
+                assert(abs(Outer(beta, pos)-ReCalcDouterOutside(pos)) < 0.001);
             }
             Outer(beta, pos) = ReCalcDouterOutside(pos);
         }
@@ -96,7 +96,7 @@ DOUBLE ParasoR::MaxDiff(const Vec& ori, const Vec& mut)
 {
     Vec diff;
     transform(ori.begin(), ori.end(), mut.begin(), back_inserter(diff), [&](DOUBLE l, DOUBLE r) {
-        return fabs(l-r);
+        return abs(l-r);
     });
     return *max_element(diff.begin(), diff.end());
 }

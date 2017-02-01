@@ -474,7 +474,7 @@ void ParasoR::CheckDouter(LEN start, LEN end, DOUBLE uxx)
     {
         DOUBLE diff1 = Outer(alpha, i-1)-ReCalcDouterInside(i);
         DOUBLE diff2 = (i-_constraint > 0) ? Outer(beta, i-_constraint)-ReCalcDouterOutside(i-_constraint) : 0.0;
-        if (fabs(diff1) > 1e-6 || fabs(diff2) > 1e-6) {
+        if (abs(diff1) > 1e-6 || abs(diff2) > 1e-6) {
             cout << "Diff " << i << " " << diff1 << " " << Outer(alpha, i-1) << endl;
             cout << "Out " << i << " " << diff2 << " " << Outer(beta, i-_constraint) << endl;
         }

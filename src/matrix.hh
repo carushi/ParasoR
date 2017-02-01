@@ -133,7 +133,7 @@ public:
     }
     static void PrintMat(const Mat&, const string&);
     void Insert(LEN x) {
-        outer.insert(outer.begin()+x-istart, 0.0);
+        outer.insert(outer.begin()+x-istart, static_cast<DOUBLE>(0.0));
         iend++;
         olength++;
     }
@@ -150,9 +150,9 @@ public:
         if (_inside && debug)
             cerr << "start, end: " << s << " " << e << endl;
         if (delta) {
-            douter = Mat(olength+1, Vec(_constraint+1, 0));
+            douter = Mat(olength+1, Vec(_constraint+1, static_cast<DOUBLE>(0)));
         }  else if (set) {
-            outer = Vec(olength+1, 0);
+            outer = Vec(olength+1, static_cast<DOUBLE>(0));
         }
     }
     bool isSet() {

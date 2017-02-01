@@ -39,6 +39,7 @@ using std::ofstream;
 using std::reverse;
 using std::min;
 using std::max;
+using std::abs;
 using std::setprecision;
 using std::setiosflags;
 using std::transform;

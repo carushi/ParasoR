@@ -733,9 +733,36 @@ void ParasoR::CalcBpp(bool output, DOUBLE minp, bool calculated)
     if (!output) return;
     for (LEN j = 0; j < bppm.size(); j++) {
         for (LEN dist = 0; dist < bppm[j].size(); dist++) {
-            if (bppm[j][dist] < minp)  continue;
-            if (j-dist >= 0 || j < seq.length) cout << "*\t" << j+bstart-dist << "\t" << j+bstart  << "\t" << bppm[j][dist] << endl;
+            if (BPPM(j+bstart, dist, bstart) < minp)  continue;
+            if (j-dist >= 0 || j < seq.length) cout << "*\t" << j+bstart-dist << "\t" << j+bstart  << "\t" << BPPM(j+bstart, dist, bstart) << endl;
         }
+    }
+}
+
+void ParasoR::CalcEntropy(bool calculated)
+{
+    if (!calculated)
+        CalcStem(bppm);
+    LEN bstart = _start+1;
+    for (LEN j = 0; j < min(static_cast<LEN>(bppm.size()), _end-_start); j++) {
+        DOUBLE entropy = 0.0;
+        DOUBLE stem = 0.0;
+        for (LEN dist = 0; dist < bppm[j].size(); dist++) {
+            if (BPPM(j+bstart, dist, bstart) > static_cast<DOUBLE>(0.0)) {
+                entropy -= ProbEntropy(BPPM(j+bstart, dist, bstart));
+                stem += BPPM(j+bstart, dist, bstart);
+            }
+        }
+        for (LEN jp = j+1; jp < bppm.size() && jp+bstart <= RightBpRange(j+bstart); jp++) {
+            LEN dist = jp-j;
+            if (dist > bppm[jp].size()) continue;
+            if (BPPM(jp+bstart, dist, bstart) > static_cast<DOUBLE>(0.0)) {
+                entropy -= ProbEntropy(BPPM(jp+bstart, dist, bstart));
+                stem += BPPM(jp+bstart, dist, bstart);
+            }
+        }
+        entropy -= ProbEntropy(static_cast<DOUBLE>(1.0-stem));
+        cout << "*\t" << seq.strget(j+bstart) << "\t" << j+bstart << "\t" << entropy << endl;
     }
 }
 
@@ -926,7 +953,11 @@ void ParasoR::Stemdb(Arg& arg, bool shrink)
             rfold.CalcMEA(true, arg.image, arg.prof_flag);
         } else if (arg.prof_flag) {
             rfold.CalcProf(arg.acc_flag, !arg.outtext);
-        } else rfold.CalcStem(!arg.outtext, arg.boundary);
+        } else if (arg.entro_flag) {
+            rfold.CalcEntropy(!arg.outtext);
+        } else {
+            rfold.CalcStem(!arg.outtext, arg.boundary);
+        }
     } else {
         cerr << "too many chunk for this sequence len: " << rfold.seq.length << endl;
     }
@@ -991,7 +1022,8 @@ void ParasoR::CalcBppAtOnce(int out, bool image, DOUBLE thres)
         CalcMEA(true, image, true, true);
     else if (out == Out::BPP)
         CalcBpp(true, thres, true);
-
+    else if (out == Out::ENTRO)
+        CalcEntropy(true);
 }
 
 void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
@@ -1010,10 +1042,12 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
     else if (out == Out::MOTIF) {
         cout << "#-- B(ulge) or O(uter) or H(airpin) or M(ulti) or S(tem) or I(nterior)" << endl;
         cout << "> " << name << endl;
+    } else if (out == Out::ENTRO) {
+        cout << "#--entropy sum -(bpp)log2(bpp) " << endl;
     }
     PreCalcInside(1);
     PreCalcOutside(1);
-    if (out == Out::BPP || out == Out::BPPIM)
+    if (out == Out::BPP || out == Out::BPPIM || out == Out::ENTRO)
         CalcBppAtOnce(out, image, thres);
     else {
         for (LEN pos = 1, right = RightBpRange(seq.length); pos <= seq.length; pos++) {

@@ -5,23 +5,28 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (26)
+#define OPTION (27)
 #define MINDIRLEN (8)
 
 using namespace std;
 
 void PrintHelpOption()
 {
-    cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.0.1\n"
+    cout << "\nParasoR (Parallel solution of RNA secondary structure prediction) 1.1.0\n"
          << "\twith Radiam method (RNA secondary structure analysis with deletion, insertion and substitution mutation).\n"
-         << "This algorithm has been developed in github.com/carushi.\n"
+         << "This algorithm has been developed in github.com/carushi/ParasoR.\n"
          << "We would like to express our gratitude to Vienna RNA package and CentroidFold for developing ParasoR.\n\n"
-         << "You can achieve calculation of base pairing probability or accessibility for sequences having any length by ParasoR.\n\n";
-    cout << "-------Option List------\n";
+         << "You can achieve calculation of base pairing probability or accessibility for sequences of any nucleotides long by ParasoR.\n\n";
+    cout << "-------Option List------\n"
+         << "--pre\tnot-parallel computing\n"
+         << "--stem\tcalculate stem probability\n"
+         << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
+         << "--entropy\tcalculate entropy (sum of -plog2p)\n";
     cout << "--acc\t(-a)\tuse accessibility \n\t(default: stem probability)\n"
          << "--prof\t(-p -a)\tuse profile vectors\n"
          << "--motif\t(-p)\tprint a motif sequence\n"
-         << "--bpp (or --bpp=minp)\tcalculate base pairing probability (output base pairing probability >= minp)\n"
+         << "--struct (or --struct=gamma)\toutput a centroid structure with gamma centroid estimator (whose base pairs having bpp (>= 1/(gamma+1) and length is less than 600 nt) \n"
+         << "--image\t\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "-c\tprint correlation coefficient of distance (eucledian, eSDC)\n"
          << "-r\tuse complementary sequence\n\n"
          << "-m [S or D or I or nan]\tcalculate mutated probability around single point Substitution or Deletion or Insertion from start to end\n"
@@ -42,16 +47,12 @@ void PrintHelpOption()
          << "--divide\tcalculate divided douters and make temporal douter files (default)\n"
          << "--connect\tconnect douters and make douter_inside & outside file\n"
          << "--stemdb\toutput stem probability database\n"
-         << "--struct (or --struct=gamma)\toutput a centroid structure with gamma centroid estimator (whose base pairs having bpp (>= 1/(gamma+1) and length is less than 600 nt) \n"
-         << "--image\t\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--energy [.par file]\talso possible to use \"Turner2004\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n"
-         << "--stem\tcalculate stem probability\n"
          << "--boundary\tcalculate a probability having no base pair with its right side at each position (only valid without pre option)\n"
          << "--text\ttext storage mode with low accuracy\n"
          << "--stdout\ttext output mode (only valid with stemdb option)\n"
          << "--save_memory\tsave memory mode in Divide and Connect procedure\n"
          << "--init_file\tremove temp files for connect procedure (only valid with --connect and --save_memory option)\n"
-         << "--pre\tnot parallel computing\n"
          // << "--remote [input]\tcalculate the stability of remote duplexes (not completed)\n"
          // << "--transcribed\tsimulate the arrangement of structure during transcription (not completed)\n"
          << "--help\tprint these sentences\n\n\n\n";
@@ -107,11 +108,12 @@ struct option* option()
     options[22].name = "stdout";
     options[23].name = "cd";
     options[24].name = "boundary";
-    options[25].name = "help";
+    options[25].name = "entropy";
+    options[26].name = "help";
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 26:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -138,7 +140,8 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             if (optarg) arg.input = string(optarg);
             break;
         case 2:
-            if (optarg) ;
+            if (optarg)
+                ;
             // arg.outer_input = string(optarg);
             // arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
@@ -151,7 +154,8 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
         case 7: arg.ene = string(optarg); break;
         case 8:
             if (optarg) arg.minp = atof(optarg);
-            arg.init_calc = Rfold::Arg::Calc::Bpp;
+            if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
+                arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
         case 9: arg.text = true; break;
         case 10:
@@ -184,6 +188,11 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
                 arg.init_calc = Rfold::Arg::Calc::Bpp;
             arg.stem_flag = true; break;
+        case 25:
+            arg.entro_flag = true;
+            if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
+                arg.init_calc = Rfold::Arg::Calc::Bpp;
+            break;
         default:
             PrintHelpOption();
             return false;
@@ -369,9 +378,11 @@ int main(int argc, char** argv)
     Rfold::Arg arg = Rfold::Arg();
     try {
         struct option *options = option();
+        bool help_flag = true;
         while (1) {
             int opt = getopt_long(argc, argv, "m:w:s:e:api:k:f:cdrtT:", options, &option_index);
             if (opt == -1) break;
+            help_flag = false;
             switch(opt) {
                 case 0: case 1:
                     if (!SetArg(option_index, optarg, arg)) {
@@ -405,10 +416,14 @@ int main(int argc, char** argv)
                  << "  make clean; make\n";
             return 1;
         }
-        Rfold::Parameter::SetTemperature(arg.temp);
-        Rfold::Parameter::ChangeEnergyParam(arg.ene);
-        if (Rfold::Parameter::initialized)
-            CheckCondition(arg);
+        if (help_flag) {
+            PrintHelpOption();
+        } else {
+            Rfold::Parameter::SetTemperature(arg.temp);
+            Rfold::Parameter::ChangeEnergyParam(arg.ene);
+            if (Rfold::Parameter::initialized)
+                CheckCondition(arg);
+        }
     } catch (const char* str) {
         cout << "Catch error*" << endl;
         cout << str << endl;

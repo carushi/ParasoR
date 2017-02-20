@@ -675,7 +675,8 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
     if (std::abs(i-j) < TURN) return 0.0;
     DOUBLE stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
     DOUBLE stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
-    if (deb && exp(Logsumexp(stack, stemend))-1.0 > 1e-6) {
+    DOUBLE temp = exp(Logsumexp(stack, stemend));
+    if (deb && temp-1.0 > 1e-6) {
         cout << "#----error " << i << " " << j << endl;
         cout << "#---- " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << LogLoopEnergy(i, j, i+1, j-1, seq) << endl;
         cout << "#---- " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << endl;
@@ -683,7 +684,7 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
         cout << "Catch error: caused by outer file." << endl;
         exit(1);
     }
-    return exp(Logsumexp(stack, stemend));
+    return temp;
 }
 
 void ParasoR::WriteBpp(Mat& data)
@@ -1143,6 +1144,8 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
         rfold.CalcAllAtOnce(Out::BPPIM, arg.image, arg.gamma);
     } else if (arg.stem_flag) {
         rfold.CalcAllAtOnce(Out::STEM);
+    } else if (arg.entro_flag) {
+        rfold.CalcAllAtOnce(Out::ENTRO);
     } else {
         rfold.CalcAllAtOnce(Out::BPP, arg.image, arg.minp);
     }
@@ -1178,6 +1181,8 @@ void ParasoR::main(Arg& arg, bool shrink)
             rfold.CalcAcc();
         } else if (arg.stem_flag) {
             rfold.CalcStem(false, arg.boundary);
+        } else if (arg.entro_flag) {
+            rfold.CalcEntropy(true);
         } else {
             rfold.CalcBpp(true, arg.minp);
         }

@@ -95,6 +95,7 @@ public:
         mout_flag = false;
         cd = false;
         boundary = false;
+        entro_flag = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -138,12 +139,13 @@ public:
     bool mout_flag;
     bool cd;
     bool boundary;
+    bool entro_flag;
 
 };
 
 class ParasoR {
 private:
-    enum Out {STEM, ACC, PROF, BPPIM, BPP, MOTIF, PROFIM};
+    enum Out {STEM, ACC, PROF, BPPIM, BPP, MOTIF, PROFIM, ENTRO};
     enum File {Part, Shrunk, Whole};
     DOUBLE gamma;
 
@@ -323,6 +325,7 @@ private:
     bool GetWholeImage(string, vector<int>&, Vec&, int = 1);
     void GetImage(string, LEN, LEN, Vec, int = 1);
     void CalcBpp(bool = false, DOUBLE = -1.0, bool = false);
+    void CalcEntropy(bool = true);
     void CalcMEA(bool = true, bool = false, bool = false, bool = false);
     void CalcRangeStem(Vec&, LEN, LEN, int);
     void CalcRangeAcc(Vec&, int, LEN, LEN, int);
@@ -521,6 +524,10 @@ public:
     static DOUBLE expInf(DOUBLE value) {
         if (Is_INF(value))  return 0.;
         return exp(value);
+    }
+    static DOUBLE ProbEntropy(DOUBLE p) {
+        if (p == static_cast<DOUBLE>(0.0)) return static_cast<DOUBLE>(0.);
+        return p*log2(p);
     }
     static char base(int c) {
         switch(c) {

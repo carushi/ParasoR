@@ -1190,14 +1190,16 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
     } else if (arg.acc_flag) {
         rfold.CalcAllAtOnce(Out::ACC);
     } else if (arg.mea_flag) {
-        rfold.SetMFE(arg.mfe_flag);
+        rfold.SetMFEFlag(arg.mfe_flag);
         rfold.CalcAllAtOnce(Out::BPPIM, arg.image, arg.gamma);
     } else if (arg.stem_flag) {
+        rfold.SetHardConstFlag(arg.hard_const.length() > 0);
         rfold.CalcAllAtOnce(Out::STEM);
     } else if (arg.entro_flag) {
         rfold.CalcAllAtOnce(Out::ENTRO);
     } else {
-        rfold.SetMFE(arg.mfe_flag);
+        rfold.SetMFEFlag(arg.mfe_flag);
+        rfold.SetHardConstFlag(arg.hard_const.length() > 0);
         rfold.CalcAllAtOnce(Out::BPP, arg.image, arg.minp);
     }
 }

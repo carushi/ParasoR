@@ -498,12 +498,19 @@ public:
     void SetNoDelta() {
         delta = false;
     }
-    void SetMFE(bool tmfe) {
+    void SetMFEFlag(bool tmfe) {
+        mfe = tmfe;
         if (tmfe) {
-            mfe = tmfe;
             min_or_sum = Logsummax;
         } else {
             min_or_sum = Logsumexp;
+        }
+    }
+    void SetHardConstFlag(bool thc) {
+        if (thc && seq.hclength == seq.length) {
+            hard = true;
+        } else {
+            hard = false;
         }
     }
     void SetGamma(DOUBLE tgamma) {
@@ -543,10 +550,8 @@ public:
         SetBasicParam(arg.constraint, max(static_cast<LEN>(arg.str.length()), arg.length), arg.name, shrink);
         if (static_cast<LEN>(arg.str.length()) > 0) {
             SetSequence(arg.str);
-            hard = false;
             if (static_cast<LEN>(arg.hard_const.length()) == seq.length) {
                 seq.SetHardConstraint(arg.hard_const);
-                hard = true;
             } else if (arg.hard_const.length() > 0) {
                 if (!noout) cout << "# Hard const length error. " << static_cast<LEN>(arg.hard_const.length()) << " != " << seq.length << endl;
             }

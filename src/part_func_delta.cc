@@ -1044,6 +1044,10 @@ void ParasoR::PrintRfoldHeader(int out)
     cout << "#--log(Z): " << alpha.outer[seq.length] << endl;
     if (mfe)
         cout << "#--mfe-enabled" << endl;;
+    if (hard)
+        cout << "#--hard-const-enabled" << endl;
+    else
+        cout << "#--hard-const-disabled" << endl;
     if (out == Out::ACC)
         cout << "#--range : accessibility (kcal/mol)" << endl;
     else if (out == Out::PROF)

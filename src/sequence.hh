@@ -182,6 +182,7 @@ public:
      * Sequence length for whole sequence excluding '$'.
      */
     LEN length;
+    LEN hclength;
     Sequence() {}
     Sequence(const string& str) : str(str) /* $+AUCU... */ {
         lazy = false;
@@ -313,6 +314,7 @@ public:
         if (hard_const.length() > 50) cout << "...";
         cout << endl;
         hard_const = string("$")+hard_const;
+        hclength = hard_const.length()-1;
     }
 
     /**

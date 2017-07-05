@@ -116,16 +116,27 @@ DOUBLE ParasoR::SlideLocalOuter(LEN x, DOUBLE old) {
 void ParasoR::SetOutsideMat(LEN i, LEN j, DOUBLE value)
 {
     if (i > 0 && j < seq.length) {
-        Stemend(beta, i, j) = GetOutStemend(i, j);
-        Multi(beta, i, j) = GetOutMulti(i, j);
-        Multi1(beta, i, j) = GetOutMulti1(i, j);
-        Multi2(beta, i, j) = GetOutMulti2(i, j);
-        Multibif(beta, i, j) = GetOutMultiBif(i, j);
+        if (hard || mfe) {
+            Stemend(beta, i, j) = GetOutStemendHC(i, j);
+            Multi(beta, i, j) = GetOutMultiHC(i, j);
+            Multi1(beta, i, j) = GetOutMulti1HC(i, j);
+            Multi2(beta, i, j) = GetOutMulti2HC(i, j);
+            Multibif(beta, i, j) = GetOutMultiBifHC(i, j);
+        } else {
+            Stemend(beta, i, j) = GetOutStemend(i, j);
+            Multi(beta, i, j) = GetOutMulti(i, j);
+            Multi1(beta, i, j) = GetOutMulti1(i, j);
+            Multi2(beta, i, j) = GetOutMulti2(i, j);
+            Multibif(beta, i, j) = GetOutMultiBif(i, j);
+        }
     }
-    if (delta)
+    if (delta) {
         Stem(beta, i, j) = GetOutStem(i, j, value);
-    else
+    } else if (hard || mfe) {
+        Stem(beta, i, j) = GetOutStemHC(i, j);
+    } else {
         Stem(beta, i, j) = GetOutStem(i, j);
+    }
 }
 
 DOUBLE ParasoR::GetOutStem(LEN i, LEN j, DOUBLE value)
@@ -321,16 +332,14 @@ void ParasoR::InitColMat(Matrix& mat, LEN pos)
 void ParasoR::CalcInside(LEN tpos)
 {
     InitRowMat(alpha, tpos);
-    // if (ddebug) cout << "#--inside left " << tpos << endl;
     for (LEN i = tpos-TURN; i >= LeftRange(tpos); i--) {
         SetInsideMat(i, tpos);
-    }
+     }
 }
 
 void ParasoR::CalcInsideFromRight(LEN tpos)
 {
     InitColMat(alpha, tpos);
-    // if (ddebug) cout << "#--inside right " << tpos << endl;
     for (LEN j = tpos+TURN; j <= RightRange(tpos); j++) {
         SetInsideMat(tpos, j);
     }
@@ -339,7 +348,6 @@ void ParasoR::CalcInsideFromRight(LEN tpos)
 void ParasoR::CalcOutside(LEN pos)
 {
     InitColMat(beta, pos);
-    // if (ddebug) cout << "#--outside right " << pos << endl;
     for (LEN j = RightRange(pos); j >= pos+TURN; j--)
         SetOutsideMat(pos, j, 0);
 }
@@ -347,7 +355,6 @@ void ParasoR::CalcOutside(LEN pos)
 void ParasoR::CalcOutside(LEN pos, DOUBLE uxx)
 {
     InitColMat(beta, pos);
-    // if (ddebug) cout << "#--uxx : " << "u" << pos << "_" << pos << " " << uxx << endl;
     LEN right = RightRange(pos);
     DOUBLE uij = ExpandLocalOuter(uxx, pos, pos, right);
     // if (ddebug) cout << "#----expand : " << uxx << endl;
@@ -409,7 +416,8 @@ DOUBLE ParasoR::SetRangedMatrix(LEN start, bool set)
 void ParasoR::StoreBppSlide(LEN i, LEN right, Mat& bppm)
 {
     for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
-        DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        // DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        DOUBLE tbpp = bpp_func(i, j, delta);
         // if (ddebug) cout << "bpp: " << i << " " << j << " " << tbpp << endl;
         BPPM(j, j-i, _start+1) = tbpp;
     }
@@ -418,7 +426,8 @@ void ParasoR::StoreBppSlide(LEN i, LEN right, Mat& bppm)
 void ParasoR::StoreBppSlide(LEN i, LEN right, Vec& prebpp)
 {
     for (LEN j = max(_start+1, i+TURN); j <= i+_constraint && j <= right; j++) {
-        DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        // DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        DOUBLE tbpp = bpp_func(i, j, delta);
         prebpp[i%(_constraint+1)] += tbpp;
         prebpp[j%(_constraint+1)] += tbpp;
     }
@@ -450,7 +459,8 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Mat& bppm)
 {
     LEN shift = _start+1;
     for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
-        DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        // DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        DOUBLE tbpp = bpp_func(i, j, delta);
         BPPM(j, j-i, _start+1) = tbpp;
     }
 }
@@ -459,7 +469,8 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Vec& prebpp)
 {
     LEN shift = _start+1;
     for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
-        DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        // DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
+        DOUBLE tbpp = bpp_func(i, j, delta);
         if (i >= shift) prebpp[i-shift] += tbpp;
         if (j <= _end) prebpp[j-shift] += tbpp;
     }
@@ -997,6 +1008,7 @@ void ParasoR::CalcOutsideOuter(LEN j)
     }
 }
 
+
 void ParasoR::CalcOuter()
 {
     for (LEN j = TURN-1; j <= seq.length; j++) {
@@ -1026,15 +1038,12 @@ void ParasoR::CalcBppAtOnce(int out, bool image, DOUBLE thres)
         CalcEntropy(true);
 }
 
-void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
+void ParasoR::PrintRfoldHeader(int out)
 {
-    delta = false;
-    InitBpp(false);
-    CalcOuter();
-    Vec prebpp = Vec(_constraint+1, 0);
-    _start = 0;
     cout << std::setprecision(10);
-    cout << "#--Z: " << alpha.outer[seq.length] << endl;
+    cout << "#--log(Z): " << alpha.outer[seq.length] << endl;
+    if (mfe)
+        cout << "#--mfe-enabled" << endl;;
     if (out == Out::ACC)
         cout << "#--range : accessibility (kcal/mol)" << endl;
     else if (out == Out::PROF)
@@ -1045,6 +1054,16 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
     } else if (out == Out::ENTRO) {
         cout << "#--entropy sum -(bpp)log2(bpp) " << endl;
     }
+}
+
+void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
+{
+    delta = false;
+    InitBpp(false);
+    (hard || mfe) ? CalcOuterHC() : CalcOuter();
+    Vec prebpp = Vec(_constraint+1, 0);
+    _start = 0;
+    PrintRfoldHeader(out);
     PreCalcInside(1);
     PreCalcOutside(1);
     if (out == Out::BPP || out == Out::BPPIM || out == Out::ENTRO)
@@ -1066,7 +1085,6 @@ void ParasoR::CalcAllAtOnce(int out, bool image, DOUBLE thres, bool store)
     if (out == Out::PROFIM) {
         PreCalcInside(1);
         PreCalcOutside(1);
-        cout << "this" << endl;
         CalcBppAtOnce(out, image, thres);
     }
 }

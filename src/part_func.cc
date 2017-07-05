@@ -67,12 +67,21 @@ DOUBLE ParasoR::GetInStemend(LEN i, LEN j)
 
 void ParasoR::SetInsideMat(LEN i, LEN j)
 {
-    Stem(alpha, i, j) = GetInStem(i, j);
-    Multibif(alpha, i, j) = GetInMultiBif(i, j);
-    Multi2(alpha, i, j) = GetInMulti2(i, j);
-    Multi1(alpha, i, j) = GetInMulti1(i, j);
-    Multi(alpha, i, j) = GetInMulti(i, j);
-    Stemend(alpha, i, j) = GetInStemend(i, j);
+    if (hard || mfe) {
+        Stem(alpha, i, j) = GetInStemHC(i, j);
+        Multibif(alpha, i, j) = GetInMultiBifHC(i, j);
+        Multi2(alpha, i, j) = GetInMulti2HC(i, j);
+        Multi1(alpha, i, j) = GetInMulti1HC(i, j);
+        Multi(alpha, i, j) = GetInMultiHC(i, j);
+        Stemend(alpha, i, j) = GetInStemendHC(i, j);
+    } else {
+        Stem(alpha, i, j) = GetInStem(i, j);
+        Multibif(alpha, i, j) = GetInMultiBif(i, j);
+        Multi2(alpha, i, j) = GetInMulti2(i, j);
+        Multi1(alpha, i, j) = GetInMulti1(i, j);
+        Multi(alpha, i, j) = GetInMulti(i, j);
+        Stemend(alpha, i, j) = GetInStemend(i, j);
+    }
 }
 
 /* ///////////////////////////////////////////// */
@@ -139,17 +148,29 @@ DOUBLE ParasoR::GetOutStem(LEN i, LEN j)
     // return temp;
 }
 
-void ParasoR::SetOutsideMat(LEN i, LEN j)
-{
-    if (i > 0 && j < seq.length) {
-        Stemend(beta, i, j) = GetOutStemend(i, j);
-        Multi(beta, i, j) = GetOutMulti(i, j);
-        Multi1(beta, i, j) = GetOutMulti1(i, j);
-        Multi2(beta, i, j) = GetOutMulti2(i, j);
-        Multibif(beta, i, j) = GetOutMultiBif(i, j);
-    }
-    Stem(beta, i, j) = GetOutStem(i, j);
-}
+// void ParasoR::SetOutsideMat(LEN i, LEN j)
+// {
+//     if (i > 0 && j < seq.length) {
+//         if (hard || mfe) {
+//             Stemend(beta, i, j) = GetOutStemendHC(i, j);
+//             Multi(beta, i, j) = GetOutMultiHC(i, j);
+//             Multi1(beta, i, j) = GetOutMulti1HC(i, j);
+//             Multi2(beta, i, j) = GetOutMulti2HC(i, j);
+//             Multibif(beta, i, j) = GetOutMultiBifHC(i, j);
+//         } else {
+//             Stemend(beta, i, j) = GetOutStemend(i, j);
+//             Multi(beta, i, j) = GetOutMulti(i, j);
+//             Multi1(beta, i, j) = GetOutMulti1(i, j);
+//             Multi2(beta, i, j) = GetOutMulti2(i, j);
+//             Multibif(beta, i, j) = GetOutMultiBif(i, j);
+//         }
+//     }
+//     if (hard || mfe) {
+//         Stem(beta, i, j) = GetOutStemHC(i, j);
+//     } else {
+//         Stem(beta, i, j) = GetOutStem(i, j);
+//     }
+// }
 
 /* ///////////////////////////////////////////// */
 
@@ -648,17 +669,15 @@ bool ParasoR::ConnectSavedFiles(bool keep_flag)
 /* ///////////////////////////////////////////// */
 
 
-
-
 DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
 {
     if (i > j) swap(i, j);
     if (std::abs(i-j) < TURN) return 0.0;
     DOUBLE stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
     DOUBLE stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
-    DOUBLE temp = 0.0;
-    if (!Is_INF(stack)) temp += exp(Logsum(stack, -Outer(alpha, seq.length)));
-    if (!Is_INF(stemend)) temp += exp(Logsum(stemend, -Outer(alpha, seq.length)));
+    DOUBLE temp = -INF;
+    if (!Is_INF(stack)) temp = min_or_sum(temp, Logsum(stack, -Outer(alpha, seq.length)));
+    if (!Is_INF(stemend)) temp = min_or_sum(temp, Logsum(stemend, -Outer(alpha, seq.length)));
     if (deb) {
         cout << "stack " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stack << endl;
         cout << "stemend " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stemend << endl;
@@ -666,8 +685,8 @@ DOUBLE ParasoR::bpp(LEN i, LEN j, bool deb)
         cout << "Catch error: caused by the irregular outer file." << endl;
         exit(1);
     }
-    return temp;
- }
+    return max(static_cast<DOUBLE>(0.0), exp(temp));
+}
 
 DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
 {
@@ -687,13 +706,37 @@ DOUBLE ParasoR::bppDelta(LEN i, LEN j, bool deb)
     return temp;
 }
 
+DOUBLE ParasoR::bppHard(LEN i, LEN j, bool deb)
+{
+    if (i > j) swap(i, j);
+    if (std::abs(i-j) < TURN) return 0.0;
+    DOUBLE stack = -INF, stemend = -INF;
+    if (IsPairHC(i, j)) {
+        if (IsPairHC(i+1, j-1)) {
+            stack = Logsum(Stem(alpha, i, j-1), Stem(beta, i-1, j), LogLoopEnergy(i, j, i+1, j-1, seq));
+        }
+        stemend = Logsum(Stemend(alpha, i, j-1), Stem(beta, i-1, j));
+    }
+    DOUBLE temp = -INF;
+    if (!Is_INF(stack)) temp = min_or_sum(temp, Logsum(stack, -Outer(alpha, seq.length)));
+    if (!Is_INF(stemend)) temp = min_or_sum(temp, Logsum(stemend, -Outer(alpha, seq.length)));
+    if (deb) {
+        cout << "stack " << Stem(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stack << endl;
+        cout << "stemend " << Stemend(alpha, i, j-1) << " " << Stem(beta, i-1, j) << " " << stemend << endl;
+        cout << "dpp " << i << " " << j << " " << temp << " " << Outer(alpha, seq.length) << endl;
+        cout << "Catch error: caused by the irregular outer file." << endl;
+        exit(1);
+    }
+    return max(static_cast<DOUBLE>(0.0), exp(temp));
+}
+
 void ParasoR::WriteBpp(Mat& data)
 {
     data.clear();
     data = Mat(seq.length, Vec(_constraint, 0.0));
     for (LEN i = 1; i < seq.length; i++) {
         for (LEN j = i+1; j <= RightBpRange(i); j++)
-            data[i-1][j-i-1] = bpp(i, j);
+            data[i-1][j-i-1] = bpp_func(i, j);
     }
 }
 
@@ -732,7 +775,7 @@ void ParasoR::WriteStemProb(Vec& stem)
     stem = Vec(seq.length, 0.0);
     for (LEN i = 1; i <= seq.length; i++) {
         for (LEN j = i+1; j <= i+_constraint && j <= seq.length; j++) {
-            DOUBLE value = bpp(i, j);
+            DOUBLE value = bpp_func(i, j);
             stem[i-1] += value;
             stem[j-1] += value;
         }
@@ -746,7 +789,7 @@ void ParasoR::OutputStemProb(bool _acc)
         DOUBLE P[3] = { 1.0, 0.0, 0.0 };
         for (LEN j = max(static_cast<LEN>(1), i-_constraint); j <= min(seq.length, i+_constraint); j++) {
             if (!_acc && j == i) continue;
-            DOUBLE value = ((_acc) ? acc(i, j) : bpp(i, j));
+            DOUBLE value = ((_acc) ? acc(i, j) : bpp_func(i, j));
             if (_acc) { cout << "*\t" << i << "\t" << j << "\t" << value << endl; continue; }
             P[0] -= value;
             (j < i) ? P[2] += value : P[1] += value;
@@ -767,7 +810,7 @@ void ParasoR::OutputBppCond(bool _acc)
         for (LEN i = 1; i <= seq.length; i++) {
             for (LEN j = max(static_cast<LEN>(1), i-_constraint); j <= min(seq.length, i+_constraint); j++) {
                 if (j == i) continue;
-                DOUBLE value = bpp(i, j);
+                DOUBLE value = bpp_func(i, j);
                 cout << "*\t" << i << "\t" << j << "\t" << value << endl;
             }
         }
@@ -1036,11 +1079,17 @@ void ParasoR::InitBpp(bool full, bool set)
     SetIndex(left, right, false, set);
 }
 
+/**
+    Set slided sequences.
+ */
 void ParasoR::SetSequence(const string& filename, int seqID, LEN length)
 {
     seq = Sequence(filename, seqID, length);
 }
 
+/**
+    Set original sequences.
+ */
 void ParasoR::SetSequence(const string& sequence, bool out)
 {
     if (out) {
@@ -1141,12 +1190,14 @@ void ParasoR::PreviousCalculation(Arg& arg, bool shrink)
     } else if (arg.acc_flag) {
         rfold.CalcAllAtOnce(Out::ACC);
     } else if (arg.mea_flag) {
+        rfold.SetMFE(arg.mfe_flag);
         rfold.CalcAllAtOnce(Out::BPPIM, arg.image, arg.gamma);
     } else if (arg.stem_flag) {
         rfold.CalcAllAtOnce(Out::STEM);
     } else if (arg.entro_flag) {
         rfold.CalcAllAtOnce(Out::ENTRO);
     } else {
+        rfold.SetMFE(arg.mfe_flag);
         rfold.CalcAllAtOnce(Out::BPP, arg.image, arg.minp);
     }
 }

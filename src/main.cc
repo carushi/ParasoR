@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (27)
+#define OPTION (30)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -38,11 +38,12 @@ void PrintHelpOption()
          << "\t\t./ParasoR --name seq1 --energy ../energy_param/rna_turner2004_new.par --input [input fasta] -i 0 -k 1 --stemdb -a\n"
          << "\nSample3: (not parallel)\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --bpp\t\t// base pairing probability;\n"
-         << "\t\t./ParasoR --name test -f [sequence] --pre --stem\t\t// stem probability;\n"
+         << "\t\t./ParasoR --name test -f [sequence] --pre --stem\t// stem probability;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --acc\t\t// accessibility;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --prof\t\t// profile;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --motif\t\t// profile string;\n"
          << "\t\t./ParasoR --name test -f [sequence] --pre --struct --image\t// centroid struct image;\n"
+         << "\t\t./ParasoR --name test -f [sequence] --pre --struct --mfe\t// mfe structure;\n"
          << endl;
 }
 
@@ -71,6 +72,7 @@ void PrintDetailedHelpOption()
          << "--prof\t(-p -a)\n\tuse profile vectors\n"
          << "--motif\t(-p)\n\tprint a motif sequence\n"
          << "--struct (or --struct=gamma)\n\toutput a centroid structure with gamma centroid estimator (whose base pairs having bpp (>= 1/(gamma+1) and length is less than 600 nt) \n"
+         << "--mfe\n\tcompute minimum free energy (MFE) structure (only valid with pre and struct or bpp option)\n"
          << "--image\n\toutput images of gamma centroid estimated structure (only with struct option)\n"
          << "--boundary\n\tcalculate a probability having no base pair with its right side at each position (only valid without pre option)\n"
          << "-c\n\tprint correlation coefficient of distance for mutating simulation (eucledian, eSDC)\n\n";
@@ -78,8 +80,11 @@ void PrintDetailedHelpOption()
          << "--constraint [num]\n\tset the maximal span to num\n"
          << "-s [num]\n\tstart point of base pairing probability (1~(sequence length-1)) \n"
          << "-e [num]\n\tend point of base pairing probability\n\t\tif you assign only a start position for one sequence, it'll be the sequence length.\n"
+         << "-w [num] (--window [num])\n\twindow size for accessibility (num+1 will be applied).\n"
          << "-T [temperature]\n\tchange temperature (not completed!)\n\n"
-         << "--energy [.par file]\n\talso possible to use \"Turner2004(old)\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n\n";
+         << "--energy [.par file]\n\talso possible to use \"Turner2004(old)\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n\n"
+         << "--hard \"[.*()]\"\n\thard constraint setting (only valid with --pre option), or compute the structure set following the hard constraint. (.: loop, (): any stem, *: any)\n"
+         << "\t\t(interaction mode: AAANNNUUU --hard **(nnn*)* -> compute interaction energy of AAA and UUU with hairpin loop including NNN (without hairpin energy)\n\n";
     cout << "------I/O setting------\n\n"
          << "-r\n\tuse complementary sequence\n"
          << "-f [sequence]\n\tdirect input of sequence\n"
@@ -122,11 +127,15 @@ struct option* option()
     options[23].name = "cd";
     options[24].name = "boundary";
     options[25].name = "entropy";
-    options[26].name = "help";
+    options[26].name = "mfe";
+    options[27].name = "hard";
+    options[28].name = "window";
+    options[29].name = "help";
+
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 26:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 26: case 29:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -206,6 +215,12 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             if (arg.init_calc != Rfold::Arg::Calc::Stemdb)
                 arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
+        case 26:
+            arg.mfe_flag = true; break;
+        case 27:
+            arg.hard_const = string(optarg); break;
+        case 28:
+            arg.window = atoi(optarg); break;
         default:
             PrintDetailedHelpOption();
             return false;

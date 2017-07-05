@@ -28,7 +28,7 @@ param.hh: pair_mat.hh convert.hh
 part_func.hh: matrix.hh param.hh centroid.hh douter_concat.hh
 
 main.o: main.cc part_func.hh part_func.o part_func_delta.o part_func_mut.o plot_struct.o part_func_prof.o
-part_func.o: part_func.cc part_func.hh centroid.hh douter_concat.hh matrix.o param.o
+part_func.o: part_func.cc part_func.hh part_func_hc.cc centroid.hh douter_concat.hh matrix.o param.o
 part_func_delta.o: part_func_delta.cc part_func.hh matrix.o param.o
 part_func_mut.o: part_func_mut.cc part_func.hh matrix.o param.o
 part_func_prof.o: part_func_prof.cc part_func.hh matrix.o param.o

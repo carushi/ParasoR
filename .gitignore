@@ -42,6 +42,8 @@ Makefile
 makefile
 src/makefile
 src/Makefile
+*.in
+
 app.info
 config.h
 config.log

@@ -45,6 +45,13 @@ inline static DOUBLE Logsumexp(DOUBLE x, DOUBLE y) {
     else return (y + log1p(exp(-y+x)));
 }
 
+inline static DOUBLE Logsummax(DOUBLE x, DOUBLE y) {
+    if (Is_INF(x)) return y;
+    else if (Is_INF(y)) return x;
+    else if (x > y) return x;
+    else return y;
+}
+
 inline static DOUBLE Logsum(DOUBLE a, DOUBLE b) {
     if (Is_INF(a) || Is_INF(b)) return -INF;
     else return a+b;
@@ -55,6 +62,7 @@ inline static DOUBLE Logsum(DOUBLE a, DOUBLE b, DOUBLE c) {
 inline static DOUBLE Logsum(DOUBLE a, DOUBLE b, DOUBLE c, DOUBLE d) {
     return Logsum(Logsum(a, b), Logsum(c, d));
 }
+
 
 static void ChangeTemperature(const int value) {
     kT = (value+K0)*GASCONST;

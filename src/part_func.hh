@@ -63,6 +63,7 @@ public:
         name = "";
         ene = "";
         mout = "";
+        hard_const = "";
         start = -1;
         end = -1;
         length = 0;
@@ -96,6 +97,7 @@ public:
         cd = false;
         boundary = false;
         entro_flag = false;
+        mfe_flag = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -107,6 +109,7 @@ public:
     string name;
     string ene;
     string mout;
+    string hard_const;
     LEN start;
     LEN end;
     LEN length;
@@ -140,6 +143,7 @@ public:
     bool cd;
     bool boundary;
     bool entro_flag;
+    bool mfe_flag;
 
 };
 
@@ -166,7 +170,7 @@ private:
     DOUBLE GetOutMulti1(LEN, LEN);
     DOUBLE GetOutMulti(LEN, LEN);
     DOUBLE GetOutStemend(LEN, LEN);
-    void SetOutsideMat(LEN, LEN);
+    // void SetOutsideMat(LEN, LEN);
 
     DOUBLE GetStemDelta(LEN, LEN, bool);
     DOUBLE GetStemDelta(LEN, LEN, int, bool);
@@ -340,6 +344,7 @@ private:
     void CalcOuter();
     void CalcBppAtOnce(int out, bool image, DOUBLE thres);
     void CalcAllAtOnce(int, bool = false, DOUBLE = 0.0, bool = false);
+    void PrintRfoldHeader(int);
 
     void SetOriginalDouter(Vec&, Vec&);
     void CopyOriginalOuter(Vec&, Vec&);
@@ -357,6 +362,30 @@ private:
     void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool, bool, string&, int);
     void ChangeBase(LEN, Arg&, bool&);
     void MutatedStem(Arg&);
+
+    /* part_func_hc.cc */
+    DOUBLE GetInStemHC(LEN, LEN);
+    DOUBLE GetInMultiBifHC(LEN, LEN);
+    DOUBLE GetInMulti2HC(LEN, LEN);
+    DOUBLE GetInMulti1HC(LEN, LEN);
+    DOUBLE GetInMultiHC(LEN, LEN);
+    DOUBLE GetInStemendHC(LEN, LEN);
+
+    DOUBLE GetOutStemHC(LEN, LEN);
+    DOUBLE GetOutStemHC(LEN, LEN, DOUBLE);
+    DOUBLE GetOutMultiBifHC(LEN, LEN);
+    DOUBLE GetOutMulti2HC(LEN, LEN);
+    DOUBLE GetOutMulti1HC(LEN, LEN);
+    DOUBLE GetOutMultiHC(LEN, LEN);
+    DOUBLE GetOutStemendHC(LEN, LEN);
+
+    void CalcInsideOuterHC(LEN);
+    void CalcOutsideOuterHC(LEN);
+    void CalcOuterHC();
+    bool SameSequenceHC(LEN, LEN);
+    bool InnerLoopHC(LEN, LEN, LEN, LEN);
+    bool IsPairHC(LEN, LEN);
+    bool IsLoopHC(LEN);
 
     LEN RightRange(LEN i) {
         return min(seq.length, i+_constraint+1);
@@ -396,6 +425,9 @@ public:
         delta = true;
         binary = true;
         memory = false;
+        mfe = false;
+        hard = false;
+        min_or_sum = Logsumexp;
     }
     ParasoR(string& name) : name(name) {
         id = 0;
@@ -405,6 +437,9 @@ public:
         delta = true;
         binary = true;
         memory = false;
+        mfe = false;
+        hard = false;
+        min_or_sum = Logsumexp;
     }
     virtual ~ParasoR() {}
     int id;
@@ -425,6 +460,9 @@ public:
     bool delta;     // douter or outer flag;
     bool binary;    // binary storage flag;
     bool memory;    // memory saving mode;
+    bool mfe;       // output MFE structure;
+    bool hard;      // hard constraint flag;
+    DOUBLE (*min_or_sum)(DOUBLE, DOUBLE);
     static const bool ene = true;    // output an energy of accessibility;
     static const bool linear = true; // linear profile calculation;
     static const bool noout = false;
@@ -433,8 +471,16 @@ public:
     static const bool ddebug = false;
     static const LEN CONST = 4;
 
+    DOUBLE bpp_func(LEN i, LEN j, bool deb = false) {
+        if (hard) return bppHard(i, j, deb);
+        else if (delta) return bppDelta(i, j, deb);
+        else    return bpp(i, j, deb);
+        return bpp(i, j, deb);
+    }
     DOUBLE bpp(LEN, LEN, bool deb = false);
     DOUBLE bppDelta(LEN, LEN, bool deb = false);
+    DOUBLE bppHard(LEN, LEN, bool deb = false);
+
     DOUBLE acc(LEN, LEN);
     DOUBLE accDelta(LEN, LEN, DOUBLE);
     void profile(LEN, Vec&);
@@ -448,6 +494,17 @@ public:
     static void main(Arg&, bool shrink = true);
     void SetText(bool text) {
         if (text) binary = false;
+    }
+    void SetNoDelta() {
+        delta = false;
+    }
+    void SetMFE(bool tmfe) {
+        if (tmfe) {
+            mfe = tmfe;
+            min_or_sum = Logsummax;
+        } else {
+            min_or_sum = Logsumexp;
+        }
     }
     void SetGamma(DOUBLE tgamma) {
         gamma = tgamma;
@@ -484,7 +541,18 @@ public:
     void SetBasicParam(Arg& arg, bool shrink = false)
     {
         SetBasicParam(arg.constraint, max(static_cast<LEN>(arg.str.length()), arg.length), arg.name, shrink);
-        (static_cast<LEN>(arg.str.length()) > 0) ? SetSequence(arg.str) : SetSequence(arg.input, arg.seqID, arg.length);
+        if (static_cast<LEN>(arg.str.length()) > 0) {
+            SetSequence(arg.str);
+            hard = false;
+            if (static_cast<LEN>(arg.hard_const.length()) == seq.length) {
+                seq.SetHardConstraint(arg.hard_const);
+                hard = true;
+            } else if (arg.hard_const.length() > 0) {
+                if (!noout) cout << "# Hard const length error. " << static_cast<LEN>(arg.hard_const.length()) << " != " << seq.length << endl;
+            }
+        } else {
+            SetSequence(arg.input, arg.seqID, arg.length);
+        }
         SetText(arg.text);
         SetGamma(arg.gamma);
         SetMemory(arg.save_memory);

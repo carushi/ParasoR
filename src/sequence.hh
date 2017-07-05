@@ -65,6 +65,17 @@ static char CapitalRNA(char c)
     }
 }
 
+static char HardConst(char c)
+{
+    switch(c) {
+        case '.': case 'l':   return 'l';
+        case '(': case ')': case 'p': return 'p';
+        case 'n': case '$':  return '$';
+        default:
+            return '*';
+    }
+}
+
 static void GetCapitalRNA(string& seq)
 {
     string str;
@@ -116,6 +127,13 @@ private:
     bool lazy;  // Lazy evaluation for sequence import;
     LEN _shift; // index to be slided;
     string str; // base string;
+    /**
+    * hard constraint, only set for HardConstComputation.
+    * (  : loop
+    * () : base pair, but no constraint on the combination of pairings.
+    * $  : no energy contribution.
+    **/
+    string hard_const;
     string filename;
     int seqID;
     vector<char> sequence;
@@ -204,16 +222,28 @@ public:
         return str[pos-_shift];
     }
     /**
-     * @return 0-3 at pos.
+     * @return 0-shift at pos.
      */
     int seqget(LEN pos) const {
         return sequence[pos-_shift];
+    }
+    /**
+     * @return 0-shift at pos.
+     */
+    int hcget(LEN pos) const {
+        return hard_const[pos-_shift];
     }
     /**
      * @return Substring of str that starts at position 'start' of length 'slen'.
      */
     string substr(LEN start, LEN slen) const {
         return str.substr(start-_shift, slen);
+    }
+    /**
+     * @return Substring of str that starts at position 'start' of length 'slen'.
+     */
+    string hcsubstr(LEN start, LEN slen) const {
+        return hard_const.substr(start-_shift, slen);
     }
     /**
      * @return Substring of str that starts at position 'start'.
@@ -225,7 +255,7 @@ public:
      * Delete a base at 'x'th position on original sequence.
      */
     bool Delete(LEN x) {
-        x = x; // slide for $;
+        // x = x; // slide for $;
         str = str.substr(0, x-_shift)+str.substr(x-_shift+1);
         sequence.erase(sequence.begin()+x-_shift);
         length -= static_cast<LEN>(1);
@@ -236,7 +266,7 @@ public:
      * @return whether a base is changed.
      */
     bool Sub(LEN x, char c, char i) {
-        x = x; // slide for $;
+        // x = x; // slide for $;
         if (str[x-_shift] == c) return false;
         str[x-_shift] = c;
         sequence[x-_shift] = i;
@@ -269,10 +299,22 @@ public:
             SetStrToChar();
             cout << "#-Read sequence ----" << start << "-----" << end << "----" << length << endl;
         }
-        cout << "# " << str.substr(0, 50);
+        cout << "# Sequence: " << str.substr(0, 50);
         if (str.length() > 50) cout << "...";
         cout << endl;
     }
+    /**
+     * Set a sequence for hard constraint.
+     */
+    void SetHardConstraint(string temp) {
+        hard_const = string("");
+        transform(temp.begin(), temp.end(), back_inserter(hard_const), HardConst);
+        cout << "# Hard_const: " << hard_const.substr(0, 50);
+        if (hard_const.length() > 50) cout << "...";
+        cout << endl;
+        hard_const = string("$")+hard_const;
+    }
+
     /**
      * @return bp index of base pairing between 'i' and 'j'.
      */

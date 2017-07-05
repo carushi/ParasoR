@@ -23,5 +23,5 @@ def test_diff(single, multiple):
 
 
 if __name__=="__main__":
-	test_diff("../doc/pre.txt", "../doc/stem_mem.txt")
-	test_diff("../doc/pre_r.txt", "../doc/stem.txt")
+	test_diff("../doc/pre.txt", "../doc/para_mem.txt")
+	test_diff("../doc/pre_r.txt", "../doc/para_r.txt")

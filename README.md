@@ -30,6 +30,7 @@ We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.8.1.
 
 ```
 git clone https://github.com/carushi/ParasoR
+git checkout tags/v1.1.0
 cd ParasoR
 ./configure
 make

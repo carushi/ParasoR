@@ -5,7 +5,7 @@
 #include <sys/stat.h>
 #include "part_func.hh"
 
-#define OPTION (30)
+#define OPTION (31)
 #define MINDIRLEN (8)
 
 using namespace std;
@@ -84,7 +84,8 @@ void PrintDetailedHelpOption()
          << "-T [temperature]\n\tchange temperature (not completed!)\n\n"
          << "--energy [.par file]\n\talso possible to use \"Turner2004(old)\", \"Andronescu\", and \"Turner1999\" as an abbreviation\n\n"
          << "--hard \"[.*()]\"\n\thard constraint setting (only valid with --pre option), or compute the structure set following the hard constraint. (.: loop, (): any stem, *: any)\n"
-         << "\t\t(interaction mode: AAANNNUUU --hard **(nnn*)* -> compute interaction energy of AAA and UUU with hairpin loop including NNN (without hairpin energy)\n\n";
+         << "\t\t(interaction mode: AAANNNUUU --hard **(nnn*)* -> compute interaction energy of AAA and UUU with hairpin loop including NNN (without hairpin energy)\n"
+         << "--inter\tto compute the interaction energy between two RNAs ignoring internal base pairs\n\n";
     cout << "------I/O setting------\n\n"
          << "-r\n\tuse complementary sequence\n"
          << "-f [sequence]\n\tdirect input of sequence\n"
@@ -130,12 +131,13 @@ struct option* option()
     options[26].name = "mfe";
     options[27].name = "hard";
     options[28].name = "window";
-    options[29].name = "help";
+    options[29].name = "inter";
+    options[30].name = "help";
 
     for (int i = 0; i < OPTION; i++) {
         switch(i) {
             case 4: case 5: case 6: case 9: case 11: case 12: case 13: case 14:
-            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 26: case 29:
+            case 15: case 16: case 17: case 18: case 20: case 22: case 23: case 24: case 25: case 26: case 29: case 30:
                 options[i].has_arg = 0;
                 break;
             case 8: case 10: case 21:
@@ -221,6 +223,8 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             arg.hard_const = string(optarg); break;
         case 28:
             arg.window = atoi(optarg); break;
+        case 29:
+            arg.inter_flag = true; break;
         default:
             PrintDetailedHelpOption();
             return false;

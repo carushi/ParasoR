@@ -10,21 +10,7 @@ bool ParasoR::SameSequenceHC(LEN i, LEN j)
     if (i > j) return false;
     if (!hard) return true;
     if (seq.hcsubstr(i, j-i+1).find('p') != string::npos) return false;
-    // if (seq.hcsubstr(i, j-i+1).find('$') != string::npos) {
-        // for (LEN k = i; k <= j && hard; k++) {
-        //     if (seq.hcget(k) != seq.hcget(i)) {
-        //         cout << "break" << endl;
-        //         return false;
-        //     }
-        // }
-    // } else {
-    //     for (LEN k = i; k <= j && hard; k++) {
-    //         if (!IsLoopHC(k)) {
-    //             cout << "break" << endl;
-    //             return false;
-    //         }
-    //     }
-    // }
+    if (inter) return seq.hcsubstr(i, j-i+1).find('$') != string::npos;
     return true;
 }
 
@@ -201,11 +187,9 @@ void ParasoR::CalcInsideOuterHC(LEN j)
     else {
         DOUBLE temp = -INF;
         for (LEN k = LeftRange(j); k < j; k++) {
-            // cout << j << " " << k << " " << temp << endl;
             temp = min_or_sum(temp, Logsum(Outer(alpha, k), Stem(alpha, k, j), SumExtML(seq.slidebp(k+1, j), k, j+1, true, seq)));
         }
         if (IsLoopHC(j)) {
-            // cout << j << "loop" << endl;
             temp = min_or_sum(temp, Outer(alpha, j-1));
         }
         Outer(alpha, j) = temp;

@@ -98,6 +98,7 @@ public:
         boundary = false;
         entro_flag = false;
         mfe_flag = false;
+        inter_flag = false;
     }
     virtual ~Arg() {}
     enum Calc {Divide, Connect, Stemdb, Bpp, Pre,};
@@ -144,6 +145,7 @@ public:
     bool boundary;
     bool entro_flag;
     bool mfe_flag;
+    bool inter_flag;
 
 };
 
@@ -462,6 +464,7 @@ public:
     bool memory;    // memory saving mode;
     bool mfe;       // output MFE structure;
     bool hard;      // hard constraint flag;
+    bool inter;     // only allow inter base pairs between two RNAs. (hard constraint mode);
     DOUBLE (*min_or_sum)(DOUBLE, DOUBLE);
     static const bool ene = true;    // output an energy of accessibility;
     static const bool linear = true; // linear profile calculation;
@@ -506,9 +509,10 @@ public:
             min_or_sum = Logsumexp;
         }
     }
-    void SetHardConstFlag(bool thc) {
+    void SetHardConstFlag(bool thc, bool tinter) {
         if (thc && seq.hclength == seq.length) {
             hard = true;
+            inter = tinter;
         } else {
             hard = false;
         }

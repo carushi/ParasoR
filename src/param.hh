@@ -10,6 +10,7 @@
 #include <string>
 #include "convert.hh"
 #include "sequence.hh"
+#include "pair_mat.hh"
 
 namespace Rfold {
 namespace Parameter {
@@ -20,24 +21,24 @@ class Convert;
 
 extern DOUBLE loghairpin[MAXLOOP+1];
 // extern DOUBLE logtetra[MAXLOOP+1];
-extern DOUBLE logmismatchH[7][5][5];
-extern DOUBLE logmismatchI[7][5][5];
-extern DOUBLE logmismatchM[7][5][5];
-extern DOUBLE logmismatch1nI[7][5][5];
-extern DOUBLE logmismatch23I[7][5][5];
-extern DOUBLE logmismatchExt[7][5][5];
+extern DOUBLE logmismatchH[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchI[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchM[NBPAIRS+1][5][5];
+extern DOUBLE logmismatch1nI[NBPAIRS+1][5][5];
+extern DOUBLE logmismatch23I[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchExt[NBPAIRS+1][5][5];
 extern DOUBLE Triloop[40];
 extern DOUBLE Tetraloop[40];
 extern DOUBLE Hexaloop[40];
-extern DOUBLE logstack[7][7];
+extern DOUBLE logstack[NBPAIRS+1][NBPAIRS+1];
 extern DOUBLE logbulge[MAXLOOP+1];
 extern DOUBLE logTermAU;
-extern DOUBLE logint11[8][8][5][5];
-extern DOUBLE logint21[8][8][5][5][5];
-extern DOUBLE logint22[8][8][5][5][5][5];
+extern DOUBLE logint11[NBPAIRS+1][NBPAIRS+1][5][5];
+extern DOUBLE logint21[NBPAIRS+1][NBPAIRS+1][5][5][5];
+extern DOUBLE logint22[NBPAIRS+1][NBPAIRS+1][5][5][5][5];
 extern DOUBLE loginternal[31];
-extern DOUBLE logdangle5[8][5];
-extern DOUBLE logdangle3[8][5];
+extern DOUBLE logdangle5[NBPAIRS+1][5];
+extern DOUBLE logdangle3[NBPAIRS+1][5];
 extern DOUBLE logninio[MAXLOOP+1];
 extern bool initialized;
 extern bool old_param;

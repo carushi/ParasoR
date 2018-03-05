@@ -349,7 +349,8 @@ bool Convert::ConvertParamFile(string& file)
     ReadOnlyMisc(file);
     ifs.open(file.c_str());
     old_param = true;
-    if (getline(ifs, str) && str.find("## RNAfold parameter file v2.0") != string::npos)
+    if (getline(ifs, str) &&
+        (str.find("## RNAfold parameter file v2.0") != string::npos || file.find("parameters_BLstar_Vienna.par") != string::npos))
         old_param = false;
     while (getline(ifs, str)) {
         int num = param_type(str);

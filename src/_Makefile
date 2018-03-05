@@ -24,7 +24,7 @@ $(TARGET): $(OBJS)
 
 matrix.hh: energy_const.hh
 convert.hh: num_operator.hh pair_mat.hh
-param.hh: pair_mat.hh convert.hh
+param.hh: pair_mat.hh convert.hh sequence.hh
 part_func.hh: matrix.hh param.hh centroid.hh douter_concat.hh
 
 main.o: main.cc part_func.hh part_func.o part_func_delta.o part_func_mut.o plot_struct.o part_func_prof.o

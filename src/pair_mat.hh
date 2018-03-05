@@ -5,6 +5,7 @@
  */
 
 #define NBASES (8)
+#define NBPAIRS (7)
 
 // static int BP_pair[5][5]=
 // /* _  A  C  G  U*/

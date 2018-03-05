@@ -6,7 +6,7 @@ HOMEDIR:=$(shell cd $(CURDIR)/../;pwd)
 CFLAGS = -O3 -std=${C++11} -Wno-unused-function -Wno-unused-variable -D$(VAR) -DGLIBCXX_DEBUG -D"HOMEDIR=\"$(HOMEDIR)/\""
 LDFLAGS = -lm
 TARGET = ParasoR
-OBJS = matrix.o part_func.o main.o param.o convert.o part_func_delta.o part_func_prof.o part_func_mut.o num_operator.o plot_struct.o
+OBJS = matrix.o part_func.o main.o param.o convert.o part_func_delta.o part_func_prof.o part_func_mut.o num_operator.o plot_struct.o part_func_hc.o
 
 .PHONY: all
 all: $(TARGET)
@@ -23,19 +23,20 @@ $(TARGET): $(OBJS)
 
 
 matrix.hh: energy_const.hh
-convert.hh: num_operator.hh
+convert.hh: num_operator.hh pair_mat.hh
 param.hh: pair_mat.hh convert.hh
 part_func.hh: matrix.hh param.hh centroid.hh douter_concat.hh
 
 main.o: main.cc part_func.hh part_func.o part_func_delta.o part_func_mut.o plot_struct.o part_func_prof.o
-part_func.o: part_func.cc part_func.hh part_func_hc.cc centroid.hh douter_concat.hh matrix.o param.o
+part_func.o: part_func.cc part_func.hh centroid.hh douter_concat.hh matrix.o param.o
 part_func_delta.o: part_func_delta.cc part_func.hh matrix.o param.o
+part_func_hc.o: part_func_hc.cc part_func.hh matrix.o param.o
 part_func_mut.o: part_func_mut.cc part_func.hh matrix.o param.o
 part_func_prof.o: part_func_prof.cc part_func.hh matrix.o param.o
 plot_struct.o: plot_struct.cc plot_struct.hh matrix.o
 matrix.o: matrix.cc matrix.hh
 param.o: param.cc param.hh convert.o sequence.hh
-convert.o: convert.cc convert.hh num_operator.hh
+convert.o: convert.cc convert.hh num_operator.hh pair_mat.hh
 num_operator.o: num_operator.cc num_operator.hh
 
 

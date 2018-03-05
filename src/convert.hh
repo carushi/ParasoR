@@ -10,6 +10,7 @@
 #include <iostream>
 #include <cassert>
 #include "num_operator.hh"
+#include "pair_mat.hh"
 
 
 namespace Rfold {

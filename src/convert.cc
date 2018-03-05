@@ -5,24 +5,24 @@ namespace Parameter {
 
 extern DOUBLE loghairpin[MAXLOOP+1];
 // extern DOUBLE logtetra[MAXLOOP+1];
-extern DOUBLE logmismatchH[7][5][5];
-extern DOUBLE logmismatchI[7][5][5];
-extern DOUBLE logmismatchM[7][5][5];
-extern DOUBLE logmismatch1nI[7][5][5];
-extern DOUBLE logmismatch23I[7][5][5];
-extern DOUBLE logmismatchExt[7][5][5];
+extern DOUBLE logmismatchH[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchI[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchM[NBPAIRS+1][5][5];
+extern DOUBLE logmismatch1nI[NBPAIRS+1][5][5];
+extern DOUBLE logmismatch23I[NBPAIRS+1][5][5];
+extern DOUBLE logmismatchExt[NBPAIRS+1][5][5];
 extern DOUBLE Triloop[40];
 extern DOUBLE Tetraloop[40];
 extern DOUBLE Hexaloop[40];
-extern DOUBLE logstack[7][7];
+extern DOUBLE logstack[NBPAIRS+1][NBPAIRS+1];
 extern DOUBLE logbulge[MAXLOOP+1];
 extern DOUBLE logTermAU;
-extern DOUBLE logint11[8][8][5][5];
-extern DOUBLE logint21[8][8][5][5][5];
-extern DOUBLE logint22[8][8][5][5][5][5];
+extern DOUBLE logint11[NBPAIRS+1][NBPAIRS+1][5][5];
+extern DOUBLE logint21[NBPAIRS+1][NBPAIRS+1][5][5][5];
+extern DOUBLE logint22[NBPAIRS+1][NBPAIRS+1][5][5][5][5];
 extern DOUBLE loginternal[MAXLOOP+1];
-extern DOUBLE logdangle5[8][5];
-extern DOUBLE logdangle3[8][5];
+extern DOUBLE logdangle5[NBPAIRS+1][5];
+extern DOUBLE logdangle3[NBPAIRS+1][5];
 extern DOUBLE logninio[MAXLOOP+1];
 extern bool initialized;
 extern bool inittermau;
@@ -48,18 +48,18 @@ void Convert::GetWords(string& str, vector<string>& words)
 
 int Convert::param_type(string& str)
 {
-	if (str.length() == 0 || str[0] != '#') return -1;
+    if (str.length() == 0 || str[0] != '#') return -1;
     vector<string> words;
     GetWords(str, words);
     if (words.size() <= 1) return -1;
-	string id = words[1];
-	if (id == "stack" || id == "stack_energies") return Stack;
-	else if (id == "hairpin") return Hairpin;
-	else if (id == "bulge") return Bulge;
-	else if (id == "interior" || id == "internal_loop") return Interior;
-	else if (id == "mismatch_exterior") return MisE;
-	else if (id == "mismatch_hairpin") return MisH;
-	else if (id == "mismatch_interior") return MisI;
+    string id = words[1];
+    if (id == "stack" || id == "stack_energies") return Stack;
+    else if (id == "hairpin") return Hairpin;
+    else if (id == "bulge") return Bulge;
+    else if (id == "interior" || id == "internal_loop") return Interior;
+    else if (id == "mismatch_exterior") return MisE;
+    else if (id == "mismatch_hairpin") return MisH;
+    else if (id == "mismatch_interior") return MisI;
     else if (id == "mismatch_interior_1n") return Mis1n;
     else if (id == "mismatch_interior_23") return MisI23;
     else if (id == "mismatch_multi") return MisM;
@@ -74,19 +74,19 @@ int Convert::param_type(string& str)
     else if (id == "Tetraloops") return Tetra;
     else if (id == "Hexaloops") return Hexa;
     else if (id == "Misc") return Misc;
-	return -1;
+    return -1;
 }
 
 void Convert::GetArray(DOUBLE *array, int size, bool smooth = false)
 {
     vector<string> words;
-	for (int i = 0; i < size; ) {
-		string str;
-		if (!getline(ifs, str)) break;
+    for (int i = 0; i < size; ) {
+        string str;
+        if (!getline(ifs, str)) break;
         else if (str.length() < 2) break;
         GetWords(str, words);
         int prev = i;
-	    for (; i < size && i-prev < (int)words.size(); i++) {
+        for (; i < size && i-prev < (int)words.size(); i++) {
             if (words[i-prev].find("/*") != string::npos) break;
             else {
                 int temp;
@@ -95,8 +95,8 @@ void Convert::GetArray(DOUBLE *array, int size, bool smooth = false)
                 else temp = atoi(words[i-prev].c_str());
                 array[i] = (smooth) ? LogSmoothingEnergy(temp) : LogEnergy(temp);
             }
-	    }
-	}
+        }
+    }
 }
 
 void Convert::Read1Dim(DOUBLE *array, int dim, int shift, int post = 0) {
@@ -138,6 +138,7 @@ void  Convert::Read4Dim(DOUBLE *array, int dim1, int dim2, int dim3, int dim4,
                                                post2, post3, post4);
         }
     }
+
 }
 
 void  Convert::Read5Dim(DOUBLE *array, int dim1, int dim2, int dim3, int dim4, int dim5,
@@ -306,18 +307,18 @@ void Convert::ReadString(DOUBLE* array, string & loopstr)
 
 void Convert::FillINF()
 {
-    fill(&(logstack[0][0]), &(logstack[0][0])+7*7, -INF);
-    fill(&(logmismatchH[0][0][0]), &(logmismatchH[0][0][0])+7*5*5, -INF);
-    fill(&(logmismatchI[0][0][0]), &(logmismatchI[0][0][0])+7*5*5, -INF);
-    fill(&(logmismatch1nI[0][0][0]), &(logmismatch1nI[0][0][0])+7*5*5, -INF);
-    fill(&(logmismatch23I[0][0][0]), &(logmismatch23I[0][0][0])+7*5*5, -INF);
-    fill(&(logmismatchM[0][0][0]), &(logmismatchM[0][0][0])+7*5*5, -INF);
-    fill(&(logmismatchExt[0][0][0]), &(logmismatchExt[0][0][0])+7*5*5, -INF);
-    fill(&(logdangle5[0][0]), &(logdangle5[0][0])+8*5, -INF);
-    fill(&(logdangle3[0][0]), &(logdangle3[0][0])+8*5, -INF);
-    fill(&(logint11[0][0][0][0]), &(logint11[0][0][0][0])+8*8*5*5, -INF);
-    fill(&(logint21[0][0][0][0][0]), &(logint21[0][0][0][0][0])+8*8*5*5*5, -INF);
-    fill(&(logint22[0][0][0][0][0][0]), &(logint22[0][0][0][0][0][0])+8*8*5*5*5, -INF);
+    fill(&(logstack[0][0]), &(logstack[0][0])+(NBPAIRS+1)*(NBPAIRS+1), -INF);
+    fill(&(logmismatchH[0][0][0]), &(logmismatchH[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logmismatchI[0][0][0]), &(logmismatchI[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logmismatch1nI[0][0][0]), &(logmismatch1nI[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logmismatch23I[0][0][0]), &(logmismatch23I[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logmismatchM[0][0][0]), &(logmismatchM[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logmismatchExt[0][0][0]), &(logmismatchExt[0][0][0])+(NBPAIRS+1)*5*5, -INF);
+    fill(&(logdangle5[0][0]), &(logdangle5[0][0])+(NBPAIRS+1)*5, -INF);
+    fill(&(logdangle3[0][0]), &(logdangle3[0][0])+(NBPAIRS+1)*5, -INF);
+    fill(&(logint11[0][0][0][0]), &(logint11[0][0][0][0])+(NBPAIRS+1)*(NBPAIRS+1)*5*5, -INF);
+    fill(&(logint21[0][0][0][0][0]), &(logint21[0][0][0][0][0])+(NBPAIRS+1)*(NBPAIRS+1)*5*5*5, -INF);
+    fill(&(logint22[0][0][0][0][0][0]), &(logint22[0][0][0][0][0][0])+(NBPAIRS+1)*(NBPAIRS+1)*5*5*5, -INF);
     fill(&(loghairpin[0]), &(loghairpin[0])+MAXLOOP+1, -INF);
     fill(&(logbulge[0]), &(logbulge[0])+MAXLOOP+1, -INF);
     fill(&(loginternal[0]), &(loginternal[0])+MAXLOOP+1, -INF);
@@ -351,64 +352,64 @@ bool Convert::ConvertParamFile(string& file)
     if (getline(ifs, str) && str.find("## RNAfold parameter file v2.0") != string::npos)
         old_param = false;
     while (getline(ifs, str)) {
-    	int num = param_type(str);
-    	if (num == Stack) {
-            if (old_param) Read2Dim(&(logstack[0][0]), 7, 7, 0, 0);
-            else Read2Dim(&(logstack[0][0]), 7, 7, 1, 1);
+        int num = param_type(str);
+        if (num == Stack) {
+            if (old_param) Read2Dim(&(logstack[0][0]), NBPAIRS+1, NBPAIRS+1, 0, 0);
+            else Read2Dim(&(logstack[0][0]), NBPAIRS+1, NBPAIRS+1, 1, 1);
         } else if (num == MisH) {
-            if (old_param) Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 0, 0, 0);
-            else Read3Dim(&(logmismatchH[0][0][0]), 7, 5, 5, 1, 0, 0);
+            if (old_param) Read3Dim(&(logmismatchH[0][0][0]), NBPAIRS+1, 5, 5, 0, 0, 0);
+            else Read3Dim(&(logmismatchH[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == MisI) {
-            if (old_param) Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 0, 0, 0);
-            else Read3Dim(&(logmismatchI[0][0][0]), 7, 5, 5, 1, 0, 0);
+            if (old_param) Read3Dim(&(logmismatchI[0][0][0]), NBPAIRS+1, 5, 5, 0, 0, 0);
+            else Read3Dim(&(logmismatchI[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == Mis1n) {
-            Read3Dim(&(logmismatch1nI[0][0][0]), 7, 5, 5, 1, 0, 0);
+            Read3Dim(&(logmismatch1nI[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == MisI23) {
-    		Read3Dim(&(logmismatch23I[0][0][0]), 7, 5, 5, 1, 0, 0);
+            Read3Dim(&(logmismatch23I[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == MisM) {
-            Read3DimSmooth(&(logmismatchM[0][0][0]), 8, 5, 5, 1, 0, 0);
+            Read3DimSmooth(&(logmismatchM[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == MisE) {
-            Read3DimSmooth(&(logmismatchExt[0][0][0]), 8, 5, 5, 1, 0, 0);
+            Read3DimSmooth(&(logmismatchExt[0][0][0]), NBPAIRS+1, 5, 5, 1, 0, 0);
         } else if (num == Dan5) {
-            if (old_param) Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 0, 0);
-            else Read2DimSmooth(&(logdangle5[0][0]), 8, 5, 1, 0);
+            if (old_param) Read2DimSmooth(&(logdangle5[0][0]), NBPAIRS+1, 5, 0, 0);
+            else Read2DimSmooth(&(logdangle5[0][0]), NBPAIRS+1, 5, 1, 0);
         } else if (num == Dan3) {
-            if (old_param) Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 0, 0);
-            else Read2DimSmooth(&(logdangle3[0][0]), 8, 5, 1, 0);
+            if (old_param) Read2DimSmooth(&(logdangle3[0][0]), NBPAIRS+1, 5, 0, 0);
+            else Read2DimSmooth(&(logdangle3[0][0]), NBPAIRS+1, 5, 1, 0);
         } else if (num == Int11) {
-    		Read4Dim(&(logint11[0][0][0][0]), 8, 8, 5, 5,
-    								1, 1, 0, 0);
+            Read4Dim(&(logint11[0][0][0][0]), NBPAIRS+1, NBPAIRS+1, 5, 5,
+                                    1, 1, 0, 0);
         } else if (num == Int21) {
-    		Read5Dim(&(logint21[0][0][0][0][0]), 8, 8, 5, 5, 5,
-					    			1, 1, 0, 0, 0);
+            Read5Dim(&(logint21[0][0][0][0][0]), NBPAIRS+1, NBPAIRS+1, 5, 5, 5,
+                                    1, 1, 0, 0, 0);
         } else if (num == Int22) {
             if (old_param) {
-                Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
+                Read6Dim(&(logint22[0][0][0][0][0][0]), NBPAIRS+1, NBPAIRS+1, 5, 5, 5, 5,
                                         1, 1, 1, 1, 1, 1,
                                         0, 0, 0, 0, 0, 0);
             } else {
-         		Read6Dim(&(logint22[0][0][0][0][0][0]), 8, 8, 5, 5, 5, 5,
-    					    			1, 1, 1, 1, 1, 1,
-    					    			1, 1, 0, 0, 0, 0);
+                Read6Dim(&(logint22[0][0][0][0][0][0]), NBPAIRS+1, NBPAIRS+1, 5, 5, 5, 5,
+                                        1, 1, 1, 1, 1, 1,
+                                        1, 1, 0, 0, 0, 0);
             }
         } else if (num == Hairpin) {
-    		Read1Dim(&(loghairpin[0]), MAXLOOP+1, 0);
+            Read1Dim(&(loghairpin[0]), MAXLOOP+1, 0);
         } else if (num == Bulge) {
-    		Read1Dim(&(logbulge[0]), MAXLOOP+1, 0);
+            Read1Dim(&(logbulge[0]), MAXLOOP+1, 0);
         } else if (num == Interior) {
-    		Read1Dim(&(loginternal[0]), MAXLOOP+1, 0);
+            Read1Dim(&(loginternal[0]), MAXLOOP+1, 0);
         } else if (num == Ninio) {
-    		Readninio();
+            Readninio();
         } else if (num == ML) {
             ReadML();
         } else if (num == Misc) {
             ReadMisc();
         } else if (num == Tri) {
-    		ReadString(&(Triloop[0]), Triloops);
+            ReadString(&(Triloop[0]), Triloops);
         } else if (num == Tetra) {
-    		ReadString(&(Tetraloop[0]), Tetraloops);
+            ReadString(&(Tetraloop[0]), Tetraloops);
         } else if (num == Hexa) {
-    		ReadString(&(Hexaloop[0]), Hexaloops);
+            ReadString(&(Hexaloop[0]), Hexaloops);
         } else
             ;
     }

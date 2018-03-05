@@ -66,7 +66,7 @@ We prepared a shell script 'check.sh' for test run.
 This script runs by the commands as follows.
 
 ```
-cd doc/
+cd script/
 sh check.sh
 cat ../doc/pre.txt
 # stem probability based on previous algorithm (Rfold model)

@@ -1,6 +1,6 @@
-# generated automatically by aclocal 1.15 -*- Autoconf -*-
+# generated automatically by aclocal 1.15.1 -*- Autoconf -*-
 
-# Copyright (C) 1996-2014 Free Software Foundation, Inc.
+# Copyright (C) 1996-2017 Free Software Foundation, Inc.
 
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -20,7 +20,141 @@ You have another version of autoconf.  It may work, but is not guaranteed to.
 If you have problems, you may need to regenerate the build system entirely.
 To do so, use the procedure documented by the package, typically 'autoreconf'.])])
 
-# Copyright (C) 2002-2014 Free Software Foundation, Inc.
+# ============================================================================
+#  http://www.gnu.org/software/autoconf-archive/ax_cxx_compile_stdcxx_11.html
+# ============================================================================
+#
+# SYNOPSIS
+#
+#   AX_CXX_COMPILE_STDCXX_11([ext|noext],[mandatory|optional])
+#
+# DESCRIPTION
+#
+#   Check for baseline language coverage in the compiler for the C++11
+#   standard; if necessary, add switches to CXXFLAGS to enable support.
+#
+#   The first argument, if specified, indicates whether you insist on an
+#   extended mode (e.g. -std=gnu++11) or a strict conformance mode (e.g.
+#   -std=c++11).  If neither is specified, you get whatever works, with
+#   preference for an extended mode.
+#
+#   The second argument, if specified 'mandatory' or if left unspecified,
+#   indicates that baseline C++11 support is required and that the macro
+#   should error out if no mode with that support is found.  If specified
+#   'optional', then configuration proceeds regardless, after defining
+#   HAVE_CXX11 if and only if a supporting mode is found.
+#
+# LICENSE
+#
+#   Copyright (c) 2008 Benjamin Kosnik <bkoz@redhat.com>
+#   Copyright (c) 2012 Zack Weinberg <zackw@panix.com>
+#   Copyright (c) 2013 Roy Stogner <roystgnr@ices.utexas.edu>
+#
+#   Copying and distribution of this file, with or without modification, are
+#   permitted in any medium without royalty provided the copyright notice
+#   and this notice are preserved. This file is offered as-is, without any
+#   warranty.
+
+#serial 3
+
+m4_define([_AX_CXX_COMPILE_STDCXX_11_testbody], [
+  template <typename T>
+    struct check
+    {
+      static_assert(sizeof(int) <= sizeof(T), "not big enough");
+    };
+
+    typedef check<check<bool>> right_angle_brackets;
+
+    int a;
+    decltype(a) b;
+
+    typedef check<int> check_type;
+    check_type c;
+    check_type&& cr = static_cast<check_type&&>(c);
+
+    auto d = a;
+])
+
+AC_DEFUN([AX_CXX_COMPILE_STDCXX_11], [dnl
+  m4_if([$1], [], [],
+        [$1], [ext], [],
+        [$1], [noext], [],
+        [m4_fatal([invalid argument `$1' to AX_CXX_COMPILE_STDCXX_11])])dnl
+  m4_if([$2], [], [ax_cxx_compile_cxx11_required=true],
+        [$2], [mandatory], [ax_cxx_compile_cxx11_required=true],
+        [$2], [optional], [ax_cxx_compile_cxx11_required=false],
+        [m4_fatal([invalid second argument `$2' to AX_CXX_COMPILE_STDCXX_11])])dnl
+  AC_LANG_PUSH([C++])dnl
+  ac_success=no
+  AC_CACHE_CHECK(whether $CXX supports C++11 features by default,
+  ax_cv_cxx_compile_cxx11,
+  [AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_11_testbody])],
+    [ax_cv_cxx_compile_cxx11=yes],
+    [ax_cv_cxx_compile_cxx11=no])])
+  if test x$ax_cv_cxx_compile_cxx11 = xyes; then
+    ac_success=yes
+  fi
+
+  m4_if([$1], [noext], [], [dnl
+  if test x$ac_success = xno; then
+    for switch in -std=gnu++11 -std=gnu++0x; do
+      cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx11_$switch])
+      AC_CACHE_CHECK(whether $CXX supports C++11 features with $switch,
+                     $cachevar,
+        [ac_save_CXXFLAGS="$CXXFLAGS"
+         CXXFLAGS="$CXXFLAGS $switch"
+         AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_11_testbody])],
+          [eval $cachevar=yes],
+          [eval $cachevar=no])
+         CXXFLAGS="$ac_save_CXXFLAGS"])
+      if eval test x\$$cachevar = xyes; then
+        CXXFLAGS="$CXXFLAGS $switch"
+        ac_success=yes
+        break
+      fi
+    done
+  fi])
+
+  m4_if([$1], [ext], [], [dnl
+  if test x$ac_success = xno; then
+    for switch in -std=c++11 -std=c++0x; do
+      cachevar=AS_TR_SH([ax_cv_cxx_compile_cxx11_$switch])
+      AC_CACHE_CHECK(whether $CXX supports C++11 features with $switch,
+                     $cachevar,
+        [ac_save_CXXFLAGS="$CXXFLAGS"
+         CXXFLAGS="$CXXFLAGS $switch"
+         AC_COMPILE_IFELSE([AC_LANG_SOURCE([_AX_CXX_COMPILE_STDCXX_11_testbody])],
+          [eval $cachevar=yes],
+          [eval $cachevar=no])
+         CXXFLAGS="$ac_save_CXXFLAGS"])
+      if eval test x\$$cachevar = xyes; then
+        CXXFLAGS="$CXXFLAGS $switch"
+        ac_success=yes
+        break
+      fi
+    done
+  fi])
+  AC_LANG_POP([C++])
+  if test x$ax_cxx_compile_cxx11_required = xtrue; then
+    if test x$ac_success = xno; then
+      AC_MSG_ERROR([*** A compiler with support for C++11 language features is required.])
+    fi
+  else
+    if test x$ac_success = xno; then
+      HAVE_CXX11=0
+      AC_MSG_NOTICE([No compiler with C++11 support was found])
+    else
+      HAVE_CXX11=1
+      AC_DEFINE(HAVE_CXX11,1,
+                [define if the compiler supports basic C++11 syntax])
+    fi
+
+    AC_SUBST(HAVE_CXX11)
+  fi
+])
+
+# Copyright (C) 2002-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -35,7 +169,7 @@ AC_DEFUN([AM_AUTOMAKE_VERSION],
 [am__api_version='1.15'
 dnl Some users find AM_AUTOMAKE_VERSION and mistake it for a way to
 dnl require some minimum version.  Point them to the right macro.
-m4_if([$1], [1.15], [],
+m4_if([$1], [1.15.1], [],
       [AC_FATAL([Do not call $0, use AM_INIT_AUTOMAKE([$1]).])])dnl
 ])
 
@@ -51,14 +185,14 @@ m4_define([_AM_AUTOCONF_VERSION], [])
 # Call AM_AUTOMAKE_VERSION and AM_AUTOMAKE_VERSION so they can be traced.
 # This function is AC_REQUIREd by AM_INIT_AUTOMAKE.
 AC_DEFUN([AM_SET_CURRENT_AUTOMAKE_VERSION],
-[AM_AUTOMAKE_VERSION([1.15])dnl
+[AM_AUTOMAKE_VERSION([1.15.1])dnl
 m4_ifndef([AC_AUTOCONF_VERSION],
   [m4_copy([m4_PACKAGE_VERSION], [AC_AUTOCONF_VERSION])])dnl
 _AM_AUTOCONF_VERSION(m4_defn([AC_AUTOCONF_VERSION]))])
 
 # AM_AUX_DIR_EXPAND                                         -*- Autoconf -*-
 
-# Copyright (C) 2001-2014 Free Software Foundation, Inc.
+# Copyright (C) 2001-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -110,7 +244,7 @@ am_aux_dir=`cd "$ac_aux_dir" && pwd`
 
 # AM_CONDITIONAL                                            -*- Autoconf -*-
 
-# Copyright (C) 1997-2014 Free Software Foundation, Inc.
+# Copyright (C) 1997-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -141,7 +275,7 @@ AC_CONFIG_COMMANDS_PRE(
 Usually this means the macro was only invoked conditionally.]])
 fi])])
 
-# Copyright (C) 1999-2014 Free Software Foundation, Inc.
+# Copyright (C) 1999-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -332,7 +466,7 @@ _AM_SUBST_NOTMAKE([am__nodep])dnl
 
 # Generate code to set up dependency tracking.              -*- Autoconf -*-
 
-# Copyright (C) 1999-2014 Free Software Foundation, Inc.
+# Copyright (C) 1999-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -408,7 +542,7 @@ AC_DEFUN([AM_OUTPUT_DEPENDENCY_COMMANDS],
 
 # Do all the work for Automake.                             -*- Autoconf -*-
 
-# Copyright (C) 1996-2014 Free Software Foundation, Inc.
+# Copyright (C) 1996-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -605,7 +739,7 @@ for _am_header in $config_headers :; do
 done
 echo "timestamp for $_am_arg" >`AS_DIRNAME(["$_am_arg"])`/stamp-h[]$_am_stamp_count])
 
-# Copyright (C) 2001-2014 Free Software Foundation, Inc.
+# Copyright (C) 2001-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -626,7 +760,7 @@ if test x"${install_sh+set}" != xset; then
 fi
 AC_SUBST([install_sh])])
 
-# Copyright (C) 2003-2014 Free Software Foundation, Inc.
+# Copyright (C) 2003-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -647,7 +781,7 @@ AC_SUBST([am__leading_dot])])
 
 # Check to see how 'make' treats includes.	            -*- Autoconf -*-
 
-# Copyright (C) 2001-2014 Free Software Foundation, Inc.
+# Copyright (C) 2001-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -697,7 +831,7 @@ rm -f confinc confmf
 
 # Fake the existence of programs that GNU maintainers use.  -*- Autoconf -*-
 
-# Copyright (C) 1997-2014 Free Software Foundation, Inc.
+# Copyright (C) 1997-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -736,7 +870,7 @@ fi
 
 # Helper functions for option handling.                     -*- Autoconf -*-
 
-# Copyright (C) 2001-2014 Free Software Foundation, Inc.
+# Copyright (C) 2001-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -767,7 +901,7 @@ AC_DEFUN([_AM_IF_OPTION],
 
 # Check to make sure that the build environment is sane.    -*- Autoconf -*-
 
-# Copyright (C) 1996-2014 Free Software Foundation, Inc.
+# Copyright (C) 1996-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -848,7 +982,7 @@ AC_CONFIG_COMMANDS_PRE(
 rm -f conftest.file
 ])
 
-# Copyright (C) 2009-2014 Free Software Foundation, Inc.
+# Copyright (C) 2009-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -908,7 +1042,7 @@ AC_SUBST([AM_BACKSLASH])dnl
 _AM_SUBST_NOTMAKE([AM_BACKSLASH])dnl
 ])
 
-# Copyright (C) 2001-2014 Free Software Foundation, Inc.
+# Copyright (C) 2001-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -936,7 +1070,7 @@ fi
 INSTALL_STRIP_PROGRAM="\$(install_sh) -c -s"
 AC_SUBST([INSTALL_STRIP_PROGRAM])])
 
-# Copyright (C) 2006-2014 Free Software Foundation, Inc.
+# Copyright (C) 2006-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,
@@ -955,7 +1089,7 @@ AC_DEFUN([AM_SUBST_NOTMAKE], [_AM_SUBST_NOTMAKE($@)])
 
 # Check how to create a tarball.                            -*- Autoconf -*-
 
-# Copyright (C) 2004-2014 Free Software Foundation, Inc.
+# Copyright (C) 2004-2017 Free Software Foundation, Inc.
 #
 # This file is free software; the Free Software Foundation
 # gives unlimited permission to copy and/or distribute it,

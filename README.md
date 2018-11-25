@@ -1,7 +1,6 @@
 # ParasoR
-[![Build Status](https://drone.io/github.com/carushi/ParasoR/status.png)](https://drone.io/github.com/carushi/ParasoR/latest)
 
-<img src="https://sites.google.com/site/cawatchm/software/parasor/logo.png" width="400">
+<img src="https://lh3.googleusercontent.com/NPBIhLdufi8ps62htyBJ1mVCoYCGHThLlV6KwW7BCm9ydXBR3cT7vGjLHdr7YujFO-LbXk3BjAdMlEXh4eVjp0v9AzlRSaSTbhMpcOjruToAcehE_CM=w371" width="400">
 
 ## Features 
 ParasoR can compute these features for RNA sequences even if they are longer than human genome sequences with computer clusters.
@@ -12,11 +11,11 @@ ParasoR can compute these features for RNA sequences even if they are longer tha
 * Structure profiles (probability and motif sequence)
 * γ-centroid structure (in not parallel) or credible structures having base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
 
-<img src="https://sites.google.com/site/cawatchm/software/parasor/stem.png" width="400">
+<img src="https://lh6.googleusercontent.com/RDO_jDvrtOhdqJxNz5UB-rnP6Eky4ag3HfXGaym4af2sKnG2xrrnoTGsOaKGG8nSCS69DSFwZt7q4tCa12p2XBIlnjaFdlJYyVg0-hkAhxo08IDrmQk=w371" width="400">
 * γ-centroid structure or credible structures with the color code of structure profiles.
 	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
-<img src="https://sites.google.com/site/cawatchm/software/parasor/prof.png" width="450">
+<img src="https://lh4.googleusercontent.com/pN0sg041nLIOJKp1_8q8_nbVF9y324i2KvdFnR5PISSWvJ5QJvyaz7y11gbVms2axKysB62H5Bb5uSP9MOiOJcCJtexSpEcenDWGRAsuvWwcuY5EDBA=w371" width="450">
 
 In addition, ParasoR simulates structure arrangements caused by a single point mutation.
 
@@ -31,7 +30,6 @@ We already tested ParasoR running with Apple LLVM version 6.0 and GCC 4.8.1.
 ```
 git clone https://github.com/carushi/ParasoR
 cd ParasoR
-git checkout tags/v1.1.0
 ./configure
 make
 make install

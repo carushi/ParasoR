@@ -4,22 +4,28 @@
 <!--
 https://drive.google.com/host/1pI5Dc1I9Jvpn1PCnq6OHysD3zZfkmuWq/logo.png" width="400"> -->
 
-## Features 
-ParasoR can compute these features for RNA sequences even if they are longer than human genome sequences with computer clusters.
+## Latest
+2020.09.24: Update a README.
 
+## Features 
+ParasoR computes a variety of RNA secondary structure features for long RNA sequences even for human genome-level sequences by distributed computation with computer clusters.
+
+Currently availabel features are
 * Base pairing probability (bpp)
 * Stem probability
-* Accessibility
+* Accessibility (loop probability)
 * Structure profiles (probability and motif sequence)
-* γ-centroid structure (in not parallel) or credible structures having base pairs (bpp >= 1/(1+γ)) with the color code of stem probability.
+* Single-core mode: Minimum free energy (MFE) structure γ-centroid structure
+*  Multi-core mode: Maximum expected accuracy structure, which consists only the base pairs whose bpp is equal larger than 1/(1+γ))
+
 
 <img src="https://dl.dropboxusercontent.com/s/eflcjpjwjpn8p6h/stem.png?dl=0" width="400">
-* γ-centroid structure or credible structures with the color code of structure profiles.
+* γ-centroid structure with the color code of structure profiles.
 	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
 <img src="https://dl.dropboxusercontent.com/s/tt9mssuilnuz5fx/prof.png?dl=0" width="450">
 
-In addition, ParasoR simulates structure arrangements caused by a single point mutation.
+Additionally, ParasoR simulates structure arrangements caused by a single point mutation.
 
 ## Requirements
 
@@ -37,10 +43,10 @@ make
 make install
 ```
 
-Or download from "Download ZIP" button and unzip it.
+Another way without git is downloading the directory directly from "Download ZIP" button.
 
-As a default, 'double' option is valid for the precision of floating point.
-You can also change an option for the precision of floating point like
+As a default, a 'double' option is valid for the precision of floating point.
+This setting can be changed by editting the line in the makefile as below.
 
 ```
 make VAR=LONG
@@ -62,8 +68,8 @@ or
 ```
 
 ## Example
-We prepared a shell script 'check.sh' for test run.
-This script runs by the commands as follows.
+A shell script 'check.sh' can be used for a test run.
+This script is exected by typing the commands as follows.
 
 ```
 cd script/

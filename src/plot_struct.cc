@@ -322,7 +322,7 @@ const char *RNAss_pcolor =
 "    x y fsize 2 div stem 360 mul stem outer add 360 mul arc\n"
 "    closepath\n"
 "    fill\n"
-"    0 1 0 setrgbcolor\n"
+"    0 0.5 0 setrgbcolor\n"
 "    x y moveto\n"
 "    x y fsize 2 div stem outer add 360 mul stem outer add multi add 360 mul arc\n"
 "    closepath\n"

@@ -20,8 +20,9 @@ Currently availabel features are
 
 
 <img src="https://dl.dropboxusercontent.com/s/eflcjpjwjpn8p6h/stem.png?dl=0" width="400">
+
 * γ-centroid structure with the color code of structure profiles.
-	* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
+* Color: Exterior (light green), Stem (red), Bulge (orange), Multibranch (green), Hairpin (violet), Internal (blue).
 
 <img src="https://dl.dropboxusercontent.com/s/tt9mssuilnuz5fx/prof.png?dl=0" width="450">
 
@@ -55,7 +56,7 @@ make VAR=SHORT
 # use float.
 ```
 
-If you have a trouble about automake setting, please try to type as below.
+If you have a trouble about automake setting, please try a handmade makefile as shown below.
 
 ```
 cd src
@@ -82,7 +83,7 @@ python test.py
 # Output numerical error between the result of ParasoR with single core and multiple core
 ```
 
-For more sample, please visit our <a href="https://github.com/carushi/ParasoR/wiki">wiki</a>.
+To see more samples, please visit our <a href="https://github.com/carushi/ParasoR/wiki">wiki</a>.
 
 ## Reference
 

@@ -267,8 +267,8 @@ void ParasoR::ReadStem(Vec& vec, string file, LEN s, LEN e)
     string str;
     ifstream ifs(file.c_str());
     if (!noout) cout << "#-Reading " << file << endl;
-    for (LEN i = 1; i < e; i++) {
-        if (!getline(ifs, str)) {
+    for (LEN i = 0; i < e; i++) {
+        if (!getline(ifs, str, '\t')) {
             cerr << file << " does not include enough data\nPlease retry to make " << file << endl;
             exit(-1);
         }

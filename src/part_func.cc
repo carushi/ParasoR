@@ -1005,6 +1005,7 @@ void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
         ofs.write((char*)&const_size, sizeof(int));
         for (LEN i = 0; i < _end-_start && i < static_cast<LEN>(vec.size()); i++) {
             if (!acc) vec[i] = min(max((DOUBLE)0, vec[i]), (DOUBLE)1);
+            printf("%d %f\n", i, vec[i]);
             ofs.write((char*)(&vec[i]), sizeof(DOUBLE));
         }
         ofs.close();

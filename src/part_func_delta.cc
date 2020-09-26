@@ -290,7 +290,7 @@ void ParasoR::ReadBinStem(Vec& vec, string file, LEN s, LEN e)
         cerr << file << "'s size != 1\nPlease retry to make " << file << endl;
         exit(-1);
     }
-    ifs.seekg(sizeof(int)+sizeof(DOUBLE)*(s-1), std::ios::beg);
+    ifs.seekg(sizeof(int)+sizeof(DOUBLE)*(s), std::ios::beg);
     for (LEN i = s; i < e; i++) {
         ifs.read((char*)&(value), sizeof(DOUBLE));
         if (ifs.eof()) break;

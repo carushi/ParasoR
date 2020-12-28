@@ -169,9 +169,7 @@ bool SetArg(int option_index, const char* optarg, Rfold::Arg& arg)
             // arg.outer_input = string(optarg);
             // arg.init_calc = Rfold::Arg::Calc::Bpp;
             break;
-        case 3:
-            if (optarg) arg.name = string(optarg);
-            break;
+        case 3: arg.name = string(optarg); break;
         case 4: arg.init_calc = Rfold::Arg::Calc::Divide; break;
         case 5: arg.init_calc = Rfold::Arg::Calc::Connect; break;
         case 6: arg.init_calc = Rfold::Arg::Calc::Stemdb; break;

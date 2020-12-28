@@ -5,12 +5,12 @@
 https://drive.google.com/host/1pI5Dc1I9Jvpn1PCnq6OHysD3zZfkmuWq/logo.png" width="400"> -->
 
 ## Latest
-2020.09.24: Update a README.
+2020.12.28: Update wiki for the simulation of point mutation.
 
 ## Features 
-ParasoR computes a variety of RNA secondary structure features for long RNA sequences even for human genome-level sequences by distributed computation with computer clusters.
+ParasoR computes a variety of RNA secondary structure features for long RNA sequences even for human genome-level sequences by distributed computation using computer clusters.
 
-Currently availabel features are
+Currently availabel features of ParasoR are
 * Base pairing probability (bpp)
 * Stem probability
 * Accessibility (loop probability)

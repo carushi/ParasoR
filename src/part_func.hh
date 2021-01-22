@@ -574,9 +574,10 @@ public:
         _start = max(static_cast<LEN>(0), start);
         _end = min(seq.length, static_cast<LEN>(end));
     }
-    bool SetChunkId(int tid, int tchunk, bool range = true)
+    bool SetChunkId(int tid, int tchunk, bool range = true, bool best = true)
     {
-        tchunk = min(tchunk, BestChunk(tchunk));
+        if (best)
+            tchunk = min(tchunk, BestChunk(tchunk));
         if (tid >= tchunk) return false;
         else {
             id = tid;
@@ -590,6 +591,7 @@ public:
             return true;
         }
     }
+
     void SetIndex(LEN start, LEN end, bool delta, bool set = true)
     {
         alpha.SetIndex(start, end, delta, set);

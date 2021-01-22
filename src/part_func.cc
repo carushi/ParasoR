@@ -1218,13 +1218,16 @@ void ParasoR::main(Arg& arg, bool shrink)
             arg.end = max(arg.length, static_cast<LEN>(arg.str.length()));
             if (arg.start < 0) arg.start = 0;
         }
-    if (!noout) cout << "#-Calculate from " << arg.start << " to " << arg.end << endl;
     if (arg.end > arg.start) {
+        if (arg.mtype >= 0) {
+            if (!noout) cout << "#-Simulate from " << arg.start << " to " << arg.end << endl;
+            rfold.MutatedStem(arg);
+            return;
+        }
+        if (!noout) cout << "#-Calculate from " << arg.start << " to " << arg.end << endl;
         rfold.SetBpRange(arg.start, arg.end);
         rfold.cut = true;
-        if (arg.mtype >= 0) {
-            rfold.MutatedStem(arg);
-        } else if (arg.mea_flag) {
+        if (arg.mea_flag) {
             if (arg.prof_flag)
                 rfold.CalcProf(arg.acc_flag);
             rfold.CalcMEA(true, arg.image, arg.prof_flag);

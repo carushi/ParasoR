@@ -167,7 +167,7 @@ void ParasoR::WriteDiff(int mtype, LEN pos, int base, Vec ori, Vec& mut, bool ac
     EditVector(mtype, ori, mut, pos);
     assert(ori.size() == mut.size());
     DOUBLE diff = MaxDiff(ori, mut);
-    DOUBLE corr = Correlation(ori, mut);
+    DOUBLE corr = Correlation(GetSubstrVec(ori, pos, _constraint*static_cast<LEN>(2)), GetSubstrVec(mut, pos, _constraint*static_cast<LEN>(2)));
     DOUBLE wcorr = Correlation(GetSubstrVec(ori, pos, window), GetSubstrVec(mut, pos, window));
     base = (mtype == Arg::Mut::Del) ? 0 : base;
     if ((mout_flag && mout == "") || !binary) {
@@ -212,6 +212,7 @@ void ParasoR::ChangeBase(LEN pos, Arg& arg, bool& app)
 void ParasoR::MutatedStem(Arg& arg)
 {
     bool app = false;
+    if (arg.id >= 0) SetChunkId(arg.id, arg.chunk, true, false);
     LEN left = max(static_cast<LEN>(0), arg.start-_constraint), right = min(arg.end+_constraint, seq.length);
     _start = left; _end = right; // The range of stem;
     ReadStemVec(bppv, arg.acc_flag);

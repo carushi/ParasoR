@@ -18,11 +18,34 @@ check.trans <- function(data) {
                 return('transversion')
         }
     })
-    print(vec)
     return(vec)
 }
-
-a <- read.table("test", sep="\t", header=T)
+compute.pvalue <- function(data) {
+    index=order(data[,4], decreasing=TRUE)
+    data <- cbind(data[index,], 1:dim(data)[1]/dim(data)[1])
+    print(min(data[,4]))
+    print(max(data[,4]))
+    data <- data[order(data[,2], data[,3]),]
+    return(as.vector(data[,dim(data)[2]]))
+}
+compute.pvalue.base <- function(data) {
+    vec <- NULL
+    for (base_type in 1:4) {
+        part <- data[data[,1] == base_type,]
+        index=order(part[,4], decreasing=TRUE)
+        print(c(base_type, min(part[,4]), max(part[,4])))
+        temp <- cbind(part[index,], p.value.base=1:dim(part)[1]/dim(part)[1])
+        if (is.null(vec)) {
+            vec <- temp
+        } else {
+            vec <- rbind(vec, temp)
+        }
+    }
+    vec <- vec[order(vec[,2], vec[,3]),]
+    return(as.vector(vec[,'p.value.base']))
+}
+input=commandArgs(trailingOnly=TRUE)
+a <- read.table(input, sep="\t", header=T)
 before <- unlist(sapply(1:max(a[,1]), function(x){
     temp <- a[a[,1] == x,2]
     return(rep(c(1:4)[unlist(sapply(1:4, function(x){return(!any(x == temp))}))][1], 3))
@@ -44,4 +67,19 @@ pdf('mutation_cor_diff.pdf')
 g <- ggboxplot(a, x='substitution', y='Pearson correlation coefficient', fill='mutation_type', palette=c('grey', 'white'))
 plot(g)
 dev.off()
+
+
+a <- cbind(a, p.value=compute.pvalue(a))
+a <- cbind(a, p.value.base=compute.pvalue.base(a))
+
+a[,1] <- unlist(sapply(a[,1], function(x){return(bases[x])}))
+pdf('compare_pvalue_for_all_and_each_base.pdf')
+g <- ggscatter(a, x='p.value', y='p.value.base', color='before', palette=rainbow(4))
+plot(g)
+dev.off()
+pdf('compare_pvalue_for_all_and_each_base.pdf')
+g <- ggscatter(a, x='p.value', y='p.value.base', color='mutation_type', palette=rainbow(16))
+plot(g)
+dev.off()
+write.table(a, file='pvalue.tsv', sep="\t")
 

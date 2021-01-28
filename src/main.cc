@@ -397,7 +397,8 @@ void CheckCondition(Rfold::Arg& arg)
         arg.str = GetSampleStr(0);
         cout << "#-Test with an example sequence: " << arg.str << endl;
         if (arg.start >= 0 && arg.end < 0) arg.end = (int)arg.str.length();
-        arg.name = "Sample0_";
+        if (arg.name.length() == 0)
+            arg.name = "Sample0_";
         CalcOneSeq(arg);
     }
 }

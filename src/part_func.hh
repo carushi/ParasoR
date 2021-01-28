@@ -26,6 +26,7 @@
 #define TYPE (6)
 
 #define BPPM(pos, dist, start) (bppm[(pos)-(start)][(dist)])
+#define BPPM_ARB(pos, dist, start, mat) (mat[(pos)-(start)][(dist)])
 #define PROM(pos, type, start) (prom[((pos)-(start))*TYPE+type])
 
 namespace Rfold {
@@ -355,13 +356,22 @@ private:
     bool SlidingSequence(LEN, int, int);
     void Recalculation(LEN);
     DOUBLE MaxDiff(const Vec&, const Vec&);
+    LEN MutIndex(LEN i, LEN pos, int mtype) {
+        if (mtype == Arg::Mut::Sub || i < pos) return i;
+        if (mtype == Arg::Mut::Del && i >= pos) return i+1;
+        if (mtype == Arg::Mut::Ins && i >= pos) return i-1;
+        return i;
+    }
+    DOUBLE MaxDiffMat(const Mat&, const Mat&, Vec&, Vec&, Vec&, Vec&, LEN, int, int);
     // DOUBLE Correlation(const Vec&, const Vec&);
-    string GetDiffFile(int, bool);
+    string GetDiffFile(int, int);
     void CutOffVector(int, Vec&, LEN);
     void EditVector(int, Vec&, Vec&, LEN);
     Vec GetSubstrVec(const Vec&, LEN, int);
-    void WriteDiffFile(LEN, int, DOUBLE, DOUBLE, DOUBLE, string&, bool, bool);
+    void WriteDiffFile(LEN, int, DOUBLE, DOUBLE, DOUBLE, string&, bool, bool, string&);
     void WriteDiff(int, LEN, int, Vec, Vec&, bool, bool, bool, string&, int);
+    void WriteMatDiff(int, LEN, int, Mat, Mat&, bool, bool, bool, string&, int);
+
     void ChangeBase(LEN, Arg&, bool&);
     void MutatedStem(Arg&);
 
@@ -456,6 +466,7 @@ public:
     Matrix alpha;
     Matrix beta;
     Vec bppv;       // used for original stem probabilities or accessibilities;
+    Mat obppm;      // used for original base pairing probabilities;
     Mat bppm;       // used in stem probability calculation;
     Vec prom;       // used in profile calculation;
     bool cut;       // cut a needless region of sequence;

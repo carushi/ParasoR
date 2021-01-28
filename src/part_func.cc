@@ -1005,7 +1005,7 @@ void ParasoR::StoreStem(string filename, Vec& vec, bool acc)
         ofs.write((char*)&const_size, sizeof(int));
         for (LEN i = 0; i < _end-_start && i < static_cast<LEN>(vec.size()); i++) {
             if (!acc) vec[i] = min(max((DOUBLE)0, vec[i]), (DOUBLE)1);
-            printf("%d %f\n", i, vec[i]);
+            // printf("%d %f\n", i, vec[i]);
             ofs.write((char*)(&vec[i]), sizeof(DOUBLE));
         }
         ofs.close();
@@ -1220,7 +1220,7 @@ void ParasoR::main(Arg& arg, bool shrink)
         }
     if (arg.end > arg.start) {
         if (arg.mtype >= 0) {
-            if (!noout) cout << "#-Simulate from " << arg.start << " to " << arg.end << endl;
+            if (!noout) cout << "#-Simulate from " << arg.start+1 << " to " << arg.end << endl;
             rfold.MutatedStem(arg);
             return;
         }

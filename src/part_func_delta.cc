@@ -461,7 +461,7 @@ void ParasoR::StoreAreaBppSlide(LEN i, LEN right, Mat& bppm)
     for (LEN j = max(_start+1, i+TURN+1); j <= i+_constraint && j <= right; j++) {
         // DOUBLE tbpp = (delta) ? bppDelta(i, j, true) : bpp(i, j);
         DOUBLE tbpp = bpp_func(i, j, delta);
-        BPPM(j, j-i, _start+1) = tbpp;
+        BPPM(j, j-i, shift) = tbpp;
     }
 }
 

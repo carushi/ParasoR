@@ -5,7 +5,7 @@
 https://drive.google.com/host/1pI5Dc1I9Jvpn1PCnq6OHysD3zZfkmuWq/logo.png" width="400"> -->
 
 ## Latest
-2020.12.28: Update wiki for the simulation of point mutation.
+2023.02.14 Update <a href="https://github.com/carushi/ParasoR/wiki">wiki</a> to include the detail of Radiam (simulation of point mutation).
 
 ## Features 
 ParasoR computes a variety of RNA secondary structure features for long RNA sequences even for human genome-level sequences by distributed computation using computer clusters.
